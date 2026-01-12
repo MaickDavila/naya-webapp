@@ -36,6 +36,9 @@ export class FirestoreProductRepository implements ProductRepository {
   }
 
   async getById(id: string): Promise<Product | null> {
+    if (!id || typeof id !== "string" || id.trim() === "") {
+      return null;
+    }
     const docRef = doc(db, this.collectionName, id);
     const docSnap = await getDoc(docRef);
 

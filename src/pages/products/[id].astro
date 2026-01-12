@@ -22,15 +22,28 @@ const userRepo = new FirestoreUserRepository();
 const getProductById = new GetProductById(productRepo);
 const getUserById = new GetUserById(userRepo);
 
-const product = await getProductById.execute(id);
+let product = null;
+let seller = null;
 
-if (!product) {
-  return Astro.redirect('/404');
+try {
+  product = await getProductById.execute(id);
+} catch (e) {
+  console.error("Error fetching product:", e);
 }
 
-const seller = await getUserById.execute(product.sellerId);
+if (!product) {
+  return Astro.redirect("/404");
+}
 
-const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Naya';
+try {
+  if (product.sellerId) {
+    seller = await getUserById.execute(product.sellerId);
+  }
+} catch (e) {
+  console.error("Error fetching seller:", e);
+}
+
+const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || "Naya";
 ---
 
 <html lang="es">

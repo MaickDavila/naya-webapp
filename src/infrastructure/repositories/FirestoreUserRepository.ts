@@ -9,6 +9,9 @@ export class FirestoreUserRepository implements UserRepository {
   private collectionName = COLLECTIONS.USERS;
 
   async getById(id: string): Promise<User | null> {
+    if (!id || typeof id !== "string" || id.trim() === "") {
+      return null;
+    }
     const docRef = doc(db, this.collectionName, id);
     const docSnap = await getDoc(docRef);
 
