@@ -1,0 +1,76 @@
+---
+import { FirestoreProductRepository } from '../infrastructure/repositories/FirestoreProductRepository';
+import ProductCard from '../presentation/components/ProductCard.vue';
+import BottomNav from '../presentation/components/BottomNav.vue';
+import CartCounter from '../presentation/components/CartCounter.vue';
+import { Image } from 'astro:assets';
+import logoNaya from '../assets/logo.svg';
+import '../styles/global.css';
+
+const productRepo = new FirestoreProductRepository();
+let products = [];
+let error = null;
+
+try {
+  products = await productRepo.getLatest(10);
+} catch (e) {
+  console.error("Error fetching products:", e);
+  error = "No se pudieron cargar los productos.";
+}
+
+const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Naya';
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>{marketplaceName} - Marketplace</title>
+	</head>
+	<body class="bg-[#FDFCFB] min-h-screen pb-24">
+		<!-- Header Estilo Naya -->
+		<header class="bg-[#D9D2C8] sticky top-0 z-50 shadow-sm">
+			<div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+				<!-- Icono Lupa (Izquierda) -->
+				<a href="/search" class="p-2 hover:bg-black/5 rounded-full transition-colors">
+					<svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+					</svg>
+				</a>
+
+				<!-- Logo Central -->
+				<div class="flex flex-col items-center">
+					<Image src={logoNaya} alt="Logo Naya" class="h-10 w-auto" />
+				</div>
+
+				<!-- Icono Bolsa (Derecha) -->
+				<CartCounter client:only="vue" />
+			</div>
+		</header>
+
+		<main class="max-w-7xl mx-auto px-6 py-8">
+			{error ? (
+				<div class="bg-error/5 border border-error/20 p-4 rounded-2xl mb-8">
+					<p class="text-error text-center font-bold">{error}</p>
+				</div>
+			) : (
+				<div class="grid grid-cols-2 gap-x-6 gap-y-10">
+					{products.map((product) => (
+						<ProductCard client:load product={product} />
+					))}
+				</div>
+			)}
+			
+			{products.length === 0 && !error && (
+				<div class="text-center py-32">
+					<p class="text-gray-400 font-medium italic">Explorando nuevos tesoros...</p>
+				</div>
+			)}
+		</main>
+
+		<!-- Navegación Inferior -->
+		<BottomNav client:only="vue" />
+
+	</body>
+</html>

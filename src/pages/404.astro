@@ -1,0 +1,107 @@
+---
+import { Image } from "astro:assets";
+import logoNaya from "../assets/logo.svg";
+import BottomNav from "../presentation/components/BottomNav.vue";
+import "../styles/global.css";
+
+const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || "Naya";
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Tesoro no encontrado - {marketplaceName}</title>
+  </head>
+  <body class="bg-[#FDFCFB] min-h-screen flex flex-col pb-24">
+    <!-- Header Estilo Naya -->
+    <header class="bg-[#D9D2C8] sticky top-0 z-50 shadow-sm">
+      <div
+        class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <!-- Botón Volver -->
+        <a
+          href="/search"
+          class="p-2 hover:bg-black/5 rounded-full transition-colors"
+        >
+          <svg
+            class="w-8 h-8 text-black"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.8"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </a>
+
+        <!-- Logo Central -->
+        <div class="flex flex-col items-center">
+          <Image src={logoNaya} alt="Logo Naya" class="h-10 w-auto" />
+        </div>
+
+        <!-- Espacio para equilibrio -->
+        <div class="w-12 h-12"></div>
+      </div>
+    </header>
+
+    <main
+      class="flex-1 flex flex-col items-center justify-center px-6 py-20 text-center"
+    >
+      <div class="relative mb-12">
+        <span
+          class="text-[12rem] font-black text-background-secondary/30 leading-none select-none"
+          >404</span
+        >
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+          <div
+            class="w-32 h-32 bg-white rounded-[3rem] shadow-xl border border-black/5 flex items-center justify-center mb-4 transform -rotate-12"
+          >
+            <svg
+              class="w-16 h-16 text-primary"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <h1 class="text-4xl font-black text-gray-900 tracking-tight mb-4">
+        Tesoro extraviado
+      </h1>
+      <p class="text-gray-500 text-lg max-w-md mx-auto mb-12 leading-relaxed">
+        No hemos podido encontrar la página que buscas. Quizás el tesoro ya ha
+        sido vendido o se ha movido de lugar.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="/"
+          class="bg-primary text-white px-10 py-4 rounded-[2rem] font-black text-lg hover:bg-primary-dark transition-all shadow-xl shadow-primary/25 active:scale-[0.98]"
+        >
+          Volver al inicio
+        </a>
+        <button
+          onclick="history.back()"
+          class="bg-white text-gray-900 px-10 py-4 rounded-[2rem] font-bold text-lg border-2 border-black/5 hover:bg-gray-50 transition-all"
+        >
+          Regresar
+        </button>
+      </div>
+    </main>
+
+    <!-- Navegación Inferior -->
+    <BottomNav client:only="vue" />
+  </body>
+</html>

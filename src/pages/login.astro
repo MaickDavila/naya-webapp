@@ -1,0 +1,34 @@
+---
+import { Image } from 'astro:assets';
+import logoNaya from '../assets/logo.svg';
+import LoginView from '../presentation/components/auth/LoginView.vue';
+import '../styles/global.css';
+
+const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Naya';
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Identifícate - {marketplaceName}</title>
+	</head>
+	<body class="bg-[#FDFCFB] min-h-screen flex flex-col">
+		<main class="flex-1 flex flex-col items-center justify-center px-6 py-12">
+			<!-- Logo con animación suave -->
+			<div class="mb-12 flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-1000">
+				<Image src={logoNaya} alt="Logo Naya" class="h-16 w-auto mb-4" />
+				<div class="h-1 w-12 bg-primary rounded-full"></div>
+			</div>
+
+			<LoginView client:only="vue" />
+		</main>
+
+		<footer class="py-12 text-center">
+			<p class="text-[10px] text-gray-300 uppercase tracking-[0.3em] font-black italic">
+				Design & Built for {marketplaceName} 2026
+			</p>
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   Variables CSS - Basado en el nuevo estilo Naya
+   ============================================ */
+:root {
+  /* ============================================
+     COLORES PRINCIPALES
+     ============================================ */
+  --color-primary: #6b1d2a;
+  --color-primary-dark: #4a141d;
+  --color-primary-light: #8e3e4c;
+  --color-secondary: #d9d2c8;
+  --color-accent: #6b1d2a;
+
+  /* ============================================
+     COLORES DE ESTADO
+     ============================================ */
+  --color-success: #4c6b5e;
+  --color-success-light: #e8f0ed;
+  --color-warning: #d4a017;
+  --color-warning-light: #faf3e0;
+  --color-error: #991b1b;
+  --color-error-light: #fee2e2;
+
+  /* ============================================
+     COLORES DE FONDO (Basados en la imagen)
+     ============================================ */
+  --color-background: #fdfcfb;
+  --color-background-secondary: #d9d2c8;
+  --color-background-tertiary: #c4bbb0;
+  --color-surface: #ffffff;
+  --color-surface-hover: #fbf9f7;
+
+  /* ============================================
+     COLORES DE TEXTO
+     ============================================ */
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #6b7280;
+  --color-text-tertiary: #9ca3af;
+
+  /* ============================================
+     BORDES Y SOMBRAS
+     ============================================ */
+  --color-border: #e5e7eb;
+  --border-radius: 1.25rem; /* 20px - Más redondeado como en la imagen */
+}
+
+@layer base {
+  body {
+    @apply bg-[var(--color-background)] text-[var(--color-text-primary)] font-['Inter'];
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .btn-icon {
+    @apply p-2 hover:bg-black/5 rounded-full transition-colors duration-200;
+  }
+}
