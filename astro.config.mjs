@@ -10,7 +10,7 @@ export default defineConfig({
   integrations: [vue(), tailwind()],
   image: {
     service: {
-      entrypoint: "astro:assets/services/noop",
+      entrypoint: "astro/assets/services/noop",
     },
   },
 });
