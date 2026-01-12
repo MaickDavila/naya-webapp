@@ -10,48 +10,72 @@ import {
   orderBy,
   where,
   limit,
-} from "firebase/firestore";
+} from "firebase/firestore/lite";
 
 export class FirestoreCategoryRepository implements CategoryRepository {
   private collectionName = COLLECTIONS.CATEGORIES;
 
   async getAll(): Promise<Category[]> {
-    const categoriesRef = collection(db, this.collectionName);
-    const q = query(categoriesRef, orderBy("order", "asc"));
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map((doc) =>
-      CategoryMapper.toDomain(doc.id, doc.data())
-    );
+    if (!db) return [];
+    try {
+      const categoriesRef = collection(db, this.collectionName);
+      const q = query(categoriesRef, orderBy("order", "asc"));
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map((doc) =>
+        CategoryMapper.toDomain(doc.id, doc.data())
+      );
+    } catch (error) {
+      console.error("Error in getAll categories:", error);
+      return [];
+    }
   }
 
   async getActive(): Promise<Category[]> {
-    const categoriesRef = collection(db, this.collectionName);
-    const q = query(
-      categoriesRef,
-      where("active", "==", true),
-      orderBy("order", "asc")
-    );
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map((doc) =>
-      CategoryMapper.toDomain(doc.id, doc.data())
-    );
+    if (!db) return [];
+    try {
+      const categoriesRef = collection(db, this.collectionName);
+      const q = query(
+        categoriesRef,
+        where("active", "==", true),
+        orderBy("order", "asc")
+      );
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map((doc) =>
+        CategoryMapper.toDomain(doc.id, doc.data())
+      );
+    } catch (error) {
+      console.error("Error in getActive categories:", error);
+      return [];
+    }
   }
 
   async getById(id: string): Promise<Category | null> {
-    const categoriesRef = collection(db, this.collectionName);
-    const q = query(categoriesRef, where("id", "==", id), limit(1));
-    const snapshot = await getDocs(q);
-    if (snapshot.empty) return null;
-    const doc = snapshot.docs[0];
-    return CategoryMapper.toDomain(doc.id, doc.data());
+    if (!db || !id) return null;
+    try {
+      const categoriesRef = collection(db, this.collectionName);
+      const q = query(categoriesRef, where("id", "==", id), limit(1));
+      const snapshot = await getDocs(q);
+      if (snapshot.empty) return null;
+      const doc = snapshot.docs[0];
+      return CategoryMapper.toDomain(doc.id, doc.data());
+    } catch (error) {
+      console.error("Error in getCategoryById:", error);
+      return null;
+    }
   }
 
   async getBySlug(slug: string): Promise<Category | null> {
-    const categoriesRef = collection(db, this.collectionName);
-    const q = query(categoriesRef, where("slug", "==", slug), limit(1));
-    const snapshot = await getDocs(q);
-    if (snapshot.empty) return null;
-    const doc = snapshot.docs[0];
-    return CategoryMapper.toDomain(doc.id, doc.data());
+    if (!db || !slug) return null;
+    try {
+      const categoriesRef = collection(db, this.collectionName);
+      const q = query(categoriesRef, where("slug", "==", slug), limit(1));
+      const snapshot = await getDocs(q);
+      if (snapshot.empty) return null;
+      const doc = snapshot.docs[0];
+      return CategoryMapper.toDomain(doc.id, doc.data());
+    } catch (error) {
+      console.error("Error in getCategoryBySlug:", error);
+      return null;
+    }
   }
 }
