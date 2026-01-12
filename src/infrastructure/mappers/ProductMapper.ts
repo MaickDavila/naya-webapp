@@ -1,5 +1,5 @@
 import type { Product } from "../../domain/entities/Product";
-import type { Timestamp } from "firebase/firestore/lite";
+import type { Timestamp } from "firebase/firestore";
 
 export class ProductMapper {
   /**

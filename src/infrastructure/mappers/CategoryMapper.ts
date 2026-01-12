@@ -1,5 +1,5 @@
 import type { Category } from '../../domain/entities/Category';
-import type { Timestamp } from 'firebase/firestore/lite';
+import type { Timestamp } from 'firebase/firestore';
 
 export class CategoryMapper {
   static toDomain(id: string, data: any): Category {
