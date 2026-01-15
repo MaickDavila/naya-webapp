@@ -9,6 +9,7 @@ export class CategoryMapper {
       slug: data.slug || '',
       description: data.description || null,
       icon: data.icon || null,
+      image: data.image || null,
       color: data.color || null,
       order: data.order || 0,
       active: data.active ?? true,

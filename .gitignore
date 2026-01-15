@@ -3,6 +3,10 @@ node_modules/
 dist/
 .astro/
 
+# Build outputs
+.vercel/
+.output/
+
 # Environment Variables
 .env
 .env.local

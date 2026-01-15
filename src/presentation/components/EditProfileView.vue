@@ -1,45 +1,57 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
+import { useFirestore, useDocument } from 'vuefire';
+import { doc } from 'firebase/firestore';
 import { useAuth } from '../../application/stores/authStore';
 import { FirestoreUserRepository } from '../../infrastructure/repositories/FirestoreUserRepository';
 import { UpdateUserProfile } from '../../application/use-cases/UpdateUserProfile';
+import { UserMapper } from '../../infrastructure/mappers/UserMapper';
+import { COLLECTIONS } from '../../domain/constants/collections';
 import type { User } from '../../domain/entities/User';
 
 const { user, initAuth } = useAuth();
+const db = useFirestore();
 const userRepo = new FirestoreUserRepository();
 const updateUseCase = new UpdateUserProfile(userRepo);
 
+// Referencia reactiva al documento del usuario
+const userDocRef = computed(() => 
+  user.value ? doc(db, COLLECTIONS.USERS, user.value.uid) : null
+);
+
+// useDocument carga y mantiene actualizado el documento del usuario
+const { data: userData, pending: loading } = useDocument(
+  userDocRef,
+  {
+    wait: true,
+  }
+);
+
+// Formulario reactivo
 const formData = ref({
   displayName: '',
   biography: '',
   location: ''
 });
 
-const loading = ref(false);
 const saving = ref(false);
 const success = ref(false);
 
-const loadUserData = async () => {
-  if (!user.value) return;
-  loading.value = true;
-  try {
-    const data = await userRepo.getById(user.value.uid);
-    if (data) {
-      formData.value = {
-        displayName: data.displayName || data.name || '',
-        biography: data.biography || '',
-        location: data.location || ''
-      };
-    } else {
-      // Si no existe en Firestore aún (primer login), usamos los datos de Google
-      formData.value.displayName = user.value.displayName || '';
-    }
-  } catch (error) {
-    console.error("Error cargando datos de usuario:", error);
-  } finally {
-    loading.value = false;
+// Cargar datos del usuario cuando estén disponibles
+watch([userData, user], ([data, authUser]) => {
+  if (data && authUser) {
+    // Mapear datos de Firestore a entidad de dominio
+    const userEntity = UserMapper.toDomain(authUser.uid, data);
+    formData.value = {
+      displayName: userEntity.displayName || userEntity.name || '',
+      biography: userEntity.biography || '',
+      location: userEntity.location || ''
+    };
+  } else if (authUser && !data) {
+    // Si no existe en Firestore aún (primer login), usamos los datos de Google
+    formData.value.displayName = authUser.displayName || '';
   }
-};
+}, { immediate: true });
 
 const handleSave = async () => {
   if (!user.value) return;
@@ -60,10 +72,6 @@ const handleSave = async () => {
     saving.value = false;
   }
 };
-
-watch(user, (newUser) => {
-  if (newUser) loadUserData();
-}, { immediate: true });
 
 onMounted(() => {
   initAuth();

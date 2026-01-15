@@ -1,5 +1,11 @@
 import { initializeApp, getApps, getApp, type FirebaseApp } from "firebase/app";
-import { getFirestore, type Firestore } from "firebase/firestore";
+import {
+  getFirestore,
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+  type Firestore,
+} from "firebase/firestore";
 import { getAuth, type Auth } from "firebase/auth";
 import { getStorage, type FirebaseStorage } from "firebase/storage";
 
@@ -21,7 +27,27 @@ if (!getApps().length) {
   app = getApp();
 }
 
-const db: Firestore = getFirestore(app);
+// Configurar Firestore con persistencia offline (solo en el cliente)
+let db: Firestore;
+if (typeof window !== "undefined") {
+  // En el cliente: habilitar persistencia offline con IndexedDB
+  try {
+    db = initializeFirestore(app, {
+      localCache: persistentLocalCache({
+        // Sincronización entre múltiples pestañas
+        tabManager: persistentMultipleTabManager(),
+      }),
+    });
+  } catch (error: any) {
+    // Si falla (ej: múltiples pestañas, browser no compatible), usar sin persistencia
+    console.warn("No se pudo habilitar persistencia offline:", error);
+    db = getFirestore(app);
+  }
+} else {
+  // En el servidor (SSR): sin persistencia
+  db = getFirestore(app);
+}
+
 const auth: Auth = getAuth(app);
 const storage: FirebaseStorage = getStorage(app);
 

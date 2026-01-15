@@ -1,21 +1,24 @@
 ---
-import { FirestoreProductRepository } from '../infrastructure/repositories/FirestoreProductRepository';
-import ProductCard from '../presentation/components/ProductCard.vue';
+import { FirestoreCategoryRepository } from '../infrastructure/repositories/FirestoreCategoryRepository';
+import { GetCategories } from '../application/use-cases/GetCategories';
+import type { Category } from '../domain/entities/Category';
 import BottomNav from '../presentation/components/BottomNav.vue';
 import CartCounter from '../presentation/components/CartCounter.vue';
 import { Image } from 'astro:assets';
 import logoNaya from '../assets/logo.svg';
 import '../styles/global.css';
 
-const productRepo = new FirestoreProductRepository();
-let products = [];
+const categoryRepo = new FirestoreCategoryRepository();
+const getCategories = new GetCategories(categoryRepo);
+
+let categories: Category[] = [];
 let error = null;
 
 try {
-  products = await productRepo.getLatest(10);
+  categories = await getCategories.execute();
 } catch (e) {
-  console.error("Error fetching products:", e);
-  error = "No se pudieron cargar los productos.";
+  console.error("Error fetching categories:", e);
+  error = "No se pudieron cargar las categorías.";
 }
 
 const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Naya';
@@ -32,12 +35,8 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Naya';
 		<!-- Header Estilo Naya -->
 		<header class="bg-[#D9D2C8] sticky top-0 z-50 shadow-sm">
 			<div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-				<!-- Icono Lupa (Izquierda) -->
-				<a href="/search" class="p-2 hover:bg-black/5 rounded-full transition-colors">
-					<svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-					</svg>
-				</a>
+				<!-- Espacio para equilibrio -->
+				<div class="w-12 h-12"></div>
 
 				<!-- Logo Central -->
 				<div class="flex flex-col items-center">
@@ -54,17 +53,84 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Naya';
 				<div class="bg-error/5 border border-error/20 p-4 rounded-2xl mb-8">
 					<p class="text-error text-center font-bold">{error}</p>
 				</div>
-			) : (
-				<div class="grid grid-cols-2 gap-x-6 gap-y-10">
-					{products.map((product) => (
-						<ProductCard client:load product={product} />
-					))}
+			) : categories.length === 0 ? (
+				<!-- Skeleton Loading: 8 categorías placeholder -->
+				<div class="flex flex-col gap-6">
+					{Array.from({ length: 4 }).map((_, rowIdx) => {
+						const isEvenRow = rowIdx % 2 === 0;
+						return (
+							<div class="grid gap-6" style={`grid-template-columns: ${isEvenRow ? '7fr 3fr' : '3fr 7fr'};`}>
+								{Array.from({ length: 2 }).map(() => (
+									<div class="flex flex-col">
+										<div class="flex flex-col bg-white rounded-[1.75rem] shadow-[0_10px_22px_rgba(0,0,0,0.14)] border border-black/5 overflow-hidden animate-pulse">
+											<div class="w-full bg-gray-200" style="height: 107px;"></div>
+										</div>
+										<div class="mt-3 flex justify-center">
+											<div class="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
+										</div>
+									</div>
+								))}
+							</div>
+						);
+					})}
 				</div>
-			)}
-			
-			{products.length === 0 && !error && (
-				<div class="text-center py-32">
-					<p class="text-gray-400 font-medium italic">Explorando nuevos tesoros...</p>
+			) : (
+				<div class="flex flex-col gap-6">
+					{categories.reduce((acc: any[], cat, idx) => {
+						const routeKey = cat.slug || cat.name;
+						const rowIndex = Math.floor(idx / 2);
+						const isEvenRow = rowIndex % 2 === 0;
+						const isLeftCard = idx % 2 === 0;
+
+						// Si es la primera tarjeta de la fila, crear nueva fila
+						if (isLeftCard) {
+							acc.push({
+								row: rowIndex,
+								isEvenRow,
+								cards: [cat],
+								routeKeys: [routeKey]
+							});
+						} else {
+							// Agregar a la última fila
+							acc[acc.length - 1].cards.push(cat);
+							acc[acc.length - 1].routeKeys.push(routeKey);
+						}
+
+						return acc;
+					}, []).map((row) => (
+						<div class="grid gap-6" style={`grid-template-columns: ${row.cards.length === 1 ? '1fr' : row.isEvenRow ? '7fr 3fr' : '3fr 7fr'};`}>
+							{row.cards.map((cat: Category, cardIdx: number) => {
+								const routeKey = row.routeKeys[cardIdx];
+								return (
+									<div class="flex flex-col">
+										<a
+											href={`/categories/${encodeURIComponent(routeKey)}`}
+											class="flex flex-col bg-white rounded-[1.75rem] shadow-[0_10px_22px_rgba(0,0,0,0.14)] border border-black/5 overflow-hidden transition-transform duration-200 active:scale-[0.98] hover:-translate-y-[1px]"
+											aria-label={`Ver ${cat.name}`}
+										>
+											{cat.image ? (
+												<div class="w-full overflow-hidden bg-gray-100" style="max-height: 107px;">
+													<img
+														src={cat.image}
+														alt={cat.name}
+														class="w-full h-full object-cover"
+														style="max-height: 107px;"
+													/>
+												</div>
+											) : (
+												<div class="w-full bg-gray-100 flex items-center justify-center" style="height: 107px;">
+													<span class="text-gray-400 text-sm">Sin imagen</span>
+												</div>
+											)}
+										</a>
+										<h2 class="text-base font-bold text-gray-900 tracking-tight text-center mt-3">
+											{cat.name}
+										</h2>
+									</div>
+								);
+							})}
+						</div>
+					))}
 				</div>
 			)}
 		</main>
