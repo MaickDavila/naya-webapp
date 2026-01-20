@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import logoNaya from '../assets/logo.svg';
 import BottomNav from '../presentation/components/BottomNav.vue';
 import CartCounter from '../presentation/components/CartCounter.vue';
+import SellForm from '../presentation/components/SellForm.vue';
 import '../styles/global.css';
 
 // Lógica de redirección a Login si no hay sesión (en el cliente)
@@ -37,11 +38,11 @@ import '../styles/global.css';
 			</header>
 
 			<main class="max-w-3xl mx-auto px-6 py-12">
-				<h1 class="text-4xl font-black text-gray-900 tracking-tight mb-8">Vende tu tesoro</h1>
-				<!-- Formulario vendrá aquí -->
-				<div class="bg-white p-12 rounded-[3rem] border border-dashed border-black/10 text-center">
-					<p class="text-gray-400 italic">El formulario de carga estará disponible pronto...</p>
-				</div>
+				<SellForm 
+					client:only="vue"
+					@success="handleProductSuccess"
+					@error="handleProductError"
+				/>
 			</main>
 		</div>
 
@@ -60,6 +61,18 @@ import '../styles/global.css';
 					document.getElementById('auth-guard')?.classList.remove('hidden');
 				}
 			});
+
+			// Manejar éxito del formulario
+			window.handleProductSuccess = (productId) => {
+				console.log('Producto creado exitosamente:', productId);
+				// El formulario ya maneja la redirección
+			};
+
+			// Manejar error del formulario
+			window.handleProductError = (error) => {
+				console.error('Error al crear producto:', error);
+				// El formulario ya muestra el error
+			};
 		</script>
 
 		<BottomNav client:only="vue" />

@@ -1,4 +1,4 @@
-import { reactive, computed, onMounted } from 'vue';
+import { reactive, computed } from 'vue';
 import { 
   getAuth, 
   onAuthStateChanged, 
@@ -8,14 +8,35 @@ import {
   type User as FirebaseUser
 } from 'firebase/auth';
 import { app } from '../../lib/firebase';
+import { FirestoreUserRepository } from '../../infrastructure/repositories/FirestoreUserRepository';
 
 const auth = getAuth(app);
+const userRepository = new FirestoreUserRepository();
 
 const state = reactive({
   user: null as FirebaseUser | null,
   isInitialized: false,
   loading: true,
 });
+
+/**
+ * Crea o actualiza el perfil del usuario en Firestore
+ */
+const ensureUserProfile = async (firebaseUser: FirebaseUser): Promise<void> => {
+  try {
+    await userRepository.getOrCreate(firebaseUser.uid, {
+      name: firebaseUser.displayName || '',
+      displayName: firebaseUser.displayName || '',
+      email: firebaseUser.email || '',
+      photoURL: firebaseUser.photoURL || undefined,
+      createdAt: new Date(),
+      rating: 0,
+      reviewsCount: 0,
+    });
+  } catch (error) {
+    console.error("Error ensuring user profile:", error);
+  }
+};
 
 export const useAuth = () => {
   const user = computed(() => state.user);
@@ -25,10 +46,15 @@ export const useAuth = () => {
   const initAuth = () => {
     if (state.isInitialized) return;
     
-    onAuthStateChanged(auth, (firebaseUser) => {
+    onAuthStateChanged(auth, async (firebaseUser) => {
       state.user = firebaseUser;
       state.loading = false;
       state.isInitialized = true;
+      
+      // Asegurar que el perfil existe en Firestore
+      if (firebaseUser) {
+        await ensureUserProfile(firebaseUser);
+      }
     });
   };
 
@@ -37,6 +63,10 @@ export const useAuth = () => {
     state.loading = true;
     try {
       const result = await signInWithPopup(auth, provider);
+      
+      // Crear perfil en Firestore si no existe
+      await ensureUserProfile(result.user);
+      
       return result.user;
     } catch (error) {
       console.error("Error signing in with Google:", error);

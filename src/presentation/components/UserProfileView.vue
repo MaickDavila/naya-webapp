@@ -1,12 +1,38 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
+import { useFirestore, useDocument } from 'vuefire';
+import { doc } from 'firebase/firestore';
 import { useAuth } from '../../application/stores/authStore';
-import { formatDate } from '../utils/formatters';
+import { COLLECTIONS } from '../../domain/constants/collections';
 
 const { user, signOut, initAuth } = useAuth();
+const db = useFirestore();
+
+// Referencia reactiva al documento del usuario en Firestore
+const userDocRef = computed(() => 
+  user.value ? doc(db, COLLECTIONS.USERS, user.value.uid) : null
+);
+
+// Cargar datos del perfil desde Firestore
+const { data: userProfile } = useDocument(userDocRef);
+
+// Computed para obtener la foto (prioridad: Firestore > Auth)
+const displayPhotoURL = computed(() => {
+  return userProfile.value?.photoURL || user.value?.photoURL || null;
+});
+
+// Computed para obtener el nombre (prioridad: Firestore > Auth)
+const displayName = computed(() => {
+  return userProfile.value?.displayName || userProfile.value?.name || user.value?.displayName || 'Usuario Naya';
+});
+
+// Computed para obtener la inicial
+const userInitial = computed(() => {
+  return displayName.value.charAt(0).toUpperCase() || 'U';
+});
 
 const handleSignOut = async () => {
-  if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+  if (confirm('¿Estas seguro de que quieres cerrar sesion?')) {
     await signOut();
     window.location.href = '/';
   }
@@ -21,15 +47,15 @@ onMounted(() => {
   <div v-if="user" class="flex flex-col gap-12">
     <!-- Header del Perfil Propio -->
     <div class="bg-white rounded-[3rem] p-8 md:p-12 shadow-sm border border-black/5 flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
-      <!-- Avatar con inicial o foto de Google -->
+      <!-- Avatar con inicial o foto -->
       <div class="w-32 h-32 md:w-40 md:h-40 bg-primary rounded-full flex items-center justify-center text-white text-5xl md:text-6xl font-black shadow-xl shadow-primary/20 flex-shrink-0 overflow-hidden border-4 border-white">
-        <img v-if="user.photoURL" :src="user.photoURL" :alt="user.displayName || 'Usuario'" class="w-full h-full object-cover" />
-        <span v-else>{{ user.displayName?.charAt(0).toUpperCase() || 'U' }}</span>
+        <img v-if="displayPhotoURL" :src="displayPhotoURL" :alt="displayName" class="w-full h-full object-cover" />
+        <span v-else>{{ userInitial }}</span>
       </div>
 
       <div class="flex-1 text-center md:text-left">
         <div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
-          <h1 class="text-4xl font-black text-gray-900 tracking-tight">{{ user.displayName || 'Usuario Naya' }}</h1>
+          <h1 class="text-4xl font-black text-gray-900 tracking-tight">{{ displayName }}</h1>
           <span class="inline-flex items-center gap-2 bg-primary/5 text-primary px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border border-primary/10">
             Miembro Naya
           </span>
@@ -44,7 +70,7 @@ onMounted(() => {
             Editar Perfil
           </a>
           <button @click="handleSignOut" class="bg-error/5 text-error px-8 py-3 rounded-2xl font-bold hover:bg-error/10 transition-all active:scale-95 border border-error/10">
-            Cerrar Sesión
+            Cerrar Sesion
           </button>
         </div>
       </div>

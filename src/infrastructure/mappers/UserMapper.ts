@@ -1,4 +1,5 @@
 import type { User } from "../../domain/entities/User";
+import { Timestamp } from "firebase/firestore";
 
 export class UserMapper {
   static toDomain(id: string, data: any): User {
@@ -13,6 +14,20 @@ export class UserMapper {
       rating: data.rating || 0,
       reviewsCount: data.reviewsCount || 0,
       displayName: data.displayName,
+    };
+  }
+
+  static toPersistence(user: User): Record<string, any> {
+    return {
+      name: user.name,
+      email: user.email,
+      photoURL: user.photoURL || null,
+      biography: user.biography || null,
+      location: user.location || null,
+      createdAt: Timestamp.fromDate(user.createdAt),
+      rating: user.rating || 0,
+      reviewsCount: user.reviewsCount || 0,
+      displayName: user.displayName || null,
     };
   }
 
