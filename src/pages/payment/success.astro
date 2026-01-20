@@ -1,0 +1,120 @@
+---
+import BottomNav from "../../presentation/components/BottomNav.vue";
+import { Image } from "astro:assets";
+import logoNaya from "../../assets/logo.svg";
+import "../../styles/global.css";
+
+const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || "Naya";
+
+// Obtener parametros de MercadoPago
+const { searchParams } = Astro.url;
+const paymentId = searchParams.get('payment_id');
+const status = searchParams.get('status');
+const externalReference = searchParams.get('external_reference');
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pago Exitoso - {marketplaceName}</title>
+  </head>
+  <body class="bg-[#FDFCFB] min-h-screen pb-24">
+    <!-- Header -->
+    <header class="bg-[#D9D2C8] sticky top-0 z-50 shadow-sm">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex justify-center items-center">
+        <a href="/" class="flex flex-col items-center">
+          <Image src={logoNaya} alt="Logo Naya" class="h-10 w-auto" />
+        </a>
+      </div>
+    </header>
+
+    <main class="max-w-2xl mx-auto px-6 py-16 text-center">
+      <!-- Icono de exito -->
+      <div class="w-24 h-24 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-8">
+        <svg class="w-12 h-12 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+
+      <h1 class="text-4xl font-black text-gray-900 mb-4">Pago Exitoso</h1>
+      <p class="text-xl text-gray-600 mb-8">
+        Tu compra ha sido procesada correctamente
+      </p>
+
+      <!-- Detalles del pago -->
+      <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-black/5 mb-8 text-left">
+        <h2 class="text-lg font-bold text-gray-900 mb-4">Detalles de la transaccion</h2>
+        <div class="space-y-3">
+          {paymentId && (
+            <div class="flex justify-between">
+              <span class="text-gray-500">ID de Pago</span>
+              <span class="font-mono text-gray-900">{paymentId}</span>
+            </div>
+          )}
+          {externalReference && (
+            <div class="flex justify-between">
+              <span class="text-gray-500">Referencia</span>
+              <span class="font-mono text-gray-900 text-sm">{externalReference}</span>
+            </div>
+          )}
+          <div class="flex justify-between">
+            <span class="text-gray-500">Estado</span>
+            <span class="text-success font-bold">Aprobado</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Informacion adicional -->
+      <div class="bg-primary/5 rounded-2xl p-6 mb-8 text-left">
+        <h3 class="font-bold text-gray-900 mb-2">Proximos pasos</h3>
+        <ul class="text-gray-600 space-y-2 text-sm">
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Recibiras un correo de confirmacion con los detalles de tu compra</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>El vendedor sera notificado y coordinara el envio contigo</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Puedes ver el estado de tu compra en tu perfil</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Botones de accion -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a 
+          href="/"
+          class="bg-primary text-white px-8 py-4 rounded-2xl font-bold hover:bg-primary-dark transition-all"
+        >
+          Seguir comprando
+        </a>
+        <a 
+          href="/profile"
+          class="bg-white text-gray-900 px-8 py-4 rounded-2xl font-bold border-2 border-black/5 hover:bg-gray-50 transition-all"
+        >
+          Ver mis compras
+        </a>
+      </div>
+    </main>
+
+    <!-- Navegacion Inferior -->
+    <BottomNav client:only="vue" />
+  </body>
+</html>
+
+<script>
+  // Limpiar el carrito despues de un pago exitoso
+  const CART_STORAGE_KEY = 'naya_cart_items';
+  localStorage.removeItem(CART_STORAGE_KEY);
+</script>
