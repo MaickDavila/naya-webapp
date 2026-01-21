@@ -86,21 +86,14 @@ const handleCheckout = async (event?: Event) => {
     console.log('Preferencia creada:', preference);
 
     // Validar que tenemos una URL válida
-    if (!preference.initPoint && !preference.sandboxInitPoint) {
+    if (!preference.initPoint) {
       throw new Error('No se recibió una URL de pago válida');
     }
 
-    // Redirigir a MercadoPago
-    const paymentUrl = paymentService.isSandboxMode() 
-      ? (preference.sandboxInitPoint || preference.initPoint)
-      : (preference.initPoint || preference.sandboxInitPoint);
-    
-    if (!paymentUrl) {
-      throw new Error('No hay URL de pago disponible');
-    }
-
-    console.log('Redirigiendo a:', paymentUrl);
-    paymentService.redirectToPayment(paymentUrl);
+    // El backend ya retorna la URL correcta según el tipo de token
+    // Solo usamos initPoint que ya viene configurado correctamente
+    console.log('Redirigiendo a MercadoPago:', preference.initPoint);
+    paymentService.redirectToPayment(preference.initPoint);
   } catch (err: any) {
     console.error('Error al procesar pago:', err);
     error.value = err.message || 'Error al procesar el pago. Intenta de nuevo.';
