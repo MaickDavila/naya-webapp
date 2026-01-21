@@ -18,15 +18,35 @@ const total = computed(() => subtotal.value);
 
 // Verificar si puede proceder al pago
 const canCheckout = computed(() => {
-  return items.value.length > 0 && user.value && !isProcessing.value;
+  const can = items.value.length > 0 && user.value && !isProcessing.value;
+  console.log('canCheckout calculado:', { 
+    itemsCount: items.value.length, 
+    hasUser: !!user.value, 
+    isProcessing: isProcessing.value,
+    can 
+  });
+  return can;
 });
 
 /**
  * Procesar pago con MercadoPago
  */
-const handleCheckout = async () => {
+const handleCheckout = async (event?: Event) => {
+  // Prevenir comportamiento por defecto si es un evento
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  console.log('handleCheckout llamado', { 
+    user: user.value, 
+    itemsCount: items.value.length,
+    canCheckout: canCheckout.value 
+  });
+
   if (!user.value) {
     error.value = 'Debes iniciar sesion para continuar';
+    window.location.href = '/login?next=' + encodeURIComponent('/checkout');
     return;
   }
 
@@ -51,6 +71,8 @@ const handleCheckout = async () => {
       sellerName: item.sellerName,
     }));
 
+    console.log('Creando preferencia con items:', checkoutItems);
+
     // Crear preferencia de pago
     const preference = await paymentService.createPreference(
       checkoutItems,
@@ -61,11 +83,23 @@ const handleCheckout = async () => {
       }
     );
 
+    console.log('Preferencia creada:', preference);
+
+    // Validar que tenemos una URL válida
+    if (!preference.initPoint && !preference.sandboxInitPoint) {
+      throw new Error('No se recibió una URL de pago válida');
+    }
+
     // Redirigir a MercadoPago
     const paymentUrl = paymentService.isSandboxMode() 
-      ? preference.sandboxInitPoint 
-      : preference.initPoint;
+      ? (preference.sandboxInitPoint || preference.initPoint)
+      : (preference.initPoint || preference.sandboxInitPoint);
     
+    if (!paymentUrl) {
+      throw new Error('No hay URL de pago disponible');
+    }
+
+    console.log('Redirigiendo a:', paymentUrl);
     paymentService.redirectToPayment(paymentUrl);
   } catch (err: any) {
     console.error('Error al procesar pago:', err);
@@ -75,8 +109,18 @@ const handleCheckout = async () => {
 };
 
 onMounted(() => {
+  console.log('CheckoutView montado');
   initAuth();
   loadCart();
+  
+  // Verificar estado después de un momento
+  setTimeout(() => {
+    console.log('Estado después de inicializar:', {
+      user: user.value,
+      itemsCount: items.value.length,
+      canCheckout: canCheckout.value
+    });
+  }, 500);
 });
 </script>
 
@@ -163,6 +207,7 @@ onMounted(() => {
 
           <!-- Boton de pago -->
           <button
+            type="button"
             @click="handleCheckout"
             :disabled="!canCheckout"
             class="w-full bg-[#009EE3] text-white py-4 rounded-2xl font-bold text-lg hover:bg-[#007EB5] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"

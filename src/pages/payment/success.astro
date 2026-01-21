@@ -1,5 +1,6 @@
 ---
 import BottomNav from "../../presentation/components/BottomNav.vue";
+import CartClearer from "../../presentation/components/CartClearer.vue";
 import { Image } from "astro:assets";
 import logoNaya from "../../assets/logo.svg";
 import "../../styles/global.css";
@@ -110,11 +111,39 @@ const externalReference = searchParams.get('external_reference');
 
     <!-- Navegacion Inferior -->
     <BottomNav client:only="vue" />
+    
+    <!-- Componente para limpiar el carrito -->
+    <CartClearer client:only="vue" />
   </body>
 </html>
 
-<script>
+<script is:inline>
   // Limpiar el carrito despues de un pago exitoso
-  const CART_STORAGE_KEY = 'naya_cart_items';
-  localStorage.removeItem(CART_STORAGE_KEY);
+  // Esto se ejecuta cuando la página se carga
+  (function() {
+    const CART_STORAGE_KEY = 'naya_cart_items';
+    
+    // Limpiar localStorage inmediatamente
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem(CART_STORAGE_KEY);
+    }
+    
+    // También intentar limpiar el store de Vue si está disponible
+    // Esto se ejecutará cuando Vue esté listo
+    if (typeof window !== 'undefined') {
+      window.addEventListener('load', function() {
+        // Dar tiempo para que Vue se inicialice
+        setTimeout(function() {
+          try {
+            // Si hay un evento personalizado para limpiar el carrito, dispararlo
+            window.dispatchEvent(new CustomEvent('clear-cart'));
+            localStorage.removeItem(CART_STORAGE_KEY);
+          } catch (e) {
+            // Si falla, al menos limpiamos localStorage
+            localStorage.removeItem(CART_STORAGE_KEY);
+          }
+        }, 500);
+      });
+    }
+  })();
 </script>
