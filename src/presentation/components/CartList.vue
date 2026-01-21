@@ -1,12 +1,36 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useCart } from '../../application/stores/cartStore';
+import { useAuth } from '../../application/stores/authStore';
 import { formatPrice } from '../utils/formatters';
 
 const { items, subtotal, removeItem, updateQuantity, loadCart, isLoaded } = useCart();
+const { user, initAuth } = useAuth();
 
 onMounted(() => {
+  initAuth();
   loadCart();
+});
+
+// Función para ir a checkout
+const goToCheckout = () => {
+  if (items.value.length === 0) {
+    return;
+  }
+
+  // Si no está autenticado, redirigir a login con redirect
+  if (!user.value) {
+    window.location.href = '/login?next=' + encodeURIComponent('/checkout');
+    return;
+  }
+
+  // Redirigir a checkout
+  window.location.href = '/checkout';
+};
+
+// Verificar si puede ir a checkout
+const canGoToCheckout = computed(() => {
+  return items.value.length > 0;
 });
 </script>
 
@@ -86,7 +110,12 @@ onMounted(() => {
             <span class="text-3xl font-black text-primary leading-none">{{ formatPrice(subtotal) }}</span>
           </div>
           
-          <button class="w-full bg-primary text-white py-4 rounded-2xl font-black text-lg hover:bg-primary-dark transition-all shadow-lg shadow-primary/20 active:scale-[0.98]">
+          <button
+            type="button"
+            @click="goToCheckout"
+            :disabled="!canGoToCheckout"
+            class="w-full bg-primary text-white py-4 rounded-2xl font-black text-lg hover:bg-primary-dark transition-all shadow-lg shadow-primary/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             Finalizar Compra
           </button>
           

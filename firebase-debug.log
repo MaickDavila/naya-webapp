@@ -1,0 +1,196 @@
+[debug] [2026-01-21T20:03:38.774Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:03:38.775Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:03:38.776Z] Checked if tokens are valid: false, expires at: 1768691620661
+[debug] [2026-01-21T20:03:38.776Z] Checked if tokens are valid: false, expires at: 1768691620661
+[debug] [2026-01-21T20:03:38.776Z] > refreshing access token with scopes: []
+[debug] [2026-01-21T20:03:38.777Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-01-21T20:03:38.777Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-01-21T20:03:39.299Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-01-21T20:03:39.299Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-01-21T20:03:39.314Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo [none]
+[debug] [2026-01-21T20:03:40.227Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:03:40.227Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:03:40.227Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.227Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.228Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo [none]
+[debug] [2026-01-21T20:03:40.968Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo 200
+[debug] [2026-01-21T20:03:40.969Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo {"name":"projects/handi-back/billingInfo","projectId":"handi-back","billingAccountName":"billingAccounts/01629F-C1A514-4C35F1","billingEnabled":true}
+[debug] [2026-01-21T20:03:40.978Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.978Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.978Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.978Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.978Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.978Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.979Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.979Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.979Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.979Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.979Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.979Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.988Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.989Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.989Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.989Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:40.989Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firestore.googleapis.com [none]
+[debug] [2026-01-21T20:03:40.989Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firestore.googleapis.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:40.991Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/storage.googleapis.com [none]
+[debug] [2026-01-21T20:03:40.991Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/storage.googleapis.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:40.992Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebasedataconnect.googleapis.com [none]
+[debug] [2026-01-21T20:03:40.992Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebasedataconnect.googleapis.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:40.992Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/identitytoolkit.googleapis.com [none]
+[debug] [2026-01-21T20:03:40.992Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/identitytoolkit.googleapis.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:40.994Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/fcm.googleapis.com [none]
+[debug] [2026-01-21T20:03:40.994Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/fcm.googleapis.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:40.995Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseremoteconfig.googleapis.com [none]
+[debug] [2026-01-21T20:03:40.995Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseremoteconfig.googleapis.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:40.995Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseapphosting.googleapis.com [none]
+[debug] [2026-01-21T20:03:40.995Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseapphosting.googleapis.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:40.996Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseio.com [none]
+[debug] [2026-01-21T20:03:40.996Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseio.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:41.638Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo 200
+[debug] [2026-01-21T20:03:41.638Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo {"name":"projects/handi-back/billingInfo","projectId":"handi-back","billingAccountName":"billingAccounts/01629F-C1A514-4C35F1","billingEnabled":true}
+[debug] [2026-01-21T20:03:41.639Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.639Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.639Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.639Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.639Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.639Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.639Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.639Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.639Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.640Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.640Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.640Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.643Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.643Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.643Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.643Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:41.643Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firestore.googleapis.com [none]
+[debug] [2026-01-21T20:03:41.643Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firestore.googleapis.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:41.644Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/storage.googleapis.com [none]
+[debug] [2026-01-21T20:03:41.644Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/storage.googleapis.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:41.645Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebasedataconnect.googleapis.com [none]
+[debug] [2026-01-21T20:03:41.645Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebasedataconnect.googleapis.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:41.645Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/identitytoolkit.googleapis.com [none]
+[debug] [2026-01-21T20:03:41.645Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/identitytoolkit.googleapis.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:41.646Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/fcm.googleapis.com [none]
+[debug] [2026-01-21T20:03:41.646Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/fcm.googleapis.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:41.646Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseremoteconfig.googleapis.com [none]
+[debug] [2026-01-21T20:03:41.646Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseremoteconfig.googleapis.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:41.646Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseapphosting.googleapis.com [none]
+[debug] [2026-01-21T20:03:41.646Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseapphosting.googleapis.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:41.647Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseio.com [none]
+[debug] [2026-01-21T20:03:41.647Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseio.com x-goog-quota-user=projects/handi-back
+[debug] [2026-01-21T20:03:42.459Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseremoteconfig.googleapis.com 200
+[debug] [2026-01-21T20:03:42.459Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseremoteconfig.googleapis.com [omitted]
+[debug] [2026-01-21T20:03:42.474Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseio.com 403
+[debug] [2026-01-21T20:03:42.475Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseio.com [omitted]
+[debug] [2026-01-21T20:03:42.479Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseapphosting.googleapis.com 200
+[debug] [2026-01-21T20:03:42.479Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseapphosting.googleapis.com [omitted]
+[debug] [2026-01-21T20:03:42.480Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firestore.googleapis.com 200
+[debug] [2026-01-21T20:03:42.480Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firestore.googleapis.com [omitted]
+[debug] [2026-01-21T20:03:42.641Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/fcm.googleapis.com 200
+[debug] [2026-01-21T20:03:42.641Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/fcm.googleapis.com [omitted]
+[debug] [2026-01-21T20:03:42.656Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/storage.googleapis.com 200
+[debug] [2026-01-21T20:03:42.656Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/storage.googleapis.com [omitted]
+[debug] [2026-01-21T20:03:42.678Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebasedataconnect.googleapis.com 200
+[debug] [2026-01-21T20:03:42.678Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebasedataconnect.googleapis.com [omitted]
+[debug] [2026-01-21T20:03:42.716Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/identitytoolkit.googleapis.com 200
+[debug] [2026-01-21T20:03:42.716Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/identitytoolkit.googleapis.com [omitted]
+[debug] [2026-01-21T20:03:43.172Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/storage.googleapis.com 200
+[debug] [2026-01-21T20:03:43.173Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/storage.googleapis.com [omitted]
+[debug] [2026-01-21T20:03:43.506Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseio.com 403
+[debug] [2026-01-21T20:03:43.507Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseio.com [omitted]
+[debug] [2026-01-21T20:03:43.698Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseremoteconfig.googleapis.com 200
+[debug] [2026-01-21T20:03:43.698Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseremoteconfig.googleapis.com [omitted]
+[debug] [2026-01-21T20:03:43.707Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseapphosting.googleapis.com 200
+[debug] [2026-01-21T20:03:43.708Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebaseapphosting.googleapis.com [omitted]
+[debug] [2026-01-21T20:03:43.708Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firestore.googleapis.com 200
+[debug] [2026-01-21T20:03:43.708Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firestore.googleapis.com [omitted]
+[debug] [2026-01-21T20:03:43.892Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/fcm.googleapis.com 200
+[debug] [2026-01-21T20:03:43.892Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/fcm.googleapis.com [omitted]
+[debug] [2026-01-21T20:03:43.899Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebasedataconnect.googleapis.com 200
+[debug] [2026-01-21T20:03:43.899Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/firebasedataconnect.googleapis.com [omitted]
+[debug] [2026-01-21T20:03:43.937Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/identitytoolkit.googleapis.com 200
+[debug] [2026-01-21T20:03:43.937Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/handi-back/services/identitytoolkit.googleapis.com [omitted]
+[debug] [2026-01-21T20:03:44.030Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:03:44.030Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:03:44.030Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:44.030Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:44.031Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo [none]
+[debug] [2026-01-21T20:03:45.313Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo 200
+[debug] [2026-01-21T20:03:45.313Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo {"name":"projects/handi-back/billingInfo","projectId":"handi-back","billingAccountName":"billingAccounts/01629F-C1A514-4C35F1","billingEnabled":true}
+[debug] [2026-01-21T20:03:45.316Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:03:45.316Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:03:45.408Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:03:45.408Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:03:45.408Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:45.409Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:45.409Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo [none]
+[debug] [2026-01-21T20:03:46.667Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo 200
+[debug] [2026-01-21T20:03:46.668Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo {"name":"projects/handi-back/billingInfo","projectId":"handi-back","billingAccountName":"billingAccounts/01629F-C1A514-4C35F1","billingEnabled":true}
+[debug] [2026-01-21T20:03:46.670Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:03:46.670Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:03:46.920Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:03:46.920Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:03:46.920Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:46.920Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:46.920Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo [none]
+[debug] [2026-01-21T20:03:47.224Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo 200
+[debug] [2026-01-21T20:03:47.225Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo {"name":"projects/handi-back/billingInfo","projectId":"handi-back","billingAccountName":"billingAccounts/01629F-C1A514-4C35F1","billingEnabled":true}
+[debug] [2026-01-21T20:03:47.226Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:03:47.226Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:03:57.926Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:03:57.926Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:03:57.926Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:57.926Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:57.926Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo [none]
+[debug] [2026-01-21T20:03:59.420Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo 200
+[debug] [2026-01-21T20:03:59.421Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo {"name":"projects/handi-back/billingInfo","projectId":"handi-back","billingAccountName":"billingAccounts/01629F-C1A514-4C35F1","billingEnabled":true}
+[debug] [2026-01-21T20:03:59.423Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:03:59.423Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:03:59.494Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:03:59.494Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:03:59.494Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:59.494Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:03:59.494Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo [none]
+[debug] [2026-01-21T20:04:00.721Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo 200
+[debug] [2026-01-21T20:04:00.721Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo {"name":"projects/handi-back/billingInfo","projectId":"handi-back","billingAccountName":"billingAccounts/01629F-C1A514-4C35F1","billingEnabled":true}
+[debug] [2026-01-21T20:04:00.722Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:04:00.722Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:04:18.686Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:04:18.686Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:04:18.686Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:04:18.686Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:04:18.686Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo [none]
+[debug] [2026-01-21T20:04:20.154Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo 200
+[debug] [2026-01-21T20:04:20.155Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo {"name":"projects/handi-back/billingInfo","projectId":"handi-back","billingAccountName":"billingAccounts/01629F-C1A514-4C35F1","billingEnabled":true}
+[debug] [2026-01-21T20:04:20.157Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:04:20.157Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:04:20.245Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:04:20.246Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:04:20.246Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:04:20.246Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:04:20.246Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo [none]
+[debug] [2026-01-21T20:04:21.527Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo 200
+[debug] [2026-01-21T20:04:21.528Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo {"name":"projects/handi-back/billingInfo","projectId":"handi-back","billingAccountName":"billingAccounts/01629F-C1A514-4C35F1","billingEnabled":true}
+[debug] [2026-01-21T20:04:21.531Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:04:21.531Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:04:37.798Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:04:37.798Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:04:37.798Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:04:37.798Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:04:37.798Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo [none]
+[debug] [2026-01-21T20:04:39.261Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo 200
+[debug] [2026-01-21T20:04:39.261Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo {"name":"projects/handi-back/billingInfo","projectId":"handi-back","billingAccountName":"billingAccounts/01629F-C1A514-4C35F1","billingEnabled":true}
+[debug] [2026-01-21T20:04:39.265Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:04:39.265Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:04:39.321Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:04:39.322Z] > authorizing via signed-in user (librajunior13@gmail.com)
+[debug] [2026-01-21T20:04:39.322Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:04:39.322Z] Checked if tokens are valid: true, expires at: 1769029418299
+[debug] [2026-01-21T20:04:39.322Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo [none]
+[debug] [2026-01-21T20:04:40.577Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo 200
+[debug] [2026-01-21T20:04:40.577Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/handi-back/billingInfo {"name":"projects/handi-back/billingInfo","projectId":"handi-back","billingAccountName":"billingAccounts/01629F-C1A514-4C35F1","billingEnabled":true}
+[debug] [2026-01-21T20:04:40.579Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-21T20:04:40.579Z] > authorizing via signed-in user (librajunior13@gmail.com)

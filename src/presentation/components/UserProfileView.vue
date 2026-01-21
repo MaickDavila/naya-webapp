@@ -88,7 +88,7 @@ onMounted(() => {
         <p class="text-gray-500 text-sm">Sube una nueva prenda a tu armario y dale una segunda vida.</p>
       </a>
 
-      <div class="bg-white p-8 rounded-[2.5rem] border border-black/5 shadow-sm hover:shadow-md transition-all group cursor-pointer">
+      <a href="/my-purchases" class="bg-white p-8 rounded-[2.5rem] border border-black/5 shadow-sm hover:shadow-md transition-all group">
         <div class="w-12 h-12 bg-warning/10 rounded-2xl flex items-center justify-center mb-6 text-warning group-hover:scale-110 transition-transform">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -96,7 +96,7 @@ onMounted(() => {
         </div>
         <h3 class="text-xl font-black text-gray-900 mb-2">Mis Compras</h3>
         <p class="text-gray-500 text-sm">Revisa el estado de tus pedidos y tus tesoros adquiridos.</p>
-      </div>
+      </a>
     </div>
   </div>
 </template>

@@ -1,0 +1,111 @@
+---
+import BottomNav from "../../presentation/components/BottomNav.vue";
+import { Image } from "astro:assets";
+import logoNaya from "../../assets/logo.svg";
+import "../../styles/global.css";
+
+const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || "Naya";
+
+// Obtener parametros de MercadoPago
+const { searchParams } = Astro.url;
+const paymentId = searchParams.get('payment_id');
+const status = searchParams.get('status');
+const statusDetail = searchParams.get('status_detail');
+
+// Mapear razones de fallo a mensajes amigables
+const failureReasons: Record<string, string> = {
+  'cc_rejected_insufficient_amount': 'Fondos insuficientes en la tarjeta',
+  'cc_rejected_bad_filled_card_number': 'Numero de tarjeta incorrecto',
+  'cc_rejected_bad_filled_date': 'Fecha de vencimiento incorrecta',
+  'cc_rejected_bad_filled_security_code': 'Codigo de seguridad incorrecto',
+  'cc_rejected_call_for_authorize': 'Debes autorizar el pago con tu banco',
+  'cc_rejected_card_disabled': 'Tarjeta deshabilitada',
+  'cc_rejected_duplicated_payment': 'Ya procesaste un pago similar',
+  'cc_rejected_high_risk': 'Pago rechazado por seguridad',
+  'cc_rejected_max_attempts': 'Limite de intentos alcanzado',
+  'cc_rejected_other_reason': 'La tarjeta no proceso el pago',
+};
+
+const failureMessage = statusDetail ? (failureReasons[statusDetail] || 'El pago no pudo ser procesado') : 'El pago no pudo ser procesado';
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pago Fallido - {marketplaceName}</title>
+  </head>
+  <body class="bg-[#FDFCFB] min-h-screen pb-24">
+    <!-- Header -->
+    <header class="bg-[#D9D2C8] sticky top-0 z-50 shadow-sm">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex justify-center items-center">
+        <a href="/" class="flex flex-col items-center">
+          <Image src={logoNaya} alt="Logo Naya" class="h-10 w-auto" />
+        </a>
+      </div>
+    </header>
+
+    <main class="max-w-2xl mx-auto px-6 py-16 text-center">
+      <!-- Icono de error -->
+      <div class="w-24 h-24 bg-error/10 rounded-full flex items-center justify-center mx-auto mb-8">
+        <svg class="w-12 h-12 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </div>
+
+      <h1 class="text-4xl font-black text-gray-900 mb-4">Pago No Procesado</h1>
+      <p class="text-xl text-gray-600 mb-8">
+        {failureMessage}
+      </p>
+
+      <!-- Detalles del error -->
+      <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-black/5 mb-8 text-left">
+        <h2 class="text-lg font-bold text-gray-900 mb-4">Que puedes hacer</h2>
+        <ul class="space-y-3 text-gray-600">
+          <li class="flex items-start gap-3">
+            <span class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 text-primary font-bold text-sm">1</span>
+            <span>Verifica que los datos de tu tarjeta sean correctos</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 text-primary font-bold text-sm">2</span>
+            <span>Asegurate de tener fondos suficientes</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 text-primary font-bold text-sm">3</span>
+            <span>Intenta con otro metodo de pago (Yape, PagoEfectivo, otra tarjeta)</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 text-primary font-bold text-sm">4</span>
+            <span>Contacta a tu banco si el problema persiste</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Botones de accion -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a 
+          href="/checkout"
+          class="bg-primary text-white px-8 py-4 rounded-2xl font-bold hover:bg-primary-dark transition-all"
+        >
+          Intentar de nuevo
+        </a>
+        <a 
+          href="/"
+          class="bg-white text-gray-900 px-8 py-4 rounded-2xl font-bold border-2 border-black/5 hover:bg-gray-50 transition-all"
+        >
+          Volver al inicio
+        </a>
+      </div>
+
+      <!-- Soporte -->
+      <p class="mt-8 text-sm text-gray-400">
+        Si necesitas ayuda, contactanos a 
+        <a href="mailto:soporte@naya.com" class="text-primary hover:underline">soporte@naya.com</a>
+      </p>
+    </main>
+
+    <!-- Navegacion Inferior -->
+    <BottomNav client:only="vue" />
+  </body>
+</html>

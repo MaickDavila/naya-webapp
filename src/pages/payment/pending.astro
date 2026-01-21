@@ -1,0 +1,117 @@
+---
+import BottomNav from "../../presentation/components/BottomNav.vue";
+import { Image } from "astro:assets";
+import logoNaya from "../../assets/logo.svg";
+import "../../styles/global.css";
+
+const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || "Naya";
+
+// Obtener parametros de MercadoPago
+const { searchParams } = Astro.url;
+const paymentId = searchParams.get('payment_id');
+const externalReference = searchParams.get('external_reference');
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pago Pendiente - {marketplaceName}</title>
+  </head>
+  <body class="bg-[#FDFCFB] min-h-screen pb-24">
+    <!-- Header -->
+    <header class="bg-[#D9D2C8] sticky top-0 z-50 shadow-sm">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex justify-center items-center">
+        <a href="/" class="flex flex-col items-center">
+          <Image src={logoNaya} alt="Logo Naya" class="h-10 w-auto" />
+        </a>
+      </div>
+    </header>
+
+    <main class="max-w-2xl mx-auto px-6 py-16 text-center">
+      <!-- Icono de pendiente -->
+      <div class="w-24 h-24 bg-warning/10 rounded-full flex items-center justify-center mx-auto mb-8">
+        <svg class="w-12 h-12 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+
+      <h1 class="text-4xl font-black text-gray-900 mb-4">Pago Pendiente</h1>
+      <p class="text-xl text-gray-600 mb-8">
+        Tu pago esta siendo procesado
+      </p>
+
+      <!-- Detalles del pago -->
+      <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-black/5 mb-8 text-left">
+        <h2 class="text-lg font-bold text-gray-900 mb-4">Informacion del pago</h2>
+        <div class="space-y-3">
+          {paymentId && (
+            <div class="flex justify-between">
+              <span class="text-gray-500">ID de Pago</span>
+              <span class="font-mono text-gray-900">{paymentId}</span>
+            </div>
+          )}
+          {externalReference && (
+            <div class="flex justify-between">
+              <span class="text-gray-500">Referencia</span>
+              <span class="font-mono text-gray-900 text-sm">{externalReference}</span>
+            </div>
+          )}
+          <div class="flex justify-between">
+            <span class="text-gray-500">Estado</span>
+            <span class="text-warning font-bold">Pendiente de confirmacion</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Informacion adicional -->
+      <div class="bg-amber-50 rounded-2xl p-6 mb-8 text-left border border-amber-100">
+        <h3 class="font-bold text-amber-900 mb-2">Que significa esto?</h3>
+        <p class="text-amber-800 text-sm mb-4">
+          Si elegiste pagar en efectivo (PagoEfectivo) o por transferencia bancaria, 
+          tu pago sera confirmado una vez que realices el deposito.
+        </p>
+        <ul class="text-amber-700 space-y-2 text-sm">
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Revisa tu correo para obtener las instrucciones de pago</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>El pago puede tardar hasta 2 dias habiles en confirmarse</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Te notificaremos por correo cuando se confirme</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Botones de accion -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a 
+          href="/"
+          class="bg-primary text-white px-8 py-4 rounded-2xl font-bold hover:bg-primary-dark transition-all"
+        >
+          Volver al inicio
+        </a>
+        <a 
+          href="/profile"
+          class="bg-white text-gray-900 px-8 py-4 rounded-2xl font-bold border-2 border-black/5 hover:bg-gray-50 transition-all"
+        >
+          Ver mis compras
+        </a>
+      </div>
+    </main>
+
+    <!-- Navegacion Inferior -->
+    <BottomNav client:only="vue" />
+  </body>
+</html>
