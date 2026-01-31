@@ -150,6 +150,11 @@ export class FirestoreProductRepository implements ProductRepository {
       constraints.push(where("price", "<=", filters.maxPrice));
     }
 
+    // Ordenar: si hay filtros de precio, ordenar primero por precio (requerido por Firestore)
+    if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
+      constraints.push(orderBy("price", "asc"));
+    }
+
     // Ordenar por fecha
     constraints.push(orderBy("createdAt", "desc"));
 

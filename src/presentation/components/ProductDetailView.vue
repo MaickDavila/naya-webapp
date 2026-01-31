@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import type { Product } from '../../domain/entities/Product';
 import { CONDITION_LABELS } from '../../domain/entities/Product';
 import type { User } from '../../domain/entities/User';
 import { useCart } from '../../application/stores/cartStore';
+import { useAuth } from '../../application/stores/authStore';
+import { useFavorites } from '../../application/stores/favoritesStore';
+import { useToast } from '../../application/stores/toastStore';
 import { formatPrice } from '../utils/formatters';
 
 const props = defineProps<{
@@ -12,14 +15,55 @@ const props = defineProps<{
 }>();
 
 const { addItem } = useCart();
+const { user, initAuth } = useAuth();
+const { isFavorite, toggleFavorite, loadFavorites } = useFavorites();
+const { success } = useToast();
+
 const activeImage = ref(props.product.images[0] || 'https://via.placeholder.com/600x800?text=NAYA');
 const isAdded = ref(false);
+const isFavoriteLoading = ref(false);
+const favoriteJustToggled = ref(false);
+
+const isProductFavorite = computed(() => isFavorite(props.product.id));
 
 const handleAddToCart = () => {
   addItem(props.product);
   isAdded.value = true;
   setTimeout(() => isAdded.value = false, 2000);
 };
+
+const handleToggleFavorite = async () => {
+  if (!user.value) {
+    window.location.href = `/login?next=${encodeURIComponent(window.location.pathname)}`;
+    return;
+  }
+
+  const wasAlreadyFavorite = isFavorite(props.product.id);
+
+  isFavoriteLoading.value = true;
+  await toggleFavorite(user.value.uid, props.product.id);
+  isFavoriteLoading.value = false;
+
+  // Show toast
+  if (wasAlreadyFavorite) {
+    success("Eliminado de favoritos");
+  } else {
+    success("Guardado en favoritos");
+  }
+
+  // Trigger animation
+  favoriteJustToggled.value = true;
+  setTimeout(() => {
+    favoriteJustToggled.value = false;
+  }, 600);
+};
+
+onMounted(async () => {
+  await initAuth();
+  if (user.value) {
+    await loadFavorites(user.value.uid);
+  }
+});
 
 // Obtener etiqueta de condicion
 const conditionLabel = computed(() => {
@@ -164,11 +208,46 @@ const sellerDisplayName = computed(() => {
           <span>{{ isAdded ? '¡Añadido!' : 'Añadir a la bolsa' }}</span>
         </button>
         
-        <button class="w-full bg-white text-gray-900 py-5 rounded-[2rem] font-bold text-lg border-2 border-black/5 hover:bg-gray-50 transition-all flex items-center justify-center gap-3">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-          </svg>
-          <span>Guardar en favoritos</span>
+        <button
+          @click="handleToggleFavorite"
+          :disabled="isFavoriteLoading"
+          :class="[
+            'w-full py-5 rounded-[2rem] font-bold text-lg border-2 flex items-center justify-center gap-3 active:scale-[0.98]',
+            'transition-all duration-300 ease-out',
+            isProductFavorite
+              ? 'bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 shadow-lg shadow-primary/10'
+              : 'bg-white text-gray-900 border-black/5 hover:bg-gray-50'
+          ]"
+        >
+          <span class="relative">
+            <!-- Loading spinner -->
+            <svg
+              v-if="isFavoriteLoading"
+              class="w-6 h-6 animate-spin"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <!-- Heart icon with animation -->
+            <svg
+              v-else
+              :class="[
+                'w-6 h-6 transition-all duration-300',
+                favoriteJustToggled ? 'animate-heart-pop' : '',
+                isProductFavorite ? 'text-primary' : 'text-gray-400'
+              ]"
+              :fill="isProductFavorite ? 'currentColor' : 'none'"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          </span>
+          <span class="transition-all duration-200">
+            {{ isProductFavorite ? 'Guardado en favoritos' : 'Guardar en favoritos' }}
+          </span>
         </button>
       </div>
 
@@ -187,3 +266,27 @@ const sellerDisplayName = computed(() => {
     </div>
   </div>
 </template>
+
+<style scoped>
+@keyframes heart-pop {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.3);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  75% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-heart-pop {
+  animation: heart-pop 0.5s ease-out;
+}
+</style>

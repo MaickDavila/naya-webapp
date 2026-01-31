@@ -1,3 +1,5 @@
+import type { UserShippingAddress } from "./ShippingAddress";
+
 export interface User {
   id: string;
   name: string;
@@ -9,4 +11,6 @@ export interface User {
   rating?: number;
   reviewsCount?: number;
   displayName?: string;
+  favoriteProductIds?: string[];
+  shippingAddresses?: UserShippingAddress[];
 }

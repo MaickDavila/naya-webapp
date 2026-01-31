@@ -25,9 +25,15 @@ export const useCart = () => {
     state.items.reduce((acc, item) => acc + item.quantity, 0)
   );
 
-  const subtotal = computed(() => 
+  const subtotal = computed(() =>
     state.items.reduce((acc, item) => acc + (item.price * item.quantity), 0)
   );
+
+  // Tarifa de servicio (10% del subtotal)
+  const serviceFee = computed(() => Math.round(subtotal.value * 0.10 * 100) / 100);
+
+  // Total incluyendo tarifa de servicio
+  const total = computed(() => subtotal.value + serviceFee.value);
 
   // Función para cargar los datos solo en el cliente
   const loadCart = () => {
@@ -78,6 +84,8 @@ export const useCart = () => {
     isLoaded,
     totalItems,
     subtotal,
+    serviceFee,
+    total,
     loadCart,
     addItem,
     removeItem,

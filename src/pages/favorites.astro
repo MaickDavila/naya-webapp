@@ -1,0 +1,84 @@
+---
+import { Image } from 'astro:assets';
+import logoNaya from '../assets/logo.svg';
+import BottomNav from '../presentation/components/BottomNav.vue';
+import CartCounter from '../presentation/components/CartCounter.vue';
+import FavoritesView from '../presentation/components/FavoritesView.vue';
+import '../styles/global.css';
+
+const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Naya';
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>Mis Favoritos - {marketplaceName}</title>
+	</head>
+	<body class="bg-[#FDFCFB] min-h-screen pb-24">
+		<!-- Auth Guard -->
+		<div id="auth-guard" class="hidden">
+			<!-- Header -->
+			<header class="bg-[#D9D2C8] sticky top-0 z-50 shadow-sm">
+				<div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+					<!-- Boton Volver -->
+					<a href="/profile" class="p-2 hover:bg-black/5 rounded-full transition-colors" aria-label="Volver">
+						<svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 19l-7-7 7-7" />
+						</svg>
+					</a>
+
+					<!-- Logo Central -->
+					<a href="/" class="flex flex-col items-center">
+						<Image src={logoNaya} alt="Logo Naya" class="h-10 w-auto" />
+					</a>
+
+					<!-- Icono Bolsa (Derecha) -->
+					<CartCounter client:only="vue" />
+				</div>
+			</header>
+
+			<main class="max-w-7xl mx-auto px-6 py-6">
+				<!-- Titulo -->
+				<div class="mb-6">
+					<h1 class="text-2xl font-black text-gray-900 tracking-tight">Mis Favoritos</h1>
+					<p class="text-gray-500 text-sm mt-1">Productos que has guardado</p>
+				</div>
+
+				<FavoritesView client:only="vue" />
+			</main>
+
+			<!-- Navegacion Inferior -->
+			<BottomNav client:only="vue" />
+		</div>
+
+		<!-- Loading state -->
+		<div id="auth-loading" class="min-h-screen flex items-center justify-center">
+			<div class="flex flex-col items-center gap-4">
+				<div class="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+				<p class="text-gray-500 text-sm">Cargando...</p>
+			</div>
+		</div>
+
+		<script>
+			import { getAuth, onAuthStateChanged } from "firebase/auth";
+			import { app } from "../lib/firebase";
+
+			const auth = getAuth(app);
+			const currentPath = window.location.pathname;
+
+			onAuthStateChanged(auth, (user) => {
+				const authGuard = document.getElementById('auth-guard');
+				const authLoading = document.getElementById('auth-loading');
+
+				if (!user) {
+					window.location.href = `/login?next=${encodeURIComponent(currentPath)}`;
+				} else {
+					authGuard?.classList.remove('hidden');
+					authLoading?.classList.add('hidden');
+				}
+			});
+		</script>
+	</body>
+</html>
