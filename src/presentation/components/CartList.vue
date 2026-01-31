@@ -4,7 +4,7 @@ import { useCart } from '../../application/stores/cartStore';
 import { useAuth } from '../../application/stores/authStore';
 import { formatPrice } from '../utils/formatters';
 
-const { items, subtotal, removeItem, updateQuantity, loadCart, isLoaded } = useCart();
+const { items, subtotal, serviceFee, total, removeItem, updateQuantity, loadCart, isLoaded } = useCart();
 const { user, initAuth } = useAuth();
 
 onMounted(() => {
@@ -100,14 +100,18 @@ const canGoToCheckout = computed(() => {
               <span class="font-bold text-gray-900">{{ formatPrice(subtotal) }}</span>
             </div>
             <div class="flex justify-between text-gray-500">
-              <span>Envío</span>
+              <span>Tarifa de servicio (10%)</span>
+              <span class="font-bold text-gray-900">{{ formatPrice(serviceFee) }}</span>
+            </div>
+            <div class="flex justify-between text-gray-500">
+              <span>Envio</span>
               <span class="text-success font-bold">Gratis</span>
             </div>
           </div>
-          
+
           <div class="border-t border-black/5 pt-6 mb-8 flex justify-between items-end">
             <span class="font-bold text-gray-900">Total</span>
-            <span class="text-3xl font-black text-primary leading-none">{{ formatPrice(subtotal) }}</span>
+            <span class="text-3xl font-black text-primary leading-none">{{ formatPrice(total) }}</span>
           </div>
           
           <button

@@ -278,6 +278,8 @@ npm run astro -- --help  # Comandos de Astro
 | `/sell` | `sell.astro` | Publicar producto |
 | `/my-products` | `my-products.astro` | Mis productos |
 | `/cart` | `cart.astro` | Carrito de compras |
+| `/checkout` | `checkout.astro` | Checkout y pago |
+| `/addresses` | `addresses.astro` | Gestionar direcciones de envio |
 
 ## Consideraciones de SEO
 

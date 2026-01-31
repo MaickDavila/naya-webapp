@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import ToastContainer from './ToastContainer.vue';
 
 const navItems = [
   { 
@@ -48,6 +49,9 @@ const navigate = (href?: string, id?: string) => {
 </script>
 
 <template>
+  <!-- Toast notifications -->
+  <ToastContainer />
+
   <nav class="fixed bottom-0 left-0 right-0 bg-[#D9D2C8] border-t border-black/5 pb-safe z-50">
     <div class="max-w-md mx-auto flex justify-around items-center h-20">
       <button 

@@ -9,6 +9,7 @@ import {
 } from 'firebase/auth';
 import { app } from '../../lib/firebase';
 import { FirestoreUserRepository } from '../../infrastructure/repositories/FirestoreUserRepository';
+import { useShipping } from './shippingStore';
 
 const auth = getAuth(app);
 const userRepository = new FirestoreUserRepository();
@@ -43,18 +44,24 @@ export const useAuth = () => {
   const isAuthenticated = computed(() => !!state.user);
   const loading = computed(() => state.loading);
 
-  const initAuth = () => {
-    if (state.isInitialized) return;
-    
-    onAuthStateChanged(auth, async (firebaseUser) => {
-      state.user = firebaseUser;
-      state.loading = false;
-      state.isInitialized = true;
-      
-      // Asegurar que el perfil existe en Firestore
-      if (firebaseUser) {
-        await ensureUserProfile(firebaseUser);
-      }
+  const initAuth = (): Promise<FirebaseUser | null> => {
+    if (state.isInitialized) {
+      return Promise.resolve(state.user);
+    }
+
+    return new Promise((resolve) => {
+      const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+        state.user = firebaseUser;
+        state.loading = false;
+        state.isInitialized = true;
+
+        // Asegurar que el perfil existe en Firestore
+        if (firebaseUser) {
+          await ensureUserProfile(firebaseUser);
+        }
+
+        resolve(firebaseUser);
+      });
     });
   };
 
@@ -80,6 +87,7 @@ export const useAuth = () => {
     state.loading = true;
     try {
       await firebaseSignOut(auth);
+      useShipping().reset();
     } catch (error) {
       console.error("Error signing out:", error);
     } finally {

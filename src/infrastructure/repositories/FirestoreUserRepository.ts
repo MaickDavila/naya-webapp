@@ -28,7 +28,8 @@ export class FirestoreUserRepository implements UserRepository {
 
   async update(id: string, user: Partial<User>): Promise<void> {
     const docRef = doc(db, this.collectionName, id);
-    await updateDoc(docRef, user as any);
+    const data = UserMapper.toPersistence(user);
+    await updateDoc(docRef, data);
   }
 
   async getOrCreate(id: string, userData: Omit<User, 'id'>): Promise<User> {

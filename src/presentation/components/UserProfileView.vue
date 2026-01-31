@@ -77,7 +77,7 @@ onMounted(() => {
     </div>
 
     <!-- Secciones de Usuario -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <a href="/sell" class="bg-white p-8 rounded-[2.5rem] border border-black/5 shadow-sm hover:shadow-md transition-all group">
         <div class="w-12 h-12 bg-success/10 rounded-2xl flex items-center justify-center mb-6 text-success group-hover:scale-110 transition-transform">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -88,6 +88,16 @@ onMounted(() => {
         <p class="text-gray-500 text-sm">Sube una nueva prenda a tu armario y dale una segunda vida.</p>
       </a>
 
+      <a href="/favorites" class="bg-white p-8 rounded-[2.5rem] border border-black/5 shadow-sm hover:shadow-md transition-all group">
+        <div class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-black text-gray-900 mb-2">Mis Favoritos</h3>
+        <p class="text-gray-500 text-sm">Accede a los productos que has guardado para ver mas tarde.</p>
+      </a>
+
       <a href="/my-purchases" class="bg-white p-8 rounded-[2.5rem] border border-black/5 shadow-sm hover:shadow-md transition-all group">
         <div class="w-12 h-12 bg-warning/10 rounded-2xl flex items-center justify-center mb-6 text-warning group-hover:scale-110 transition-transform">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,6 +106,17 @@ onMounted(() => {
         </div>
         <h3 class="text-xl font-black text-gray-900 mb-2">Mis Compras</h3>
         <p class="text-gray-500 text-sm">Revisa el estado de tus pedidos y tus tesoros adquiridos.</p>
+      </a>
+
+      <a href="/addresses" class="bg-white p-8 rounded-[2.5rem] border border-black/5 shadow-sm hover:shadow-md transition-all group">
+        <div class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-black text-gray-900 mb-2">Mis Direcciones</h3>
+        <p class="text-gray-500 text-sm">Gestiona tus direcciones de envio para recibir tus pedidos.</p>
       </a>
     </div>
   </div>
