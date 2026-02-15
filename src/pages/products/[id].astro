@@ -1,8 +1,6 @@
 ---
 import { FirestoreProductRepository } from "../../infrastructure/repositories/FirestoreProductRepository";
-import { FirestoreUserRepository } from "../../infrastructure/repositories/FirestoreUserRepository";
 import { GetProductById } from "../../application/use-cases/GetProductById";
-import { GetUserById } from "../../application/use-cases/GetUserById";
 import ProductDetailView from "../../presentation/components/ProductDetailView.vue";
 import BottomNav from "../../presentation/components/BottomNav.vue";
 import CartCounter from "../../presentation/components/CartCounter.vue";
@@ -17,13 +15,9 @@ if (!id) {
 }
 
 const productRepo = new FirestoreProductRepository();
-const userRepo = new FirestoreUserRepository();
-
 const getProductById = new GetProductById(productRepo);
-const getUserById = new GetUserById(userRepo);
 
 let product = null;
-let seller = null;
 
 try {
   product = await getProductById.execute(id);
@@ -33,14 +27,6 @@ try {
 
 if (!product) {
   return Astro.redirect("/404");
-}
-
-try {
-  if (product.sellerId) {
-    seller = await getUserById.execute(product.sellerId);
-  }
-} catch (e) {
-  console.error("Error fetching seller:", e);
 }
 
 const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || "Naya";
@@ -89,7 +75,7 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || "Naya";
     </header>
 
     <main class="max-w-7xl mx-auto px-6 py-12 lg:py-20">
-      <ProductDetailView client:load product={product} seller={seller} />
+      <ProductDetailView client:load product={product} />
     </main>
 
     <!-- Navegación Inferior -->

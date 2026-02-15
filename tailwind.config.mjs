@@ -3,6 +3,14 @@ export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"Source Sans Pro"', 'sans-serif'],
+        serif: ['"Playfair Display"', 'serif'],
+      },
+      fontSize: {
+        'body': ['15px', '1.4'],
+        'label': ['12px', '1.4'],
+      },
       colors: {
         primary: {
           DEFAULT: 'var(--color-primary)',

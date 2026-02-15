@@ -86,7 +86,7 @@ try {
               <p class="text-gray-400 font-medium italic">Aún no hay productos en esta categoría.</p>
             </div>
           ) : (
-            <div class="grid grid-cols-2 gap-x-6 gap-y-10">
+            <div class="grid grid-cols-3 gap-2">
               {products.map((product) => (
                 <ProductCard client:load product={product} />
               ))}

@@ -1,0 +1,1476 @@
+{
+  "version": "2.8",
+  "children": [
+    {
+      "type": "frame",
+      "id": "0vXN9",
+      "x": 189.01672852229206,
+      "y": -264.5769572843492,
+      "name": "Home Page",
+      "clip": true,
+      "width": 393,
+      "height": 852,
+      "fill": "#ffffffff",
+      "stroke": {
+        "align": "inside",
+        "thickness": 1
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "DHXCz",
+          "x": 0,
+          "y": 0,
+          "name": "WhatsApp Image 2026-01-31 at 6.56.47 PM 1",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "stretch"
+          },
+          "width": 393,
+          "height": 135,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "id": "xe0k7",
+          "x": 0,
+          "y": 0,
+          "name": "Rectangle 13",
+          "fill": "#ffffff8c",
+          "width": 393,
+          "height": 64,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 15,
+          "id": "92PjQ",
+          "x": 202,
+          "y": 168,
+          "name": "Rectangle 6",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "stretch"
+          },
+          "width": 165,
+          "height": 150,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 15,
+          "id": "nYSkt",
+          "x": 27,
+          "y": 168,
+          "name": "Rectangle 21",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "fill"
+          },
+          "width": 165,
+          "height": 150,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 15,
+          "id": "0lMnB",
+          "x": 202,
+          "y": 358,
+          "name": "Rectangle 15",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "fill"
+          },
+          "width": 165,
+          "height": 150,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 15,
+          "id": "uqkBc",
+          "x": 202,
+          "y": 548,
+          "name": "Rectangle 17",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "fill"
+          },
+          "width": 165,
+          "height": 150,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 15,
+          "id": "t1unC",
+          "x": 202,
+          "y": 738,
+          "name": "Rectangle 19",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "stretch"
+          },
+          "width": 165,
+          "height": 150,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 15,
+          "id": "hEnEr",
+          "x": 27,
+          "y": 358,
+          "name": "Rectangle 16",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "stretch"
+          },
+          "width": 165,
+          "height": 150,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 15,
+          "id": "f2Xka",
+          "x": 27,
+          "y": 548,
+          "name": "Rectangle 18",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "stretch"
+          },
+          "width": 165,
+          "height": 150,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 15,
+          "id": "ypVqV",
+          "x": 27,
+          "y": 738,
+          "name": "Rectangle 20",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "fill"
+          },
+          "width": 165,
+          "height": 150,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "text",
+          "id": "mIHR5",
+          "x": 268,
+          "y": 323,
+          "name": "TOPS",
+          "fill": "#000000ff",
+          "content": "TOPS",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "1LdYY",
+          "x": 244,
+          "y": 513,
+          "name": "ACCESORIOS",
+          "fill": "#000000ff",
+          "content": "ACCESORIOS",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "cDJZv",
+          "x": 257,
+          "y": 703,
+          "name": "JACKETS",
+          "fill": "#000000ff",
+          "content": "JACKETS",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "hwRHq",
+          "x": 90,
+          "y": 323,
+          "name": "PLAYA",
+          "fill": "#000000ff",
+          "content": "PLAYA",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "6O3jo",
+          "x": 78,
+          "y": 513,
+          "name": "BOTTOMS",
+          "fill": "#000000ff",
+          "content": "BOTTOMS",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "VLpg7",
+          "x": 81,
+          "y": 703,
+          "name": "ZAPATOS",
+          "fill": "#000000ff",
+          "content": "ZAPATOS",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "group",
+          "id": "3zPtI",
+          "x": 0,
+          "y": 793,
+          "name": "BAR",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "9uHjO",
+              "x": 0,
+              "y": 0,
+              "name": "Rectangle 27",
+              "fill": "#dad1c8ff",
+              "width": 393,
+              "height": 60,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "text",
+              "id": "7zSBL",
+              "x": 30,
+              "y": 32,
+              "name": "INICIO",
+              "fill": "#000000ff",
+              "content": "INICIO",
+              "fontFamily": "Source Sans Pro",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "ZBdxA",
+              "x": 93,
+              "y": 32,
+              "name": "BUSCAR",
+              "fill": "#000000ff",
+              "content": "BUSCAR",
+              "fontFamily": "Source Sans Pro",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "l4XCl",
+              "x": 248,
+              "y": 32,
+              "name": "FAVORITOS",
+              "fill": "#000000ff",
+              "content": "FAVORITOS",
+              "fontFamily": "Source Sans Pro",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "ZxCKq",
+              "x": 335,
+              "y": 32,
+              "name": "PERFIL",
+              "fill": "#000000ff",
+              "content": "PERFIL",
+              "fontFamily": "Source Sans Pro",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 5,
+              "id": "UMLuJ",
+              "x": 177,
+              "y": 12,
+              "name": "Rectangle 29",
+              "fill": "#eeeae6ff",
+              "width": 39,
+              "height": 36,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "text",
+              "id": "6dfcI",
+              "x": 188,
+              "y": 8,
+              "name": "+",
+              "fill": "#000000ff",
+              "content": "+",
+              "fontFamily": "Source Sans Pro",
+              "fontSize": 35,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "72KWC",
+      "x": 683,
+      "y": -265,
+      "name": "Perfiles Prendas",
+      "clip": true,
+      "width": 393,
+      "height": 852,
+      "fill": "#ffffffff",
+      "stroke": {
+        "align": "inside",
+        "thickness": 1
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "UzJ57",
+          "x": 0,
+          "y": 0,
+          "name": "WhatsApp Image 2026-01-31 at 6.56.47 PM 1",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "stretch"
+          },
+          "width": 393,
+          "height": 135,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "id": "lfa6w",
+          "x": 0,
+          "y": 0,
+          "name": "Rectangle 13",
+          "fill": "#ffffff8c",
+          "width": 393,
+          "height": 64,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 15,
+          "id": "WPTLc",
+          "x": 24,
+          "y": 166,
+          "name": "Rectangle 6",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "stretch"
+          },
+          "width": 97,
+          "height": 93,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "text",
+          "id": "Q8NDE",
+          "x": 145,
+          "y": 166,
+          "name": "@Nataliahelfer",
+          "fill": "#000000ff",
+          "content": "@Nataliahelfer",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "2uxHY",
+          "x": 145,
+          "y": 191,
+          "name": "Natalia Helfer",
+          "fill": "#000000ff",
+          "content": "Natalia Helfer",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "700"
+        },
+        {
+          "type": "text",
+          "id": "LlhKn",
+          "x": 145,
+          "y": 216,
+          "name": "Descripción de la biografía. Instagram: @nataliahelfer",
+          "fill": "#000000ff",
+          "content": "Descripción de la biografía.\nInstagram: @nataliahelfer",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "rectangle",
+          "id": "OTkld",
+          "x": 8,
+          "y": 290,
+          "name": "Rectangle 15",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "fill"
+          },
+          "width": 125,
+          "height": 155,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "id": "lOJjp",
+          "x": 8,
+          "y": 446,
+          "name": "Rectangle 18",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "fill"
+          },
+          "width": 125,
+          "height": 155,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "id": "09vEh",
+          "x": 8,
+          "y": 602,
+          "name": "Rectangle 21",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "fill"
+          },
+          "width": 125,
+          "height": 155,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "id": "zkYIk",
+          "x": 134,
+          "y": 290,
+          "name": "Rectangle 16",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "fill"
+          },
+          "width": 125,
+          "height": 155,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "id": "US7oo",
+          "x": 134,
+          "y": 446,
+          "name": "Rectangle 19",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "fill"
+          },
+          "width": 125,
+          "height": 155,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "id": "LDdl8",
+          "x": 134,
+          "y": 602,
+          "name": "Rectangle 22",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "fill"
+          },
+          "width": 125,
+          "height": 155,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "id": "FSFki",
+          "x": 260,
+          "y": 446,
+          "name": "Rectangle 20",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "fill"
+          },
+          "width": 125,
+          "height": 155,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "id": "LuCAM",
+          "x": 260,
+          "y": 290,
+          "name": "Rectangle 23",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "fill"
+          },
+          "width": 125,
+          "height": 155,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "id": "EpmQy",
+          "x": 260,
+          "y": 602,
+          "name": "Rectangle 17",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "fill"
+          },
+          "width": 125,
+          "height": 155,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "group",
+          "id": "CF5rk",
+          "x": 0,
+          "y": 793,
+          "name": "BAR",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "v9Yq1",
+              "x": 0,
+              "y": 0,
+              "name": "Rectangle 27",
+              "fill": "#dad1c8ff",
+              "width": 393,
+              "height": 60,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "text",
+              "id": "mkUCz",
+              "x": 30,
+              "y": 32,
+              "name": "INICIO",
+              "fill": "#000000ff",
+              "content": "INICIO",
+              "fontFamily": "Source Sans Pro",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "fLkkR",
+              "x": 93,
+              "y": 32,
+              "name": "BUSCAR",
+              "fill": "#000000ff",
+              "content": "BUSCAR",
+              "fontFamily": "Source Sans Pro",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "m2OJx",
+              "x": 248,
+              "y": 32,
+              "name": "SALE",
+              "fill": "#000000ff",
+              "content": "SALE",
+              "fontFamily": "Source Sans Pro",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "cfYm8",
+              "x": 335,
+              "y": 32,
+              "name": "PERFIL",
+              "fill": "#000000ff",
+              "content": "PERFIL",
+              "fontFamily": "Source Sans Pro",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 5,
+              "id": "9lu8K",
+              "x": 177,
+              "y": 12,
+              "name": "Rectangle 29",
+              "fill": "#eeeae6ff",
+              "width": 39,
+              "height": 36,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "text",
+              "id": "yJ7YM",
+              "x": 188,
+              "y": 8,
+              "name": "+",
+              "fill": "#000000ff",
+              "content": "+",
+              "fontFamily": "Source Sans Pro",
+              "fontSize": 35,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "5wd9D",
+      "x": 1168,
+      "y": -277,
+      "name": "Product Page",
+      "clip": true,
+      "width": 393,
+      "height": 852,
+      "fill": "#ffffffff",
+      "stroke": {
+        "align": "inside",
+        "thickness": 1
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "u1eUo",
+          "x": 0,
+          "y": 0,
+          "name": "WhatsApp Image 2026-01-31 at 6.56.47 PM 1",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "stretch"
+          },
+          "width": 393,
+          "height": 135,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "id": "sxVmJ",
+          "x": 0,
+          "y": 0,
+          "name": "Rectangle 13",
+          "fill": "#ffffff8c",
+          "width": 393,
+          "height": 64,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "frame",
+          "id": "NUrtb",
+          "x": 196,
+          "y": 367,
+          "name": "Frame 2",
+          "width": 2,
+          "height": 12,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "hPJfw",
+              "x": 26,
+              "y": -13,
+              "name": "Ellipse 2",
+              "rotation": -90.00000250447808,
+              "sweepAngle": -360.00001001791264,
+              "fill": "#00000080",
+              "width": 6.000000476837158,
+              "height": 5.999999523162842,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "eOi13",
+              "x": 11,
+              "y": -13,
+              "name": "Ellipse 3",
+              "rotation": -90.00000250447808,
+              "sweepAngle": -360.00001001791264,
+              "fill": "#00000080",
+              "width": 6.000000476837158,
+              "height": 5.999999523162842,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "fYay9",
+              "x": -4,
+              "y": -13,
+              "name": "Ellipse 4",
+              "rotation": -90.00000250447808,
+              "sweepAngle": -360.00001001791264,
+              "fill": "#00000080",
+              "width": 6.000000476837158,
+              "height": 5.999999523162842,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "ellipse",
+              "id": "yVtSF",
+              "x": -19,
+              "y": -13,
+              "name": "Ellipse 5",
+              "rotation": -90.00000250447808,
+              "sweepAngle": -360.00001001791264,
+              "fill": "#00000080",
+              "width": 6.000000476837158,
+              "height": 5.999999523162842,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "id": "Dstwm",
+          "x": 0,
+          "y": 793,
+          "name": "BAR",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "Aq60u",
+              "x": 0,
+              "y": 0,
+              "name": "Rectangle 27",
+              "fill": "#dad1c8ff",
+              "width": 393,
+              "height": 60,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "text",
+              "id": "BMN4X",
+              "x": 30,
+              "y": 32,
+              "name": "INICIO",
+              "fill": "#000000ff",
+              "content": "INICIO",
+              "fontFamily": "Source Sans Pro",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "TXMU9",
+              "x": 93,
+              "y": 32,
+              "name": "BUSCAR",
+              "fill": "#000000ff",
+              "content": "BUSCAR",
+              "fontFamily": "Source Sans Pro",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "IuYya",
+              "x": 248,
+              "y": 32,
+              "name": "FAVORITOS",
+              "fill": "#000000ff",
+              "content": "FAVORITOS",
+              "fontFamily": "Source Sans Pro",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "S382B",
+              "x": 335,
+              "y": 32,
+              "name": "PERFIL",
+              "fill": "#000000ff",
+              "content": "PERFIL",
+              "fontFamily": "Source Sans Pro",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 5,
+              "id": "5nAoE",
+              "x": 177,
+              "y": 12,
+              "name": "Rectangle 29",
+              "fill": "#eeeae6ff",
+              "width": 39,
+              "height": 36,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "text",
+              "id": "75r33",
+              "x": 188,
+              "y": 8,
+              "name": "+",
+              "fill": "#000000ff",
+              "content": "+",
+              "fontFamily": "Source Sans Pro",
+              "fontSize": 35,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "line",
+          "id": "zp65q",
+          "x": 28,
+          "y": 457,
+          "name": "Line 2",
+          "width": 337,
+          "height": 0,
+          "stroke": {
+            "align": "center",
+            "thickness": 1,
+            "fill": "#00000036"
+          }
+        },
+        {
+          "type": "line",
+          "id": "a2aJ6",
+          "x": 28,
+          "y": 580,
+          "name": "Line 3",
+          "width": 337,
+          "height": 0,
+          "stroke": {
+            "align": "center",
+            "thickness": 1,
+            "fill": "#00000036"
+          }
+        },
+        {
+          "type": "text",
+          "id": "Hrva8",
+          "x": 34,
+          "y": 429,
+          "name": "DETALLES",
+          "fill": "#00000080",
+          "textGrowth": "fixed-width-height",
+          "width": 64,
+          "height": 19,
+          "content": "DETALLES",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "MLzYb",
+          "x": 34,
+          "y": 550,
+          "name": "CONDICION",
+          "fill": "#00000080",
+          "textGrowth": "fixed-width-height",
+          "width": 74,
+          "height": 20,
+          "content": "CONDICION",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "U0IxU",
+          "x": 34,
+          "y": 467,
+          "name": "Precio:",
+          "fill": "#00000080",
+          "textGrowth": "fixed-width-height",
+          "width": 35,
+          "height": 15,
+          "content": "Precio: ",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "1o9fL",
+          "x": 34,
+          "y": 589,
+          "name": "Estado:",
+          "fill": "#00000080",
+          "textGrowth": "fixed-width-height",
+          "width": 38,
+          "height": 15,
+          "content": "Estado: ",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "NsRGb",
+          "x": 34,
+          "y": 614,
+          "name": "Descripcion:",
+          "fill": "#00000080",
+          "textGrowth": "fixed-width-height",
+          "width": 63,
+          "height": 15,
+          "content": "Descripcion: ",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "dpcwB",
+          "x": 75,
+          "y": 467,
+          "name": "S/75",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width-height",
+          "width": 23,
+          "height": 15,
+          "content": "S/75",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "lVCWl",
+          "x": 75,
+          "y": 589,
+          "name": "Como Nuevo",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width-height",
+          "width": 65,
+          "height": 15,
+          "content": "Como Nuevo",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "Ne6eY",
+          "x": 35,
+          "y": 638,
+          "name": "Se ve como nuevo, solo ha sido utilizado dos veces. No tiene ningún defecto.",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width-height",
+          "width": 300,
+          "height": 31,
+          "content": "Se ve como nuevo, solo ha sido utilizado dos veces. No tiene\nningún defecto. ",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "jgvsT",
+          "x": 34,
+          "y": 491,
+          "name": "Talla:",
+          "fill": "#00000080",
+          "textGrowth": "fixed-width-height",
+          "width": 27,
+          "height": 16,
+          "content": "Talla:",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "aH7Xy",
+          "x": 77,
+          "y": 491,
+          "name": "S",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width-height",
+          "width": 7,
+          "height": 16,
+          "content": "S",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "b2I71",
+          "x": 34,
+          "y": 516,
+          "name": "Marca:",
+          "fill": "#00000080",
+          "textGrowth": "fixed-width-height",
+          "width": 34,
+          "height": 15,
+          "content": "Marca:",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "v8Vv9",
+          "x": 77,
+          "y": 516,
+          "name": "S",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width-height",
+          "width": 7,
+          "height": 15,
+          "content": "S",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 15,
+          "id": "n8CR1",
+          "x": 25,
+          "y": 684,
+          "name": "Rectangle 17",
+          "fill": "#a4ac5bff",
+          "width": 343,
+          "height": 41,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 15,
+          "id": "u7l70",
+          "x": 25,
+          "y": 733,
+          "name": "Rectangle 18",
+          "fill": "#76624dff",
+          "width": 343,
+          "height": 40,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "text",
+          "id": "5hAmJ",
+          "x": 138,
+          "y": 696,
+          "name": "Agregar a la Bolsa",
+          "fill": "#ffffffff",
+          "textGrowth": "fixed-width-height",
+          "width": 118,
+          "height": 16,
+          "content": "Agregar a la Bolsa",
+          "textAlign": "center",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "700"
+        },
+        {
+          "type": "text",
+          "id": "KY6jR",
+          "x": 133,
+          "y": 744,
+          "name": "Agregar a Favoritos",
+          "fill": "#ffffffff",
+          "textGrowth": "fixed-width-height",
+          "width": 128,
+          "height": 17,
+          "content": "Agregar a Favoritos",
+          "textAlign": "center",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "700"
+        },
+        {
+          "type": "text",
+          "id": "3ytqy",
+          "x": 129,
+          "y": 383,
+          "name": "Polo sin Mangas",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width-height",
+          "width": 108,
+          "height": 20,
+          "content": "Polo sin Mangas",
+          "textAlignVertical": "middle",
+          "fontFamily": "Playfair Display",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "frame",
+          "id": "JeLw5",
+          "x": 248,
+          "y": 385,
+          "name": "Layer_1",
+          "clip": true,
+          "width": 16,
+          "height": 16,
+          "fill": {
+            "type": "color",
+            "color": "#ffffffff",
+            "enabled": false
+          },
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "path",
+              "id": "KBabH",
+              "x": -0.00006454355752794072,
+              "y": 0.00016580717056058347,
+              "name": "Vector",
+              "geometry": "M331.63126 281.70676l-107.09 107.23001-114.68-115.01001-60.37-60.43997c-7.05-7.06-13.81-13.31-20.21-20.53-42.94-48.47-37.91-122.27002 10.21-164.37001 48.26-42.23 118.21002-33.57 164.58001 11.6l20.43 19.9 26.30999-26.05c45.71001-45.25 118.82-45.29 163.90999-0.67 45.60001 45.12 46.15003 118.92999 0.23001 164.91999l-83.30999 83.43-0.01001-0.01001z m73.16998-102.42998c34.86001-38.76 31.35004-97.88001-5.40997-132.81-36.76001-34.93-95.85001-36.21-132.68003 0.37l-42.12997 41.85-41.82001-41.49c-22-21.83-52.22-30.93-83.11-25.84-39.08 6.43-70.22 37.42999-77.85 75.69999-7.08 35.52999 6.14 66.63001 30.85 91.33001l171.87001 171.84 68.96997-69.39002 111.30002-111.55998 0.00998 0z",
+              "fill": "#000000ff",
+              "width": 16.000246047973633,
+              "height": 15.99986743927002,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "l6D28",
+          "x": 115,
+          "y": 163,
+          "name": "Rectangle 16",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "",
+            "mode": "fill"
+          },
+          "width": 163,
+          "height": 176,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "FfMoS",
+      "x": 189,
+      "y": 717,
+      "name": "Fonts",
+      "clip": true,
+      "width": 301,
+      "height": 532,
+      "fill": "#ffffffff",
+      "stroke": {
+        "align": "inside",
+        "thickness": 1
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "text",
+          "id": "GmyuF",
+          "x": 32,
+          "y": 115,
+          "name": "Hola me llamo natalia y me gusta cocinar. mi bebida favorita es el café y mi plan favorito es meterme al mar.",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width",
+          "width": 238,
+          "content": "Hola me llamo natalia y me gusta cocinar. mi bebida favorita es el café y mi plan favorito es meterme al mar. ",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "80VWR",
+          "x": 31,
+          "y": 33,
+          "name": "Source Sans Pro",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width",
+          "width": 238,
+          "content": "Source Sans Pro",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "JbYEH",
+          "x": 165,
+          "y": 33,
+          "name": "Size: 15, 12",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width",
+          "width": 120,
+          "content": "Size: 15, 12",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "9Hcj3",
+          "x": 32,
+          "y": 302,
+          "name": "HOLA ME LLAMO NATALIA Y ME GUSTA COCINAR. MI BEBIDA FAVORITA ES EL CAFÉ Y MI PLAN FAVORITO ES METERME AL MAR.",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width",
+          "width": 238,
+          "content": "HOLA ME LLAMO NATALIA Y ME GUSTA COCINAR. MI BEBIDA FAVORITA ES EL CAFÉ Y MI PLAN FAVORITO ES METERME AL MAR. ",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "a1KlJ",
+          "x": 32,
+          "y": 197,
+          "name": "Hola me llamo natalia y me gusta cocinar. mi bebida favorita es el café y mi plan favorito es meterme al mar.",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width",
+          "width": 238,
+          "content": "Hola me llamo natalia y me gusta cocinar. mi bebida favorita es el café y mi plan favorito es meterme al mar. ",
+          "fontFamily": "Playfair Display",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "ZDg3v",
+          "x": 31,
+          "y": 54,
+          "name": "Playfair Display",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width",
+          "width": 238,
+          "content": "Playfair Display",
+          "fontFamily": "Playfair Display",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "vV34S",
+          "x": 165,
+          "y": 54,
+          "name": "Size:",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width",
+          "width": 120,
+          "content": "Size: ",
+          "fontFamily": "Playfair Display",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "uPOWm",
+          "x": 31,
+          "y": 403,
+          "name": "HOLA ME LLAMO NATALIA Y ME GUSTA COCINAR. MI BEBIDA FAVORITA ES EL CAFÉ Y MI PLAN FAVORITO ES METERME AL MAR.",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width",
+          "width": 238,
+          "content": "HOLA ME LLAMO NATALIA Y ME GUSTA COCINAR. MI BEBIDA FAVORITA ES EL CAFÉ Y MI PLAN FAVORITO ES METERME AL MAR. ",
+          "fontFamily": "Playfair Display",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        }
+      ]
+    }
+  ]
+}
