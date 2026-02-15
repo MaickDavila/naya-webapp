@@ -80,6 +80,7 @@ export interface Product {
   
   // Características
   condition: ProductCondition;
+  sku?: string;
   brand?: string;
   size?: string;
   color?: string;

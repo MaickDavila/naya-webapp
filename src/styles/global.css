@@ -1,4 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+/* Fuentes locales via fontsource */
+@import "@fontsource/source-sans-pro/400.css";
+@import "@fontsource/source-sans-pro/600.css";
+@import "@fontsource/source-sans-pro/700.css";
+@import "@fontsource/playfair-display/400.css";
+@import "@fontsource/playfair-display/700.css";
 
 @tailwind base;
 @tailwind components;
@@ -52,7 +57,7 @@
 
 @layer base {
   body {
-    @apply bg-[var(--color-background)] text-[var(--color-text-primary)] font-['Inter'];
+    @apply bg-[var(--color-background)] text-[var(--color-text-primary)] font-sans text-[15px];
     -webkit-tap-highlight-color: transparent;
   }
 }
