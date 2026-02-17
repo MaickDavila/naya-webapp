@@ -1,11 +1,20 @@
 <script setup lang="ts">
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, onUnmounted, computed, ref, watch } from 'vue';
 import { useCart } from '../../application/stores/cartStore';
 import { useAuth } from '../../application/stores/authStore';
+import { productCartPresenceService } from '../../infrastructure/services/ProductCartPresenceService';
+import { useProductAvailability } from '../../application/composables/useProductAvailability';
 import { formatPrice } from '../utils/formatters';
 
 const { items, total, removeItem, loadCart, isLoaded } = useCart();
 const { user, initAuth } = useAuth();
+
+const productIds = computed(() => items.value.map((i) => i.id));
+const userId = computed(() => user.value?.uid ?? '');
+const { inCheckoutByOthers, inCartByOthers, unsubscribe } = useProductAvailability(
+  productIds,
+  userId
+);
 
 // Track which seller groups are collapsed
 const collapsedSellers = ref<Set<string>>(new Set());
@@ -13,13 +22,49 @@ const collapsedSellers = ref<Set<string>>(new Set());
 // Track which item has open menu
 const openMenuId = ref<string | null>(null);
 
+const hasBlockedItems = computed(() => inCheckoutByOthers.value.size > 0);
+
+/** Items disponibles para comprar (no están en checkout de otro) */
+const availableItems = computed(() =>
+  items.value.filter((i) => !inCheckoutByOthers.value.has(i.id))
+);
+const hasAvailableItems = computed(() => availableItems.value.length > 0);
+
 onMounted(() => {
-  initAuth();
   loadCart();
-  // Close menu on outside click
+  initAuth();
   document.addEventListener('click', () => {
     openMenuId.value = null;
   });
+});
+
+// Sincronizar presencia: al cargar con items + user, añadir presencia
+watch(
+  [items, user],
+  async ([newItems, newUser]) => {
+    const itemList = (newItems as typeof items.value) || [];
+    const uid = (newUser as { uid: string } | null)?.uid;
+    if (itemList.length > 0 && uid) {
+      await Promise.all(
+        itemList.map((i: { id: string }) =>
+          productCartPresenceService.addPresence(i.id, uid)
+        )
+      );
+    }
+  },
+  { immediate: true }
+);
+
+const handleRemove = (itemId: string) => {
+  if (user.value) {
+    productCartPresenceService.removePresence(itemId, user.value.uid);
+  }
+  removeItem(itemId);
+  openMenuId.value = null;
+};
+
+onUnmounted(() => {
+  unsubscribe();
 });
 
 // Group items by seller
@@ -66,19 +111,17 @@ const toggleMenu = (itemId: string, event: Event) => {
   openMenuId.value = openMenuId.value === itemId ? null : itemId;
 };
 
-const handleRemove = (itemId: string) => {
-  removeItem(itemId);
-  openMenuId.value = null;
-};
-
 const goToCheckout = () => {
   if (items.value.length === 0) return;
+  if (!hasAvailableItems.value) return;
   if (!user.value) {
     window.location.href = '/login?next=' + encodeURIComponent('/checkout');
     return;
   }
   window.location.href = '/checkout';
 };
+
+const canCheckout = computed(() => items.value.length > 0 && hasAvailableItems.value);
 </script>
 
 <template>
@@ -139,20 +182,49 @@ const goToCheckout = () => {
           <div
             v-for="item in group.items"
             :key="item.id"
-            class="bg-white rounded-[15px] flex items-center gap-3 p-2 pr-3 relative"
+            class="rounded-[15px] flex items-center gap-3 p-2 pr-3 relative transition-opacity"
+            :class="[
+              inCheckoutByOthers.has(item.id)
+                ? 'bg-gray-200 opacity-60'
+                : inCartByOthers.has(item.id)
+                ? 'bg-amber-50/50'
+                : 'bg-white'
+            ]"
           >
             <!-- Imagen del producto -->
             <div class="w-[62px] h-[62px] rounded-sm overflow-hidden flex-shrink-0 bg-gray-100">
-              <img :src="item.images[0]" :alt="item.title" class="w-full h-full object-cover" />
+              <img
+                :src="item.images[0]"
+                :alt="item.title"
+                class="w-full h-full object-cover"
+                :class="{ 'grayscale': inCheckoutByOthers.has(item.id) }"
+              />
             </div>
 
             <!-- Info del producto -->
             <div class="flex-1 min-w-0 flex flex-col justify-center gap-0.5">
-              <span class="text-xs text-black leading-tight truncate">{{ item.title }}</span>
+              <span
+                class="text-xs leading-tight truncate"
+                :class="(inCheckoutByOthers.has(item.id) || inCartByOthers.has(item.id)) ? 'text-gray-500' : 'text-black'"
+              >
+                {{ item.title }}
+              </span>
+              <p
+                v-if="inCheckoutByOthers.has(item.id)"
+                class="text-[10px] text-red-600 font-medium"
+              >
+                Alguien está por comprarlo. Elimínalo para continuar.
+              </p>
+              <p
+                v-else-if="inCartByOthers.has(item.id)"
+                class="text-[10px] text-amber-600 font-medium"
+              >
+                Otro comprador lo quiere. Paga antes de que te ganen.
+              </p>
               <span v-if="item.brand" class="text-xs text-black/50 leading-tight">Marca: {{ item.brand }}</span>
               <div class="flex items-center justify-between">
-                <span v-if="item.size" class="text-xs text-black leading-tight">Talla: {{ item.size }}</span>
-                <span class="text-xs text-black font-normal ml-auto">S/{{ item.price }}</span>
+                <span v-if="item.size" class="text-xs leading-tight" :class="(inCheckoutByOthers.has(item.id) || inCartByOthers.has(item.id)) ? 'text-gray-400' : 'text-black'">Talla: {{ item.size }}</span>
+                <span class="text-xs font-normal ml-auto" :class="(inCheckoutByOthers.has(item.id) || inCartByOthers.has(item.id)) ? 'text-gray-500' : 'text-black'">S/{{ item.price }}</span>
               </div>
             </div>
 
@@ -198,11 +270,26 @@ const goToCheckout = () => {
         <span class="text-[15px] text-black">Total: S/ {{ total }}</span>
       </div>
 
+      <!-- Aviso si hay productos bloqueados pero hay disponibles -->
+      <p
+        v-if="hasBlockedItems && hasAvailableItems"
+        class="text-xs text-amber-600"
+      >
+        Algunos productos no están disponibles. Solo pagarás por los que sí lo están.
+      </p>
+      <!-- Cuando todos están bloqueados -->
+      <p
+        v-else-if="hasBlockedItems && !hasAvailableItems"
+        class="text-xs text-red-600"
+      >
+        Todos tus productos están siendo comprados por otros. Espera unos minutos.
+      </p>
+
       <!-- Botón Comprar Ahora -->
       <button
         type="button"
         @click="goToCheckout"
-        :disabled="items.length === 0"
+        :disabled="!canCheckout"
         class="w-full bg-[#a4ac5b] text-white py-3.5 rounded-[15px] font-bold text-[15px] hover:brightness-95 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Comprar Ahora

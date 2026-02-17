@@ -68,6 +68,12 @@ export const useCart = () => {
     state.items = state.items.filter(i => i.id !== id);
   };
 
+  /** Elimina varios items por sus IDs */
+  const removeItems = (ids: string[]) => {
+    const idSet = new Set(ids);
+    state.items = state.items.filter(i => !idSet.has(i.id));
+  };
+
   const updateQuantity = (id: string, quantity: number) => {
     const item = state.items.find(i => i.id === id);
     if (item && quantity > 0) {
@@ -89,6 +95,7 @@ export const useCart = () => {
     loadCart,
     addItem,
     removeItem,
+    removeItems,
     updateQuantity,
     clearCart
   };

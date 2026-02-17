@@ -1,5 +1,6 @@
 ---
 import BottomNav from "../../presentation/components/BottomNav.vue";
+import PaymentFailureHandler from "../../presentation/components/PaymentFailureHandler.vue";
 import { Image } from "astro:assets";
 import logoNaya from "../../assets/logo.svg";
 import "../../styles/global.css";
@@ -107,5 +108,8 @@ const failureMessage = statusDetail ? (failureReasons[statusDetail] || 'El pago 
 
     <!-- Navegacion Inferior -->
     <BottomNav client:only="vue" />
+
+    <!-- Liberar reservas cuando el pago falla -->
+    <PaymentFailureHandler client:only="vue" />
   </body>
 </html>
