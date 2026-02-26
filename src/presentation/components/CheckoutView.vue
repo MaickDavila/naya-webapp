@@ -323,7 +323,7 @@ const handlePageLeave = () => {
 
 onMounted(async () => {
   await initAuth();
-  loadCart();
+  await loadCart(user.value?.uid ?? undefined);
 
   if (user.value) {
     await loadAddresses(user.value.uid);

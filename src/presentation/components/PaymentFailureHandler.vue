@@ -5,10 +5,9 @@ import { useAuth } from "../../application/stores/authStore";
 import { productReservationService } from "../../infrastructure/services/ProductReservationService";
 import { productCartPresenceService } from "../../infrastructure/services/ProductCartPresenceService";
 
-const CART_STORAGE_KEY = "naya_cart_items";
 const EXPIRES_AT_KEY = "naya_checkout_expires_at";
 
-const { loadCart } = useCart();
+const { loadCart, items } = useCart();
 const { user, initAuth } = useAuth();
 
 /**
@@ -18,32 +17,23 @@ const { user, initAuth } = useAuth();
  */
 onMounted(async () => {
   await initAuth();
+  await loadCart(user.value?.uid ?? undefined);
 
-  if (typeof localStorage === "undefined") return;
+  if (typeof window === "undefined") return;
 
-  const saved = localStorage.getItem(CART_STORAGE_KEY);
-  if (saved && user.value) {
-    try {
-      const parsed = JSON.parse(saved);
-      const productIds = parsed.map((item: { id: string }) => item.id).filter(Boolean);
-      if (productIds.length > 0) {
-        await productReservationService.releaseReservations(productIds, user.value.uid);
-        await Promise.all(
-          productIds.map((id: string) =>
-            productCartPresenceService.addPresence(id, user.value!.uid)
-          )
-        );
-      }
-    } catch {
-      // Ignorar errores de parseo
-    }
+  if (items.value.length > 0 && user.value) {
+    const productIds = items.value.map((item) => item.id);
+    await productReservationService.releaseReservations(productIds, user.value.uid);
+    await Promise.all(
+      productIds.map((id) =>
+        productCartPresenceService.addPresence(id, user.value!.uid)
+      )
+    );
   }
 
   if (typeof sessionStorage !== "undefined") {
     sessionStorage.removeItem(EXPIRES_AT_KEY);
   }
-
-  loadCart();
 });
 </script>
 

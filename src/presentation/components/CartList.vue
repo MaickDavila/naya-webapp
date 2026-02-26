@@ -30,9 +30,9 @@ const availableItems = computed(() =>
 );
 const hasAvailableItems = computed(() => availableItems.value.length > 0);
 
-onMounted(() => {
-  loadCart();
-  initAuth();
+onMounted(async () => {
+  await initAuth();
+  await loadCart(user.value?.uid ?? undefined);
   document.addEventListener('click', () => {
     openMenuId.value = null;
   });
