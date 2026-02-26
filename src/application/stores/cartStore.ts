@@ -59,16 +59,6 @@ function loadFromLocalStorage(): void {
   }
 }
 
-/**
- * Fusiona carrito local con el del backend.
- * Siempre prioridad al backend: los datos remotos reemplazan los locales para el mismo producto.
- */
-function mergeWithBackendWinning(local: CartItem[], remote: CartItem[]): CartItem[] {
-  const byId = new Map<string, CartItem>();
-  local.forEach((i) => byId.set(i.id, { ...i }));
-  remote.forEach((r) => byId.set(r.id, { ...r })); // Backend reemplaza
-  return Array.from(byId.values());
-}
 
 async function syncToFirestore(userId: string): Promise<void> {
   if (state.items.length === 0) {
@@ -88,9 +78,9 @@ function saveToLocalStorage(): void {
   localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(state.items));
 }
 
-async function handleAuthChange(userId: string | null): Promise<void> {
+async function handleAuthChange(userId: string | null, forceRefresh = false): Promise<void> {
   const prevUserId = state.currentUserId;
-  if (prevUserId === userId && state.isLoaded) return;
+  if (!forceRefresh && prevUserId === userId && state.isLoaded) return;
   state.currentUserId = userId;
 
   if (userId) {
@@ -101,15 +91,10 @@ async function handleAuthChange(userId: string | null): Promise<void> {
     state.items = localItems;
     state.isLoaded = true;
 
-    // 2. Traer backend en segundo plano; al llegar, reemplazar (backend gana) y actualizar localStorage
+    // 2. Traer backend; al llegar, reemplazar TODO con el backend (source of truth) y actualizar localStorage
     const remoteItems = await cartRepository.getCart(userId);
-    const merged = mergeWithBackendWinning(localItems, remoteItems);
-    state.items = merged;
-    saveToLocalStorage(); // localStorage siempre debe tener el carrito
-
-    if (merged.length > 0) {
-      await syncToFirestore(userId);
-    }
+    state.items = remoteItems;
+    saveToLocalStorage();
   } else {
     // Usuario anónimo: cargar desde localStorage (síncrono)
     if (prevUserId && state.items.length > 0) {
@@ -152,7 +137,7 @@ export const useCart = () => {
   const loadCart = async (userId?: string | null) => {
     if (typeof window === "undefined") return;
     const uid = userId !== undefined ? userId : auth.currentUser?.uid ?? null;
-    await handleAuthChange(uid);
+    await handleAuthChange(uid, true); // Siempre refrescar para traer eliminaciones de otros dispositivos
   };
 
   const addItem = (product: Product) => {
