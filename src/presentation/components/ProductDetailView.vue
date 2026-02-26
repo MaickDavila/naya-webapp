@@ -1,21 +1,42 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import type { Product } from '../../domain/entities/Product';
 import { CONDITION_LABELS } from '../../domain/entities/Product';
 import { useCart } from '../../application/stores/cartStore';
 import { useAuth } from '../../application/stores/authStore';
 import { useFavorites } from '../../application/stores/favoritesStore';
 import { useToast } from '../../application/stores/toastStore';
+import { productCartPresenceService } from '../../infrastructure/services/ProductCartPresenceService';
+import { productViewersService } from '../../infrastructure/services/ProductViewersService';
+import { useProductAvailability } from '../../application/composables/useProductAvailability';
 import { formatPrice } from '../utils/formatters';
 
 const props = defineProps<{
   product: Product;
 }>();
 
-const { addItem } = useCart();
+const { addItem, items, loadCart } = useCart();
 const { user, initAuth } = useAuth();
 const { isFavorite, toggleFavorite, loadFavorites } = useFavorites();
 const { success } = useToast();
+
+const productIds = computed(() => [props.product.id]);
+const userId = computed(() => user.value?.uid ?? '');
+const { inCheckoutByOthers, inCartByOthers, unsubscribe } = useProductAvailability(
+  productIds,
+  userId
+);
+
+const inCheckoutByOthersProduct = computed(() => inCheckoutByOthers.value.has(props.product.id));
+const inCartByOthersProduct = computed(() => inCartByOthers.value.has(props.product.id));
+const isBlocked = computed(() => inCheckoutByOthersProduct.value);
+
+/** El producto ya está en la bolsa del usuario actual */
+const isInMyCart = computed(() => items.value.some((i) => i.id === props.product.id));
+
+const viewerCount = ref(0);
+let unsubscribeViewers: (() => void) | null = null;
+let currentViewerId: string | undefined;
 
 const activeImage = ref(props.product.images[0] || 'https://via.placeholder.com/600x800?text=NAYA');
 const isAdded = ref(false);
@@ -25,9 +46,13 @@ const favoriteJustToggled = ref(false);
 const isProductFavorite = computed(() => isFavorite(props.product.id));
 
 const handleAddToCart = () => {
+  if (isBlocked.value) return;
   addItem(props.product);
+  if (user.value) {
+    productCartPresenceService.addPresence(props.product.id, user.value.uid);
+  }
   isAdded.value = true;
-  setTimeout(() => isAdded.value = false, 2000);
+  setTimeout(() => (isAdded.value = false), 2000);
 };
 
 const handleToggleFavorite = async () => {
@@ -57,10 +82,30 @@ const handleToggleFavorite = async () => {
 };
 
 onMounted(async () => {
+  loadCart();
   await initAuth();
   if (user.value) {
     await loadFavorites(user.value.uid);
   }
+
+  currentViewerId = user.value?.uid;
+  await productViewersService.addViewer(props.product.id, currentViewerId);
+  unsubscribeViewers = productViewersService.subscribeToViewerCount(
+    props.product.id,
+    (count) => { viewerCount.value = count; }
+  );
+
+  const handlePageLeave = () => {
+    productViewersService.removeViewer(props.product.id, currentViewerId);
+  };
+  window.addEventListener("beforeunload", handlePageLeave);
+  window.addEventListener("pagehide", handlePageLeave);
+});
+
+onUnmounted(() => {
+  productViewersService.removeViewer(props.product.id, currentViewerId);
+  unsubscribeViewers?.();
+  unsubscribe();
 });
 
 // Obtener etiqueta de condicion
@@ -103,9 +148,10 @@ const activeImageIndex = computed(() => {
     </div>
 
     <!-- Nombre del producto + corazón -->
-    <div class="flex items-center justify-center gap-2 mb-6">
-      <h1 class="text-[15px] text-black font-serif">{{ product.title }}</h1>
-      <button @click="handleToggleFavorite" :disabled="isFavoriteLoading" class="flex-shrink-0">
+    <div class="flex flex-col items-center gap-2 mb-6">
+      <div class="flex items-center justify-center gap-2">
+        <h1 class="text-[15px] text-black font-serif">{{ product.title }}</h1>
+        <button @click="handleToggleFavorite" :disabled="isFavoriteLoading" class="flex-shrink-0">
         <svg
           v-if="isFavoriteLoading"
           class="w-4 h-4 animate-spin text-black/50"
@@ -126,7 +172,11 @@ const activeImageIndex = computed(() => {
         >
           <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
         </svg>
-      </button>
+        </button>
+      </div>
+      <p v-if="viewerCount > 0" class="text-xs text-black/50">
+        {{ viewerCount }} {{ viewerCount === 1 ? 'persona viendo' : 'personas viendo' }} ahora
+      </p>
     </div>
 
     <!-- Sección DETALLE -->
@@ -173,13 +223,38 @@ const activeImageIndex = computed(() => {
       <!-- Separador -->
       <div class="border-t border-black/20 my-4"></div>
 
+      <!-- Aviso: en checkout de otro (bloqueado) -->
+      <div
+        v-if="inCheckoutByOthersProduct"
+        class="mb-3 p-3 bg-red-50 border border-red-200 rounded-xl text-red-800 text-xs"
+      >
+        Alguien está por comprar este producto. No podrás agregarlo hasta que finalice o expire su reserva.
+      </div>
+
+      <!-- Aviso: en bolsa de otro (urgencia) -->
+      <div
+        v-else-if="inCartByOthersProduct"
+        class="mb-3 p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs"
+      >
+        Otro comprador lo quiere. Está en su bolsa. Agrégalo antes de que se lleve.
+      </div>
+
       <!-- Botones de acción -->
       <div class="flex flex-col gap-3 mt-2">
-        <button
-          @click="handleAddToCart"
-          class="w-full bg-[#a4ac5b] text-white py-3 rounded-[15px] font-bold text-[15px] hover:opacity-90 transition-all active:scale-[0.98]"
+        <a
+          v-if="isInMyCart && !isBlocked"
+          href="/cart"
+          class="w-full bg-[#a4ac5b] text-white py-3 rounded-[15px] font-bold text-[15px] hover:opacity-90 transition-all active:scale-[0.98] text-center block"
         >
-          {{ isAdded ? '¡Añadido!' : 'Agregar a la Bolsa' }}
+          Ya está en tu bolsa — Ver carrito
+        </a>
+        <button
+          v-else
+          @click="handleAddToCart"
+          :disabled="isBlocked"
+          class="w-full bg-[#a4ac5b] text-white py-3 rounded-[15px] font-bold text-[15px] hover:opacity-90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {{ isAdded ? '¡Añadido!' : (isBlocked ? 'No disponible' : 'Agregar a la Bolsa') }}
         </button>
 
         <button
