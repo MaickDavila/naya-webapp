@@ -5,19 +5,17 @@ import { useAuth } from "../../application/stores/authStore";
 import { productReservationService } from "../../infrastructure/services/ProductReservationService";
 import { productCartPresenceService } from "../../infrastructure/services/ProductCartPresenceService";
 
-const CART_STORAGE_KEY = "naya_cart_items";
 const PAID_ITEMS_KEY = "naya_paid_product_ids";
 const EXPIRES_AT_KEY = "naya_checkout_expires_at";
 
-const { clearCart, removeItems, loadCart } = useCart();
+const { clearCart, removeItems, loadCart, items } = useCart();
 const { user, initAuth } = useAuth();
 
 onMounted(async () => {
   await initAuth();
+  await loadCart(user.value?.uid ?? undefined);
 
-  if (typeof localStorage === "undefined") return;
-
-  loadCart();
+  if (typeof window === "undefined") return;
 
   let productIdsToProcess: string[] = [];
 
@@ -34,15 +32,7 @@ onMounted(async () => {
   }
 
   if (productIdsToProcess.length === 0) {
-    const saved = localStorage.getItem(CART_STORAGE_KEY);
-    if (saved) {
-      try {
-        const items = JSON.parse(saved);
-        productIdsToProcess = items.map((item: { id: string }) => item.id).filter(Boolean);
-      } catch {
-        // Ignorar
-      }
-    }
+    productIdsToProcess = items.value.map((item) => item.id);
   }
 
   if (productIdsToProcess.length > 0 && user.value) {

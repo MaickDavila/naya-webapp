@@ -82,8 +82,8 @@ const handleToggleFavorite = async () => {
 };
 
 onMounted(async () => {
-  loadCart();
   await initAuth();
+  await loadCart(user.value?.uid ?? undefined);
   if (user.value) {
     await loadFavorites(user.value.uid);
   }

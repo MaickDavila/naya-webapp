@@ -6,7 +6,7 @@ const { totalItems, loadCart, isLoaded } = useCart();
 
 // Cargamos el carrito solo cuando el componente se monta en el cliente
 onMounted(() => {
-  loadCart();
+  loadCart(); // Sincroniza con Firestore si hay usuario logueado
 });
 </script>
 
