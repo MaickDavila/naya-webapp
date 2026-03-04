@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import ToastContainer from './ToastContainer.vue';
+import SellModal from './SellModal.vue';
 
 const activeTab = ref('inicio');
+const sellModalOpen = ref(false);
 
 const navItems = [
   { id: 'inicio', label: 'INICIO', href: '/' },
@@ -22,6 +24,10 @@ onMounted(() => {
 const navigate = (href: string, id: string) => {
   activeTab.value = id;
   window.location.href = href;
+};
+
+const openSellModal = () => {
+  sellModalOpen.value = true;
 };
 </script>
 
@@ -49,13 +55,16 @@ const navigate = (href: string, id: string) => {
         BUSCAR
       </button>
 
-      <!-- Botón central + -->
-      <a
-        href="/sell"
-        class="flex items-center justify-center w-[39px] h-[36px] bg-[#eeeae6] rounded-[5px] text-black text-[35px] font-normal leading-none -mt-1"
+      <!-- Botón central + (Vender) -->
+      <button
+        type="button"
+        class="flex items-center justify-center w-[39px] h-[36px] bg-[#eeeae6] rounded-[5px] text-black text-[35px] font-normal leading-none -mt-1 hover:bg-[#e5e0d8] transition-colors"
+        @click="openSellModal"
       >
         +
-      </a>
+      </button>
+
+      <SellModal :open="sellModalOpen" @close="sellModalOpen = false" />
 
       <!-- FAVORITOS -->
       <button

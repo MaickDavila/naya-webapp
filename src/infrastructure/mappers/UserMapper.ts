@@ -9,7 +9,8 @@ export class UserMapper {
       name: data.name || "",
       email: data.email || "",
       photoURL: data.photoURL,
-      biography: data.biography || data.bio, // Manejamos ambos por si acaso
+      biography: data.biography || data.bio,
+      instagram: data.instagram,
       location: data.location,
       createdAt: this.toDate(data.createdAt),
       rating: data.rating || 0,
@@ -48,6 +49,7 @@ export class UserMapper {
     if (user.email !== undefined) data.email = user.email;
     if (user.photoURL !== undefined) data.photoURL = user.photoURL || null;
     if (user.biography !== undefined) data.biography = user.biography || null;
+    if (user.instagram !== undefined) data.instagram = user.instagram || null;
     if (user.location !== undefined) data.location = user.location || null;
     if (user.createdAt !== undefined) data.createdAt = Timestamp.fromDate(user.createdAt);
     if (user.rating !== undefined) data.rating = user.rating || 0;

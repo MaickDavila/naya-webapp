@@ -3,9 +3,7 @@ import { FirestoreCategoryRepository } from '../infrastructure/repositories/Fire
 import { GetCategories } from '../application/use-cases/GetCategories';
 import type { Category } from '../domain/entities/Category';
 import BottomNav from '../presentation/components/BottomNav.vue';
-import CartCounter from '../presentation/components/CartCounter.vue';
-import { Image } from 'astro:assets';
-import logoNaya from '../assets/logo.svg';
+import Header from '../presentation/components/Header.astro';
 import '../styles/global.css';
 
 const categoryRepo = new FirestoreCategoryRepository();
@@ -32,25 +30,7 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Naya';
 		<title>{marketplaceName} - Marketplace</title>
 	</head>
 	<body class="bg-[#FDFCFB] min-h-screen pb-24">
-		<!-- Header Estilo Naya -->
-		<header class="bg-[#D9D2C8] sticky top-0 z-50 shadow-sm">
-			<div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-				<!-- Icono de Busqueda -->
-				<a href="/search" class="p-2 hover:bg-black/5 rounded-full transition-colors" aria-label="Buscar">
-					<svg class="w-7 h-7 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-					</svg>
-				</a>
-
-				<!-- Logo Central -->
-				<div class="flex flex-col items-center">
-					<Image src={logoNaya} alt="Logo Naya" class="h-10 w-auto" />
-				</div>
-
-				<!-- Icono Bolsa (Derecha) -->
-				<CartCounter client:only="vue" />
-			</div>
-		</header>
+		<Header leftAction="search" rightAction="cart" />
 
 		<main class="max-w-7xl mx-auto px-6 py-8">
 			{error ? (

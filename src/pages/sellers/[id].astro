@@ -1,12 +1,11 @@
 ---
 import { FirestoreUserRepository } from "../../infrastructure/repositories/FirestoreUserRepository";
 import { FirestoreProductRepository } from "../../infrastructure/repositories/FirestoreProductRepository";
+import { FirestoreReviewRepository } from "../../infrastructure/repositories/FirestoreReviewRepository";
 import { GetUserById } from "../../application/use-cases/GetUserById";
 import SellerProfileView from "../../presentation/components/SellerProfileView.vue";
 import BottomNav from "../../presentation/components/BottomNav.vue";
-import CartCounter from "../../presentation/components/CartCounter.vue";
-import { Image } from "astro:assets";
-import logoNaya from "../../assets/logo.svg";
+import Header from "../../presentation/components/Header.astro";
 import "../../styles/global.css";
 
 const { id } = Astro.params;
@@ -17,6 +16,7 @@ if (!id) {
 
 const userRepo = new FirestoreUserRepository();
 const productRepo = new FirestoreProductRepository();
+const reviewRepo = new FirestoreReviewRepository();
 
 const getUserById = new GetUserById(userRepo);
 const seller = await getUserById.execute(id);
@@ -26,6 +26,7 @@ if (!seller) {
 }
 
 const sellerProducts = await productRepo.getBySellerId(id);
+const sellerReviews = await reviewRepo.getByReviewedUserId(id);
 const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || "Naya";
 ---
 
@@ -37,45 +38,14 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || "Naya";
     <title>Perfil de {seller.name} - {marketplaceName}</title>
   </head>
   <body class="bg-[#FDFCFB] min-h-screen pb-24">
-    <!-- Header Estilo Naya -->
-    <header class="bg-[#D9D2C8] sticky top-0 z-50 shadow-sm">
-      <div
-        class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center"
-      >
-        <!-- Botón Volver -->
-        <a
-          href="javascript:history.back()"
-          class="p-2 hover:bg-black/5 rounded-full transition-colors"
-        >
-          <svg
-            class="w-8 h-8 text-black"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.8"
-              d="M15 19l-7-7 7-7"></path>
-          </svg>
-        </a>
-
-        <!-- Logo Central -->
-        <div class="flex flex-col items-center">
-          <Image src={logoNaya} alt="Logo Naya" class="h-10 w-auto" />
-        </div>
-
-        <!-- Carrito -->
-        <CartCounter client:only="vue" />
-      </div>
-    </header>
+    <Header leftAction="back" rightAction="cart" />
 
     <main class="max-w-7xl mx-auto px-6 py-12">
       <SellerProfileView
         client:load
         seller={seller}
         products={sellerProducts}
+        reviews={sellerReviews}
       />
     </main>
 

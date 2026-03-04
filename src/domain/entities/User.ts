@@ -6,6 +6,7 @@ export interface User {
   email: string;
   photoURL?: string;
   biography?: string;
+  instagram?: string;
   location?: string;
   createdAt: Date;
   rating?: number;

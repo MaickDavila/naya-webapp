@@ -17,3 +17,15 @@ export const formatDate = (date: Date): string => {
     month: "short",
   }).format(date);
 };
+
+/**
+ * Formatea una fecha en formato largo (ej: Enero 10, 2026).
+ */
+export const formatDateLong = (date: Date | string): string => {
+  const d = typeof date === "string" ? new Date(date) : date;
+  return new Intl.DateTimeFormat("es-PE", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(d);
+};
