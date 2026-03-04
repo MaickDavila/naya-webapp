@@ -42,18 +42,15 @@ async function loadFavoriteProducts() {
 
 onMounted(async () => {
   await initAuth();
-
-  if (user.value) {
-    await loadFavorites(user.value.uid);
-    await loadFavoriteProducts();
-  }
+  await loadFavorites(user.value?.uid ?? undefined);
+  await loadFavoriteProducts();
 });
 
-// Watch for user changes (in case auth loads after mount)
+// Watch for user changes (auth carga después del mount)
 watch(
   () => user.value,
   async (newUser) => {
-    if (newUser && !initialized.value) {
+    if (newUser) {
       await loadFavorites(newUser.uid);
       await loadFavoriteProducts();
     }

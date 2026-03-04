@@ -1,0 +1,244 @@
+{
+  "version": "2.8",
+  "children": [
+    {
+      "type": "group",
+      "id": "JoV1M",
+      "x": -150.5,
+      "y": -269.5,
+      "name": "BAR",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "h07xI",
+          "x": 0,
+          "y": 0,
+          "name": "Rectangle 27",
+          "fill": "#dad1c8ff",
+          "width": 301,
+          "height": 539,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "text",
+          "id": "dy2ll",
+          "x": 36.5,
+          "y": 55.5,
+          "name": "QUIERES VENDER CON NOSOTROS?",
+          "fill": "#000000ff",
+          "content": "QUIERES VENDER CON NOSOTROS?",
+          "textAlign": "center",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "2jUTC",
+          "x": 277.279296875,
+          "y": 9.5,
+          "name": "+",
+          "rotation": -44.38922796642782,
+          "fill": "#000000ff",
+          "content": "+",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 35,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "zXElg",
+          "x": 44.5,
+          "y": 93.5,
+          "name": "De momento, para mantener la calidad de los productos que ofrecemos y nuestro servicio, estamos limitando los perfiles que pueden vender ropa. Rellena tu información y nos pondremos en contacto.",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width-height",
+          "width": 206,
+          "height": 105,
+          "content": "De momento, para mantener la calidad de los productos que ofrecemos y nuestro servicio, estamos limitando los perfiles que pueden vender ropa. \n\nRellena tu información y nos pondremos en contacto.",
+          "textAlign": "center",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "v9htU",
+          "x": 32.5,
+          "y": 235.5,
+          "name": "Nombre *",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width-height",
+          "width": 207,
+          "height": 24,
+          "content": "Nombre *",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "YFGMC",
+          "x": 32.5,
+          "y": 312.5,
+          "name": "Email*",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width-height",
+          "width": 207,
+          "height": 24,
+          "content": "Email*",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "EuZ3j",
+          "x": 32.5,
+          "y": 389.5,
+          "name": "Instagram",
+          "fill": "#000000ff",
+          "textGrowth": "fixed-width-height",
+          "width": 207,
+          "height": 24,
+          "content": "Instagram",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 7,
+          "id": "MeIVA",
+          "x": 25.5,
+          "y": 259.5,
+          "name": "Rectangle 426",
+          "fill": "#ffffffff",
+          "width": 244,
+          "height": 40,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "#cbcbcbff"
+          }
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 7,
+          "id": "YS1a0",
+          "x": 25.5,
+          "y": 336.5,
+          "name": "Rectangle 427",
+          "fill": "#ffffffff",
+          "width": 244,
+          "height": 40,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "#cbcbcbff"
+          }
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 7,
+          "id": "Yx3RS",
+          "x": 25.5,
+          "y": 413.5,
+          "name": "Rectangle 428",
+          "fill": "#ffffffff",
+          "width": 244,
+          "height": 40,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "#cbcbcbff"
+          }
+        },
+        {
+          "type": "text",
+          "id": "F2zrn",
+          "x": 37.5,
+          "y": 259.5,
+          "name": "Nombre y apellido",
+          "fill": "#cbcbcbff",
+          "textGrowth": "fixed-width-height",
+          "width": 202,
+          "height": 40,
+          "content": "Nombre y apellido",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "WOXQk",
+          "x": 37.5,
+          "y": 336.5,
+          "name": "Te estaremos contactando",
+          "fill": "#cbcbcbff",
+          "textGrowth": "fixed-width-height",
+          "width": 202,
+          "height": 40,
+          "content": "Te estaremos contactando",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "Zy5to",
+          "x": 37.5,
+          "y": 413.5,
+          "name": "Déjanos conocerte mejor!",
+          "fill": "#cbcbcbff",
+          "textGrowth": "fixed-width-height",
+          "width": 202,
+          "height": 40,
+          "content": "Déjanos conocerte mejor!",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 12,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "rectangle",
+          "cornerRadius": 15,
+          "id": "mhiW5",
+          "x": 25.5,
+          "y": 466.5,
+          "name": "Rectangle 429",
+          "fill": "#6c1d2aff",
+          "width": 244,
+          "height": 41,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          }
+        },
+        {
+          "type": "text",
+          "id": "Gh1k4",
+          "x": 79.5,
+          "y": 478.5,
+          "name": "Enviar",
+          "fill": "#ffffffff",
+          "textGrowth": "fixed-width-height",
+          "width": 118,
+          "height": 16,
+          "content": "Enviar",
+          "textAlign": "center",
+          "textAlignVertical": "middle",
+          "fontFamily": "Source Sans Pro",
+          "fontSize": 15,
+          "fontWeight": "700"
+        }
+      ]
+    }
+  ]
+}

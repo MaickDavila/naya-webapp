@@ -1,0 +1,77 @@
+---
+/**
+ * Header reutilizable de la web-app Naya.
+ * El logo siempre enlaza a la página de inicio (/).
+ *
+ * @param leftAction - Acción del botón izquierdo: "search" | "back" | "back-home" | "back-profile" | "back-my-products" | "none"
+ * @param rightAction - Acción del lado derecho: "cart" | "none"
+ * @param variant - "full" (3 columnas) | "centered" (solo logo centrado)
+ */
+import { Image } from 'astro:assets';
+import logoNaya from '../../assets/logo.svg';
+import CartCounter from './CartCounter.vue';
+
+interface Props {
+  leftAction?: 'search' | 'back' | 'back-home' | 'back-profile' | 'back-my-products' | 'none';
+  rightAction?: 'cart' | 'none';
+  variant?: 'full' | 'centered';
+}
+
+const { leftAction = 'back-home', rightAction = 'cart', variant = 'full' } = Astro.props;
+
+const leftHrefs: Record<string, string> = {
+  search: '/search',
+  'back-home': '/',
+  'back-profile': '/profile',
+  'back-my-products': '/my-products',
+};
+---
+
+<header class="bg-[#D9D2C8] sticky top-0 z-50 shadow-sm">
+  {variant === 'centered' ? (
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-center items-center">
+      <a href="/" class="flex flex-col items-center" aria-label="Ir al inicio">
+        <Image src={logoNaya} alt="Logo Naya" class="h-10 w-auto" />
+      </a>
+    </div>
+  ) : (
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <!-- Izquierda -->
+      {leftAction === 'none' ? (
+        <div class="w-10" />
+      ) : leftAction === 'search' ? (
+        <a href="/search" class="p-2 hover:bg-black/5 rounded-full transition-colors" aria-label="Buscar">
+          <svg class="w-7 h-7 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </a>
+      ) : leftAction === 'back' ? (
+        <a href="javascript:history.back()" class="p-2 hover:bg-black/5 rounded-full transition-colors" aria-label="Volver">
+          <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 19l-7-7 7-7" />
+          </svg>
+        </a>
+      ) : leftHrefs[leftAction] ? (
+        <a href={leftHrefs[leftAction]} class="p-2 hover:bg-black/5 rounded-full transition-colors" aria-label="Volver">
+          <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 19l-7-7 7-7" />
+          </svg>
+        </a>
+      ) : (
+        <div class="w-10" />
+      )}
+
+      <!-- Centro: Logo siempre enlaza al inicio -->
+      <a href="/" class="flex flex-col items-center" aria-label="Ir al inicio">
+        <Image src={logoNaya} alt="Logo Naya" class="h-10 w-auto" />
+      </a>
+
+      <!-- Derecha -->
+      {rightAction === 'cart' ? (
+        <CartCounter client:only="vue" />
+      ) : (
+        <div class="w-10" />
+      )}
+    </div>
+  )}
+</header>

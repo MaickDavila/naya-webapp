@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import type { Product } from "../../domain/entities/Product";
-
+import { formatPrice } from "../utils/formatters";
 import { useAuth } from "../../application/stores/authStore";
 import { useFavorites } from "../../application/stores/favoritesStore";
 import { useToast } from "../../application/stores/toastStore";
@@ -13,7 +13,7 @@ interface Props {
 const { product } = defineProps<Props>();
 
 const { user, initAuth } = useAuth();
-const { isFavorite, toggleFavorite, loadFavorites, initialized } = useFavorites();
+const { isFavorite, toggleFavorite, loadFavorites } = useFavorites();
 const { success } = useToast();
 
 const isFavoriteLoading = ref(false);
@@ -21,12 +21,10 @@ const favoriteJustToggled = ref(false);
 
 const isProductFavorite = computed(() => isFavorite(product.id));
 
-// Inicializar auth y cargar favoritos
+// Inicializar auth y cargar favoritos (localStorage primero, luego backend)
 onMounted(async () => {
   await initAuth();
-  if (user.value && !initialized.value) {
-    await loadFavorites(user.value.uid);
-  }
+  await loadFavorites(user.value?.uid ?? undefined);
 });
 
 const handleToggleFavorite = async (event: Event) => {
@@ -126,6 +124,12 @@ const handleToggleFavorite = async (event: Event) => {
             />
           </svg>
         </button>
+      </div>
+
+      <!-- Titulo y precio -->
+      <div class="mt-2 px-0.5">
+        <h3 class="text-sm font-medium text-gray-900 truncate">{{ product.title }}</h3>
+        <p class="text-sm font-bold text-primary mt-0.5">{{ formatPrice(product.price) }}</p>
       </div>
     </a>
   </div>

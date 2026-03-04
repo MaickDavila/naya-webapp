@@ -1,8 +1,7 @@
 ---
 import BottomNav from "../../presentation/components/BottomNav.vue";
 import PaymentFailureHandler from "../../presentation/components/PaymentFailureHandler.vue";
-import { Image } from "astro:assets";
-import logoNaya from "../../assets/logo.svg";
+import Header from "../../presentation/components/Header.astro";
 import "../../styles/global.css";
 
 const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || "Naya";
@@ -38,14 +37,7 @@ const failureMessage = statusDetail ? (failureReasons[statusDetail] || 'El pago 
     <title>Pago Fallido - {marketplaceName}</title>
   </head>
   <body class="bg-[#FDFCFB] min-h-screen pb-24">
-    <!-- Header -->
-    <header class="bg-[#D9D2C8] sticky top-0 z-50 shadow-sm">
-      <div class="max-w-7xl mx-auto px-6 py-4 flex justify-center items-center">
-        <a href="/" class="flex flex-col items-center">
-          <Image src={logoNaya} alt="Logo Naya" class="h-10 w-auto" />
-        </a>
-      </div>
-    </header>
+    <Header variant="centered" />
 
     <main class="max-w-2xl mx-auto px-6 py-16 text-center">
       <!-- Icono de error -->

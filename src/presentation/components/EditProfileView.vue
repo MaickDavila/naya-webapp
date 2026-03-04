@@ -34,6 +34,7 @@ const { data: userData, pending: loading } = useDocument(
 const formData = ref({
   displayName: '',
   biography: '',
+  instagram: '',
   location: ''
 });
 
@@ -57,6 +58,7 @@ watch([userData, user], ([data, authUser]) => {
     formData.value = {
       displayName: userEntity.displayName || userEntity.name || '',
       biography: userEntity.biography || '',
+      instagram: userEntity.instagram || '',
       location: userEntity.location || ''
     };
     currentPhotoURL.value = userEntity.photoURL || null;
@@ -162,6 +164,7 @@ const handleSave = async () => {
       displayName: formData.value.displayName,
       name: formData.value.displayName,
       biography: formData.value.biography || null,
+      instagram: formData.value.instagram?.trim() || null,
       location: formData.value.location || null,
     };
     
@@ -317,6 +320,18 @@ onMounted(() => {
             placeholder="Cuéntales un poco sobre tu estilo o lo que vendes..." 
             class="w-full bg-background-secondary/50 border-transparent focus:bg-white focus:border-primary/20 focus:ring-0 rounded-2xl py-4 px-6 transition-all text-lg leading-relaxed"
           ></textarea>
+        </div>
+
+        <!-- Instagram -->
+        <div class="flex flex-col gap-2">
+          <label class="text-xs font-black uppercase tracking-widest text-gray-400 ml-4">Instagram</label>
+          <input 
+            v-model="formData.instagram"
+            type="text" 
+            placeholder="Ej: nataliahelfer o @nataliahelfer" 
+            class="w-full bg-background-secondary/50 border-transparent focus:bg-white focus:border-primary/20 focus:ring-0 rounded-2xl py-4 px-6 transition-all text-lg font-bold"
+          />
+          <p class="text-xs text-gray-400 ml-4">Tu usuario de Instagram (con o sin @)</p>
         </div>
 
         <!-- Botones de Acción -->
