@@ -90,9 +90,7 @@ const handleToggleFavorite = async () => {
 onMounted(async () => {
   await initAuth();
   await loadCart(user.value?.uid ?? undefined);
-  if (user.value) {
-    await loadFavorites(user.value.uid);
-  }
+  await loadFavorites(user.value?.uid ?? undefined);
 
   currentViewerId = user.value?.uid;
   await productViewersService.addViewer(props.product.id, currentViewerId);

@@ -13,7 +13,7 @@ interface Props {
 const { product } = defineProps<Props>();
 
 const { user, initAuth } = useAuth();
-const { isFavorite, toggleFavorite, loadFavorites, initialized } = useFavorites();
+const { isFavorite, toggleFavorite, loadFavorites } = useFavorites();
 const { success } = useToast();
 
 const isFavoriteLoading = ref(false);
@@ -21,12 +21,10 @@ const favoriteJustToggled = ref(false);
 
 const isProductFavorite = computed(() => isFavorite(product.id));
 
-// Inicializar auth y cargar favoritos
+// Inicializar auth y cargar favoritos (localStorage primero, luego backend)
 onMounted(async () => {
   await initAuth();
-  if (user.value && !initialized.value) {
-    await loadFavorites(user.value.uid);
-  }
+  await loadFavorites(user.value?.uid ?? undefined);
 });
 
 const handleToggleFavorite = async (event: Event) => {
