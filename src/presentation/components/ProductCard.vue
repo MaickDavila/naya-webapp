@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import type { Product } from "../../domain/entities/Product";
-
+import { formatPrice } from "../utils/formatters";
 import { useAuth } from "../../application/stores/authStore";
 import { useFavorites } from "../../application/stores/favoritesStore";
 import { useToast } from "../../application/stores/toastStore";
@@ -126,6 +126,12 @@ const handleToggleFavorite = async (event: Event) => {
             />
           </svg>
         </button>
+      </div>
+
+      <!-- Titulo y precio -->
+      <div class="mt-2 px-0.5">
+        <h3 class="text-sm font-medium text-gray-900 truncate">{{ product.title }}</h3>
+        <p class="text-sm font-bold text-primary mt-0.5">{{ formatPrice(product.price) }}</p>
       </div>
     </a>
   </div>
