@@ -7,7 +7,12 @@ import type { Product } from "../../domain/entities/Product";
 import ProductCard from "./ProductCard.vue";
 
 const { user, initAuth, loading: authLoading } = useAuth();
-const { favoriteIds, loadFavorites, initialized, loading: favoritesLoading } = useFavorites();
+const {
+  favoriteIds,
+  loadFavorites,
+  initialized,
+  loading: favoritesLoading,
+} = useFavorites();
 
 const productRepo = new FirestoreProductRepository();
 
@@ -29,7 +34,9 @@ async function loadFavoriteProducts() {
   error.value = null;
 
   try {
-    const productPromises = favoriteIds.value.map((id) => productRepo.getById(id));
+    const productPromises = favoriteIds.value.map((id) =>
+      productRepo.getById(id),
+    );
     const results = await Promise.all(productPromises);
     products.value = results.filter((p): p is Product => p !== null);
   } catch (e) {
@@ -54,7 +61,7 @@ watch(
       await loadFavorites(newUser.uid);
       await loadFavoriteProducts();
     }
-  }
+  },
 );
 
 // Reload products when favorites change
@@ -64,7 +71,7 @@ watch(
     if (initialized.value && newLength !== oldLength) {
       await loadFavoriteProducts();
     }
-  }
+  },
 );
 </script>
 
@@ -80,8 +87,15 @@ watch(
 
   <!-- Error State -->
   <div v-else-if="error" class="text-center py-12">
-    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-      <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div
+      class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4"
+    >
+      <svg
+        class="w-8 h-8 text-red-500"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -101,8 +115,15 @@ watch(
 
   <!-- Empty State -->
   <div v-else-if="products.length === 0" class="text-center py-16">
-    <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-      <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div
+      class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6"
+    >
+      <svg
+        class="w-10 h-10 text-gray-400"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -119,7 +140,12 @@ watch(
       href="/"
       class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full font-bold text-sm hover:bg-primary/90 transition-colors"
     >
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -127,12 +153,16 @@ watch(
           d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
         />
       </svg>
-      Explorar productos
+      Buscar productos
     </a>
   </div>
 
   <!-- Products Grid -->
   <div v-else class="grid grid-cols-2 gap-x-6 gap-y-10">
-    <ProductCard v-for="product in products" :key="product.id" :product="product" />
+    <ProductCard
+      v-for="product in products"
+      :key="product.id"
+      :product="product"
+    />
   </div>
 </template>

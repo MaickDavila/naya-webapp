@@ -74,18 +74,26 @@ const handleBackdropClick = (e: MouseEvent) => {
               aria-label="Cerrar"
               @click="close"
             >
-              <span class="text-[35px] leading-none" style="transform: rotate(-44deg)">+</span>
+              <span
+                class="text-[35px] leading-none"
+                style="transform: rotate(-44deg)"
+                >+</span
+              >
             </button>
 
             <!-- Título: 15px, centrado -->
-            <h2 class="text-[15px] font-normal text-black text-center mb-5 pr-6">
-              QUIERES VENDER CON NOSOTROS?
+            <h2
+              class="text-[15px] font-normal text-black text-center mb-5 pr-6"
+            >
+              ¿QUIERES VENDER CON NOSOTROS?
             </h2>
 
             <!-- Texto: 12px, centrado -->
             <p class="text-[12px] text-black text-center mb-8 leading-relaxed">
-              De momento, para mantener la calidad de los productos que ofrecemos y nuestro
-              servicio, estamos limitando los perfiles que pueden vender ropa.
+              Nos encantaría conocer tu estilo. Para que cada prenda sea
+              especial, estamos invitando perfiles seleccionados, contamos con
+              cupos limitados. Déjanos tus datos y juntas haremos que tus
+              prendas brillen en NAYA. 🌟
               <br /><br />
               Rellena tu información y nos pondremos en contacto.
             </p>

@@ -223,7 +223,11 @@ const activeImageIndex = computed(() => {
       </div>
       <p v-if="viewerCount > 0" class="text-xs text-black/50">
         {{ viewerCount }}
-        {{ viewerCount === 1 ? "persona viendo" : "personas viendo" }} ahora
+        {{
+          viewerCount === 1
+            ? "persona está interesada en este articulo"
+            : "personas están interesadas en este articulo"
+        }}
       </p>
     </div>
 
@@ -385,8 +389,7 @@ const activeImageIndex = computed(() => {
         v-else-if="inCartByOthersProduct"
         class="my-3 p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs"
       >
-        Otro comprador lo quiere. Está en su bolsa. Agrégalo antes de que se
-        lleve.
+        Este artículo está en la bolsa de otro comprador.
       </div>
 
       <!-- Botones de acción -->

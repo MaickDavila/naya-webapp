@@ -1,42 +1,36 @@
 <script setup lang="ts">
-import { onMounted, computed } from 'vue';
-import { useFirestore, useDocument } from 'vuefire';
-import { doc } from 'firebase/firestore';
+import { computed, onMounted } from 'vue';
+import { useFirestore, useCollection } from 'vuefire';
+import { collection, query, where, orderBy } from 'firebase/firestore';
 import { useAuth } from '../../application/stores/authStore';
+import { ProductMapper } from '../../infrastructure/mappers/ProductMapper';
 import { COLLECTIONS } from '../../domain/constants/collections';
+import ProfileHeader from './ProfileHeader.vue';
+import ProductCard from './ProductCard.vue';
 
-const { user, signOut, initAuth } = useAuth();
+const { user, initAuth } = useAuth();
 const db = useFirestore();
 
-// Referencia reactiva al documento del usuario en Firestore
-const userDocRef = computed(() => 
-  user.value ? doc(db, COLLECTIONS.USERS, user.value.uid) : null
+const productsQuery = computed(() =>
+  user.value
+    ? query(
+        collection(db, COLLECTIONS.PRODUCTS),
+        where('sellerId', '==', user.value.uid),
+        orderBy('createdAt', 'desc')
+      )
+    : null
 );
 
-// Cargar datos del perfil desde Firestore
-const { data: userProfile } = useDocument(userDocRef);
-
-// Computed para obtener la foto (prioridad: Firestore > Auth)
-const displayPhotoURL = computed(() => {
-  return userProfile.value?.photoURL || user.value?.photoURL || null;
+const { data: productsData, pending: loading } = useCollection(productsQuery, {
+  wait: true,
 });
 
-// Computed para obtener el nombre (prioridad: Firestore > Auth)
-const displayName = computed(() => {
-  return userProfile.value?.displayName || userProfile.value?.name || user.value?.displayName || 'Usuario Naya';
+const products = computed(() => {
+  if (!productsData.value) return [];
+  return productsData.value
+    .map((doc: any) => ProductMapper.toDomain(doc.id, doc))
+    .filter((p) => p.status === 'approved');
 });
-
-// Computed para obtener la inicial
-const userInitial = computed(() => {
-  return displayName.value.charAt(0).toUpperCase() || 'U';
-});
-
-const handleSignOut = async () => {
-  if (confirm('¿Estas seguro de que quieres cerrar sesion?')) {
-    await signOut();
-    window.location.href = '/';
-  }
-};
 
 onMounted(() => {
   initAuth();
@@ -44,80 +38,40 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="user" class="flex flex-col gap-12">
-    <!-- Header del Perfil Propio -->
-    <div class="bg-white rounded-[3rem] p-8 md:p-12 shadow-sm border border-black/5 flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
-      <!-- Avatar con inicial o foto -->
-      <div class="w-32 h-32 md:w-40 md:h-40 bg-primary rounded-full flex items-center justify-center text-white text-5xl md:text-6xl font-black shadow-xl shadow-primary/20 flex-shrink-0 overflow-hidden border-4 border-white">
-        <img v-if="displayPhotoURL" :src="displayPhotoURL" :alt="displayName" class="w-full h-full object-cover" />
-        <span v-else>{{ userInitial }}</span>
-      </div>
+  <div v-if="user" class="flex flex-col gap-8">
+    <ProfileHeader active-tab="for-sale" />
 
-      <div class="flex-1 text-center md:text-left">
-        <div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
-          <h1 class="text-4xl font-black text-gray-900 tracking-tight">{{ displayName }}</h1>
-          <span class="inline-flex items-center gap-2 bg-primary/5 text-primary px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border border-primary/10">
-            Miembro Naya
-          </span>
-        </div>
-
-        <p class="text-gray-500 text-lg mb-8">
-          {{ user.email }}
-        </p>
-
-        <div class="flex flex-wrap justify-center md:justify-start gap-4">
-          <a href="/edit-profile" class="bg-background-secondary text-gray-900 px-8 py-3 rounded-2xl font-bold hover:bg-gray-200 transition-all active:scale-95 border border-black/5 inline-block">
-            Editar Perfil
-          </a>
-          <button @click="handleSignOut" class="bg-error/5 text-error px-8 py-3 rounded-2xl font-bold hover:bg-error/10 transition-all active:scale-95 border border-error/10">
-            Cerrar Sesion
-          </button>
-        </div>
+    <!-- Content: FOR SALE - Grid de productos -->
+    <div v-if="loading" class="grid grid-cols-3 gap-2">
+      <div v-for="n in 9" :key="n" class="animate-pulse">
+        <div class="aspect-[125/155] bg-gray-200 rounded-lg" />
+        <div class="mt-2 h-4 bg-gray-200 rounded w-3/4" />
+        <div class="mt-1 h-3 bg-gray-100 rounded w-1/2" />
       </div>
     </div>
 
-    <!-- Secciones de Usuario -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <a href="/sell" class="bg-white p-8 rounded-[2.5rem] border border-black/5 shadow-sm hover:shadow-md transition-all group">
-        <div class="w-12 h-12 bg-success/10 rounded-2xl flex items-center justify-center mb-6 text-success group-hover:scale-110 transition-transform">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-        </div>
-        <h3 class="text-xl font-black text-gray-900 mb-2">Vender algo</h3>
-        <p class="text-gray-500 text-sm">Sube una nueva prenda a tu armario y dale una segunda vida.</p>
+    <div v-else-if="products.length === 0" class="text-center py-16">
+      <div class="w-20 h-20 bg-background-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+        <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+        </svg>
+      </div>
+      <h3 class="text-xl font-bold text-gray-900 mb-2">Tu armario esta vacio</h3>
+      <p class="text-gray-500 text-sm mb-6">Sube una prenda y dale una segunda vida.</p>
+      <a
+        href="/sell"
+        class="inline-block bg-primary text-white px-6 py-3 rounded-2xl font-bold text-sm hover:bg-primary-dark transition-all"
+      >
+        Vender algo
       </a>
+    </div>
 
-      <a href="/favorites" class="bg-white p-8 rounded-[2.5rem] border border-black/5 shadow-sm hover:shadow-md transition-all group">
-        <div class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-          </svg>
-        </div>
-        <h3 class="text-xl font-black text-gray-900 mb-2">Mis Favoritos</h3>
-        <p class="text-gray-500 text-sm">Accede a los productos que has guardado para ver mas tarde.</p>
-      </a>
-
-      <a href="/my-purchases" class="bg-white p-8 rounded-[2.5rem] border border-black/5 shadow-sm hover:shadow-md transition-all group">
-        <div class="w-12 h-12 bg-warning/10 rounded-2xl flex items-center justify-center mb-6 text-warning group-hover:scale-110 transition-transform">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-          </svg>
-        </div>
-        <h3 class="text-xl font-black text-gray-900 mb-2">Mis Compras</h3>
-        <p class="text-gray-500 text-sm">Revisa el estado de tus pedidos y tus tesoros adquiridos.</p>
-      </a>
-
-      <a href="/addresses" class="bg-white p-8 rounded-[2.5rem] border border-black/5 shadow-sm hover:shadow-md transition-all group">
-        <div class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-        </div>
-        <h3 class="text-xl font-black text-gray-900 mb-2">Mis Direcciones</h3>
-        <p class="text-gray-500 text-sm">Gestiona tus direcciones de envio para recibir tus pedidos.</p>
-      </a>
+    <div v-else class="grid grid-cols-3 gap-2">
+      <ProductCard
+        v-for="product in products"
+        :key="product.id"
+        :product="product"
+      />
     </div>
   </div>
 </template>

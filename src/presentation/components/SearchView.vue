@@ -2,6 +2,7 @@
 import { ref, watch, onMounted } from "vue";
 import { FirestoreProductRepository } from "../../infrastructure/repositories/FirestoreProductRepository";
 import { FirestoreCategoryRepository } from "../../infrastructure/repositories/FirestoreCategoryRepository";
+import { FirestoreUserRepository } from "../../infrastructure/repositories/FirestoreUserRepository";
 import type { Product } from "../../domain/entities/Product";
 import type { Category } from "../../domain/entities/Category";
 import ProductCard from "./ProductCard.vue";
@@ -34,6 +35,7 @@ const sellers = ref<Seller[]>([]);
 // Repositorios
 const productRepo = new FirestoreProductRepository();
 const categoryRepo = new FirestoreCategoryRepository();
+const userRepo = new FirestoreUserRepository();
 
 // Tabs config
 const tabs = [
@@ -79,6 +81,17 @@ async function executeSearch(query?: string) {
         existing.productsCount++;
       }
     });
+    // Obtener fotos de vendedores desde users
+    const sellerIds = Array.from(sellerMap.keys());
+    await Promise.all(
+      sellerIds.map(async (id) => {
+        const user = await userRepo.getById(id);
+        const seller = sellerMap.get(id);
+        if (seller && user?.photoURL) {
+          seller.photoURL = user.photoURL;
+        }
+      })
+    );
     sellers.value = Array.from(sellerMap.values());
 
     // Filtrar categorias si hay query
@@ -119,6 +132,17 @@ onMounted(async () => {
         existing.productsCount++;
       }
     });
+    // Obtener fotos de vendedores desde users
+    const sellerIds = Array.from(sellerMap.keys());
+    await Promise.all(
+      sellerIds.map(async (id) => {
+        const user = await userRepo.getById(id);
+        const seller = sellerMap.get(id);
+        if (seller && user?.photoURL) {
+          seller.photoURL = user.photoURL;
+        }
+      })
+    );
     sellers.value = Array.from(sellerMap.values());
   } catch (error) {
     console.error("Error cargando datos iniciales:", error);

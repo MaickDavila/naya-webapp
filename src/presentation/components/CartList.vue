@@ -17,9 +17,6 @@ const { inCheckoutByOthers, inCartByOthers, unsubscribe } =
 // Track which seller groups are collapsed
 const collapsedSellers = ref<Set<string>>(new Set());
 
-// Track which item has open menu
-const openMenuId = ref<string | null>(null);
-
 const hasBlockedItems = computed(() => inCheckoutByOthers.value.size > 0);
 
 /** Items disponibles para comprar (no están en checkout de otro) */
@@ -31,9 +28,6 @@ const hasAvailableItems = computed(() => availableItems.value.length > 0);
 onMounted(async () => {
   await initAuth();
   await loadCart(user.value?.uid ?? undefined);
-  document.addEventListener("click", () => {
-    openMenuId.value = null;
-  });
 });
 
 // Sincronizar presencia: al cargar con items + user, añadir presencia
@@ -53,12 +47,14 @@ watch(
   { immediate: true },
 );
 
-const handleRemove = (itemId: string) => {
+const handleRemove = (itemId: string, itemTitle?: string) => {
+  const title = itemTitle || "este producto";
+  if (!confirm(`¿Eliminar "${title}" de tu bolsa?`)) return;
+
   if (user.value) {
     productCartPresenceService.removePresence(itemId, user.value.uid);
   }
   removeItem(itemId);
-  openMenuId.value = null;
 };
 
 onUnmounted(() => {
@@ -102,11 +98,6 @@ const toggleSeller = (sellerId: string) => {
   } else {
     collapsedSellers.value.add(sellerId);
   }
-};
-
-const toggleMenu = (itemId: string, event: Event) => {
-  event.stopPropagation();
-  openMenuId.value = openMenuId.value === itemId ? null : itemId;
 };
 
 const goToCheckout = () => {
@@ -163,7 +154,7 @@ const canCheckout = computed(
         href="/"
         class="bg-primary text-white px-8 py-3 rounded-2xl font-bold hover:bg-primary-dark transition-all"
       >
-        Explorar productos
+        Buscar productos
       </a>
     </div>
 
@@ -258,7 +249,7 @@ const canCheckout = computed(
                 v-else-if="inCartByOthers.has(item.id)"
                 class="text-[10px] text-amber-600 font-medium"
               >
-                Otro comprador lo quiere. Paga antes de que te ganen.
+                Este artículo está en la bolsa de otro comprador.
               </p>
               <span
                 v-if="item.brand"
@@ -290,28 +281,26 @@ const canCheckout = computed(
               </div>
             </div>
 
-            <!-- Menú 3 puntos -->
-            <div class="relative flex-shrink-0">
-              <button @click="toggleMenu(item.id, $event)" class="p-1.5 -mr-1">
-                <div class="flex flex-col gap-[3px]">
-                  <div class="w-[3px] h-[3px] rounded-full bg-black/50"></div>
-                  <div class="w-[3px] h-[3px] rounded-full bg-black/50"></div>
-                  <div class="w-[3px] h-[3px] rounded-full bg-black/50"></div>
-                </div>
-              </button>
-              <!-- Dropdown menu -->
-              <div
-                v-if="openMenuId === item.id"
-                class="absolute right-0 top-full mt-1 bg-white rounded-lg shadow-lg border border-black/10 py-1 z-10 min-w-[140px]"
+            <!-- Botón eliminar -->
+            <button
+              @click="handleRemove(item.id, item.title)"
+              class="p-2 flex-shrink-0 hover:bg-red-50 rounded-full transition-colors text-gray-400 hover:text-red-600"
+              aria-label="Eliminar del carrito"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                <button
-                  @click="handleRemove(item.id)"
-                  class="w-full text-left px-3 py-2 text-xs text-red-600 hover:bg-red-50 transition-colors"
-                >
-                  Eliminar
-                </button>
-              </div>
-            </div>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
+              </svg>
+            </button>
           </div>
         </div>
 

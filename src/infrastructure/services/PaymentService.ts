@@ -20,7 +20,8 @@ export class PaymentService {
    */
   async createPreference(
     items: CheckoutItem[],
-    buyer: { id: string; name: string; email: string }
+    buyer: { id: string; name: string; email: string },
+    notes?: string,
   ): Promise<CreatePreferenceResponse> {
     const createPreferenceFn = httpsCallable<CreatePreferenceRequest, CreatePreferenceResponse>(
       this.functions,
@@ -34,6 +35,7 @@ export class PaymentService {
     const result = await createPreferenceFn({
       items,
       buyer,
+      notes,
       baseUrl,
     });
 

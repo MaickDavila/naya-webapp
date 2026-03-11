@@ -54,6 +54,8 @@ const reservedProductIds = ref<string[]>([]);
 
 const isProcessing = ref(false);
 const error = ref<string | null>(null);
+const checkoutNotes = ref("");
+const NOTES_MAX_LENGTH = 250;
 
 // Costo de envio (0 si no hay direccion seleccionada)
 const shippingPrice = computed(() => shippingCost.value?.price || 0);
@@ -100,6 +102,7 @@ const handleCheckout = async (event?: Event) => {
   error.value = null;
 
   try {
+    const sanitizedNotes = checkoutNotes.value.trim().slice(0, NOTES_MAX_LENGTH);
     const checkoutItems: CheckoutItem[] = payableItems.value.map((item) => ({
       id: item.id,
       title: item.title,
@@ -115,7 +118,7 @@ const handleCheckout = async (event?: Event) => {
       id: user.value.uid,
       name: user.value.displayName || "Usuario",
       email: user.value.email || "",
-    });
+    }, sanitizedNotes || undefined);
 
     if (!preference.initPoint) {
       throw new Error("No se recibio una URL de pago valida");
@@ -384,7 +387,7 @@ onUnmounted(() => {
             </svg>
             <p class="text-gray-500 mb-4">Tu carrito esta vacio</p>
             <a href="/" class="text-primary font-bold hover:underline"
-              >Explorar productos</a
+              >Buscar productos</a
             >
           </div>
 
@@ -445,6 +448,33 @@ onUnmounted(() => {
           class="bg-white rounded-[2rem] p-6 md:p-8 shadow-sm border border-black/5"
         >
           <AddressSelector />
+        </div>
+
+        <div
+          v-if="items.length > 0"
+          class="bg-white rounded-[2rem] p-6 md:p-8 shadow-sm border border-black/5"
+        >
+          <div class="flex items-start justify-between gap-4 mb-4">
+            <div>
+              <h2 class="text-2xl font-black text-gray-900">
+                Mensaje u observacion
+              </h2>
+              <p class="text-sm text-gray-500 mt-1">
+                Opcional. Agrega una indicacion para tu pedido.
+              </p>
+            </div>
+            <span class="text-xs font-medium text-gray-400 whitespace-nowrap">
+              {{ checkoutNotes.length }}/{{ NOTES_MAX_LENGTH }}
+            </span>
+          </div>
+
+          <textarea
+            v-model="checkoutNotes"
+            :maxlength="NOTES_MAX_LENGTH"
+            rows="4"
+            placeholder="Ejemplo: tocar el timbre, entregar por la tarde o dejar una referencia para el envio."
+            class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
+          />
         </div>
       </div>
 
