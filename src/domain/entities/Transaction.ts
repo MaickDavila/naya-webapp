@@ -106,6 +106,7 @@ export interface CreatePreferenceRequest {
     name: string;
     email: string;
   };
+  notes?: string;
   baseUrl: string;
 }
 

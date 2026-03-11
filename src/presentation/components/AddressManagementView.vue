@@ -5,6 +5,7 @@ import { useShipping } from "../../application/stores/shippingStore";
 import { useToast } from "../../application/stores/toastStore";
 import { formatPrice } from "../utils/formatters";
 import AddressForm from "./shipping/AddressForm.vue";
+import ProfileHeader from "./ProfileHeader.vue";
 import type { UserShippingAddress } from "../../domain/entities/ShippingAddress";
 import { calculateShippingCost } from "../../domain/entities/ShippingAddress";
 
@@ -118,7 +119,9 @@ const getShippingCostForAddress = (addr: UserShippingAddress) => {
 </script>
 
 <template>
-  <div class="max-w-2xl mx-auto">
+  <div v-if="user" class="flex flex-col gap-8">
+    <ProfileHeader active-tab="addresses" />
+
     <!-- Loading -->
     <div v-if="authLoading || shippingLoading" class="space-y-4">
       <div v-for="n in 3" :key="n" class="animate-pulse">
@@ -126,7 +129,7 @@ const getShippingCostForAddress = (addr: UserShippingAddress) => {
       </div>
     </div>
 
-    <!-- Not logged in -->
+    <!-- Not logged in (fallback) -->
     <div v-else-if="!user" class="text-center py-16">
       <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
         <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -152,18 +155,6 @@ const getShippingCostForAddress = (addr: UserShippingAddress) => {
 
     <!-- Address management -->
     <div v-else class="space-y-6">
-      <!-- Header -->
-      <div class="flex items-center justify-between">
-        <h2 class="text-2xl font-black text-gray-900">Mis Direcciones</h2>
-        <button
-          v-if="!showAddForm && !editingAddress"
-          @click="showAddForm = true"
-          class="px-4 py-2 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary-dark transition-all"
-        >
-          + Agregar direccion
-        </button>
-      </div>
-
       <!-- Add Form -->
       <div v-if="showAddForm" class="bg-white rounded-[2rem] p-6 md:p-8 shadow-sm border border-black/5">
         <h3 class="text-lg font-bold text-gray-900 mb-6">Nueva direccion</h3>
@@ -221,80 +212,34 @@ const getShippingCostForAddress = (addr: UserShippingAddress) => {
         </button>
       </div>
 
-      <!-- Address List -->
-      <div v-else class="space-y-4">
+      <!-- Address List - Estilo perfil.pen -->
+      <div v-else class="space-y-6">
         <div
           v-for="addr in addresses"
           :key="addr.id"
-          class="bg-white rounded-[2rem] p-6 shadow-sm border border-black/5"
+          class="border-b border-black/20 pb-6"
         >
-          <div class="flex items-start gap-4">
-            <!-- Icon -->
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
-              <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
+          <p class="text-sm font-bold text-gray-900">{{ addr.label }}</p>
+          <p class="text-sm text-gray-900">{{ formatAddressLine(addr) }}</p>
+          <p class="text-xs text-gray-500">{{ formatLocationLine(addr) }}</p>
+          <p class="text-sm text-gray-900">{{ addr.zipCode || addr.state }}</p>
+          <div class="mt-3 flex justify-between items-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg">
+              <span class="text-xs text-gray-600">
+                Envio: <strong>{{ formatPrice(getShippingCostForAddress(addr).price) }}</strong>
+              </span>
             </div>
-
-            <!-- Info -->
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2 mb-1">
-                <span class="font-bold text-gray-900">{{ addr.label }}</span>
-                <span
-                  v-if="addr.isDefault"
-                  class="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold"
-                >
-                  Principal
-                </span>
-              </div>
-              <p class="text-sm text-gray-600">{{ addr.recipientName }}</p>
-              <p class="text-sm text-gray-500">{{ formatAddressLine(addr) }}</p>
-              <p class="text-sm text-gray-500">{{ formatLocationLine(addr) }}</p>
-              <p class="text-sm text-gray-400">Tel: {{ addr.phone }}</p>
-              <p v-if="addr.reference" class="text-sm text-gray-400 mt-1">Ref: {{ addr.reference }}</p>
-
-              <!-- Shipping cost badge -->
-              <div class="mt-3 inline-flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg">
-                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-                  />
-                </svg>
-                <span class="text-sm text-gray-600">
-                  Envio: <strong>{{ formatPrice(getShippingCostForAddress(addr).price) }}</strong>
-                </span>
-                <span class="text-xs text-gray-400">
-                  ({{ getShippingCostForAddress(addr).estimatedDays }})
-                </span>
-              </div>
-            </div>
-
-            <!-- Actions -->
-            <div class="flex flex-col gap-2">
+            <div class="flex gap-2">
               <button
                 v-if="!addr.isDefault"
                 @click="handleSetDefault(addr.id)"
                 class="text-xs text-primary font-bold hover:underline"
               >
-                Hacer principal
+                Principal
               </button>
               <button
                 @click="editingAddress = addr"
-                class="text-xs text-gray-500 font-bold hover:text-gray-700"
+                class="px-4 py-2 bg-primary text-white rounded-[15px] font-bold text-xs hover:bg-primary-dark transition-all shadow-md"
               >
                 Editar
               </button>
@@ -308,6 +253,15 @@ const getShippingCostForAddress = (addr: UserShippingAddress) => {
             </div>
           </div>
         </div>
+
+        <!-- Agregar Direccion - Estilo perfil.pen -->
+        <button
+          v-if="!showAddForm && !editingAddress"
+          @click="showAddForm = true"
+          class="w-full py-4 border-2 border-dashed border-primary/30 rounded-[15px] font-bold text-sm text-primary hover:bg-primary/5 transition-all"
+        >
+          Agregar Direccion
+        </button>
       </div>
     </div>
   </div>
