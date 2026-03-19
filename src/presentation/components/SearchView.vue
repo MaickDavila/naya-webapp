@@ -151,17 +151,17 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-6">
+  <div class="flex flex-col gap-6 lg:gap-8">
     <!-- Barra de busqueda -->
-    <div class="relative">
+    <div class="relative lg:max-w-2xl">
       <input
         v-model="searchQuery"
         type="text"
         placeholder="Buscar productos, marcas, vendedores..."
-        class="w-full px-5 py-4 pl-12 bg-white rounded-2xl border border-black/5 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20 text-gray-900 placeholder-gray-400 font-medium"
+        class="w-full px-5 py-4 lg:py-5 pl-12 lg:pl-14 bg-white rounded-2xl border border-black/5 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20 text-gray-900 placeholder-gray-400 font-medium text-[15px] lg:text-base"
       />
       <svg
-        class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+        class="absolute left-4 lg:left-5 top-1/2 -translate-y-1/2 w-5 h-5 lg:w-6 lg:h-6 text-gray-400"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -191,13 +191,13 @@ onMounted(async () => {
     </div>
 
     <!-- Tabs -->
-    <div class="flex gap-2 overflow-x-auto pb-2 -mx-6 px-6 scrollbar-hide">
+    <div class="flex gap-2 overflow-x-auto pb-2 -mx-4 sm:-mx-6 px-4 sm:px-6 lg:mx-0 lg:px-0 lg:overflow-visible lg:flex-wrap scrollbar-hide">
       <button
         v-for="tab in tabs"
         :key="tab.key"
         @click="activeTab = tab.key"
         :class="[
-          'px-5 py-2.5 rounded-full font-bold text-sm transition-all whitespace-nowrap flex-shrink-0',
+          'px-5 py-2.5 lg:px-6 lg:py-3 rounded-full font-bold text-sm lg:text-base transition-all whitespace-nowrap flex-shrink-0',
           activeTab === tab.key
             ? 'bg-primary text-white shadow-lg shadow-primary/20'
             : 'bg-white text-gray-600 border border-black/5 hover:bg-gray-50',
@@ -229,22 +229,22 @@ onMounted(async () => {
     />
 
     <!-- Loading State -->
-    <div v-if="isLoading" class="grid grid-cols-2 gap-6">
-      <div v-for="n in 6" :key="n" class="animate-pulse">
-        <div class="aspect-[4/3] bg-gray-200 rounded-2xl mb-3"></div>
-        <div class="h-4 bg-gray-200 rounded w-3/4 mb-2 mx-auto"></div>
-        <div class="h-3 bg-gray-200 rounded w-1/2 mx-auto"></div>
+    <div v-if="isLoading" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+      <div v-for="n in 8" :key="n" class="animate-pulse">
+        <div class="aspect-[4/5] bg-gray-200 rounded-2xl mb-3"></div>
+        <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+        <div class="h-3 bg-gray-200 rounded w-1/2"></div>
       </div>
     </div>
 
     <!-- Resultados: Productos -->
     <div v-else-if="activeTab === 'products'">
-      <div v-if="products.length > 0" class="grid grid-cols-2 gap-x-6 gap-y-10">
+      <div v-if="products.length > 0" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
         <ProductCard v-for="product in products" :key="product.id" :product="product" />
       </div>
-      <div v-else class="text-center py-12">
+      <div v-else class="text-center py-12 lg:py-16">
         <svg
-          class="w-16 h-16 text-gray-300 mx-auto mb-4"
+          class="w-16 h-16 lg:w-20 lg:h-20 text-gray-300 mx-auto mb-4"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -256,21 +256,21 @@ onMounted(async () => {
             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
           />
         </svg>
-        <p class="text-gray-400 font-medium">No se encontraron productos</p>
-        <p v-if="searchQuery" class="text-gray-300 text-sm mt-1">
-          Intenta con otros terminos de busqueda
+        <p class="text-gray-400 font-medium text-base lg:text-lg">No se encontraron productos</p>
+        <p v-if="searchQuery" class="text-gray-300 text-sm lg:text-base mt-1">
+          Intenta con otros términos de búsqueda
         </p>
       </div>
     </div>
 
     <!-- Resultados: Vendedores -->
     <div v-else-if="activeTab === 'sellers'">
-      <div v-if="sellers.length > 0" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div v-if="sellers.length > 0" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
         <SellerCard v-for="seller in sellers" :key="seller.id" :seller="seller" />
       </div>
-      <div v-else class="text-center py-12">
+      <div v-else class="text-center py-12 lg:py-16">
         <svg
-          class="w-16 h-16 text-gray-300 mx-auto mb-4"
+          class="w-16 h-16 lg:w-20 lg:h-20 text-gray-300 mx-auto mb-4"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -282,18 +282,18 @@ onMounted(async () => {
             d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
           />
         </svg>
-        <p class="text-gray-400 font-medium">No se encontraron vendedores</p>
+        <p class="text-gray-400 font-medium text-base lg:text-lg">No se encontraron vendedores</p>
       </div>
     </div>
 
     <!-- Resultados: Categorias -->
     <div v-else-if="activeTab === 'categories'">
-      <div v-if="categories.length > 0" class="flex flex-col gap-3">
+      <div v-if="categories.length > 0" class="flex flex-col gap-3 lg:gap-4 lg:grid lg:grid-cols-2 xl:grid-cols-3">
         <CategoryChip v-for="category in categories" :key="category.id" :category="category" />
       </div>
-      <div v-else class="text-center py-12">
+      <div v-else class="text-center py-12 lg:py-16">
         <svg
-          class="w-16 h-16 text-gray-300 mx-auto mb-4"
+          class="w-16 h-16 lg:w-20 lg:h-20 text-gray-300 mx-auto mb-4"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -305,7 +305,7 @@ onMounted(async () => {
             d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
           />
         </svg>
-        <p class="text-gray-400 font-medium">No hay categorias disponibles</p>
+        <p class="text-gray-400 font-medium text-base lg:text-lg">No hay categorías disponibles</p>
       </div>
     </div>
   </div>

@@ -78,7 +78,6 @@ async function handleAuthChange(userId: string | null, forceRefresh = false): Pr
     }
     state.initialized = true;
   }
-  state.loading = false;
 }
 
 // Suscripción a cambios de auth (solo en cliente)
@@ -106,7 +105,11 @@ export const useFavorites = () => {
     if (typeof window === "undefined") return;
     const uid = userId !== undefined ? userId : auth.currentUser?.uid ?? null;
     state.loading = true;
-    await handleAuthChange(uid, true);
+    try {
+      await handleAuthChange(uid, true);
+    } finally {
+      state.loading = false;
+    }
   };
 
   const addFavorite = async (userId: string, productId: string): Promise<boolean> => {

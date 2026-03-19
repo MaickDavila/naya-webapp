@@ -14,12 +14,12 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Naya';
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<title>Mis Favoritos - {marketplaceName}</title>
 	</head>
-	<body class="bg-[#FDFCFB] min-h-screen pb-24">
+	<body class="bg-[#FDFCFB] min-h-screen pb-24 lg:pb-8">
 		<!-- Auth Guard -->
 		<div id="auth-guard" class="hidden">
 			<Header leftAction="back-profile" rightAction="cart" />
 
-			<main class="max-w-7xl mx-auto px-6 py-6">
+			<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
 				<!-- Titulo -->
 				<div class="mb-6">
 					<h1 class="text-2xl font-black text-gray-900 tracking-tight">Mis Favoritos</h1>

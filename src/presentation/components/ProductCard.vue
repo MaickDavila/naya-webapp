@@ -13,7 +13,7 @@ interface Props {
 const { product } = defineProps<Props>();
 
 const { user, initAuth } = useAuth();
-const { isFavorite, toggleFavorite, loadFavorites } = useFavorites();
+const { isFavorite, toggleFavorite } = useFavorites();
 const { success } = useToast();
 
 const isFavoriteLoading = ref(false);
@@ -21,10 +21,9 @@ const favoriteJustToggled = ref(false);
 
 const isProductFavorite = computed(() => isFavorite(product.id));
 
-// Inicializar auth y cargar favoritos (localStorage primero, luego backend)
-onMounted(async () => {
-  await initAuth();
-  await loadFavorites(user.value?.uid ?? undefined);
+// Solo asegurar que auth esté inicializado (para redirect a login o toggle). loadFavorites lo hace la página (FavoritesView, etc.) para no disparar N cargas con N cards.
+onMounted(() => {
+  initAuth();
 });
 
 const handleToggleFavorite = async (event: Event) => {
@@ -61,7 +60,7 @@ const handleToggleFavorite = async (event: Event) => {
   <div class="relative">
     <a
       :href="`/products/${product.id}`"
-      class="block group cursor-pointer"
+      class="block group cursor-pointer transition-transform duration-200 hover:-translate-y-0.5"
     >
       <!-- Imagen del producto -->
       <div
@@ -127,9 +126,9 @@ const handleToggleFavorite = async (event: Event) => {
       </div>
 
       <!-- Titulo y precio -->
-      <div class="mt-2 px-0.5">
-        <h3 class="text-sm font-medium text-gray-900 truncate">{{ product.title }}</h3>
-        <p class="text-sm font-bold text-primary mt-0.5">{{ formatPrice(product.price) }}</p>
+      <div class="mt-2 px-0.5 lg:mt-3">
+        <h3 class="text-sm lg:text-base font-medium text-gray-900 truncate">{{ product.title }}</h3>
+        <p class="text-sm lg:text-base font-bold text-primary mt-0.5">{{ formatPrice(product.price) }}</p>
       </div>
     </a>
   </div>

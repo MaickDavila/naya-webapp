@@ -29,17 +29,27 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Naya';
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<title>{marketplaceName} - Marketplace</title>
 	</head>
-	<body class="bg-[#FDFCFB] min-h-screen pb-24">
+	<body class="bg-[#FDFCFB] min-h-screen pb-24 lg:pb-8">
 		<Header leftAction="search" rightAction="cart" />
 
-		<main class="max-w-7xl mx-auto px-6 py-8">
+		<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+			<!-- Título de sección: más visible en desktop -->
+			<div class="mb-6 lg:mb-10">
+				<h1 class="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-[var(--color-text-primary)] tracking-tight">
+					Explorar por categoría
+				</h1>
+				<p class="mt-1 text-sm text-[var(--color-text-secondary)] lg:text-base">
+					Encuentra lo que buscas en {marketplaceName}
+				</p>
+			</div>
+
 			{error ? (
 				<div class="bg-error/5 border border-error/20 p-4 rounded-2xl mb-8">
 					<p class="text-error text-center font-bold">{error}</p>
 				</div>
 			) : categories.length === 0 ? (
 				<!-- Skeleton Loading: 8 categorías placeholder -->
-				<div class="grid grid-cols-2 gap-6">
+				<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
 					{Array.from({ length: 8 }).map(() => (
 						<div class="flex flex-col">
 							<div class="flex flex-col bg-white rounded-[15px] shadow-[0_10px_22px_rgba(0,0,0,0.14)] border border-black/5 overflow-hidden animate-pulse">
@@ -52,14 +62,14 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Naya';
 					))}
 				</div>
 			) : (
-				<div class="grid grid-cols-2 gap-6">
+				<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
 					{categories.map((cat) => {
 						const routeKey = cat.slug || cat.name;
 						return (
 							<div class="flex flex-col">
 								<a
 									href={`/categories/${encodeURIComponent(routeKey)}`}
-									class="flex flex-col bg-white rounded-[15px] shadow-[0_10px_22px_rgba(0,0,0,0.14)] border border-black/5 overflow-hidden transition-transform duration-200 active:scale-[0.98] hover:-translate-y-[1px]"
+									class="flex flex-col bg-white rounded-[15px] shadow-[0_10px_22px_rgba(0,0,0,0.14)] border border-black/5 overflow-hidden transition-all duration-200 active:scale-[0.98] hover:-translate-y-1 hover:shadow-[0_14px_28px_rgba(0,0,0,0.18)]"
 									aria-label={`Ver ${cat.name}`}
 								>
 									{cat.image ? (
@@ -76,7 +86,7 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Naya';
 										</div>
 									)}
 								</a>
-								<h2 class="text-base font-bold text-gray-900 tracking-tight text-center mt-3">
+								<h2 class="text-base lg:text-lg font-bold text-gray-900 tracking-tight text-center mt-3">
 									{cat.name}
 								</h2>
 							</div>

@@ -149,152 +149,182 @@ const activeImageIndex = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <!-- Imagen del producto centrada -->
-    <div class="flex justify-center mb-2">
-      <div class="w-2/3 aspect-[4/5] overflow-hidden bg-gray-100">
-        <img
-          :src="activeImage"
-          :alt="product.title"
-          class="w-full h-full object-cover"
+  <div class="flex flex-col lg:flex-row lg:gap-12 xl:gap-16 lg:items-start">
+    <!-- Columna izquierda: galería (desktop) -->
+    <div class="lg:w-1/2 lg:max-w-xl lg:sticky lg:top-24 lg:shrink-0">
+      <div class="flex justify-center mb-2 lg:justify-start lg:mb-4">
+        <div class="w-2/3 lg:w-full aspect-[4/5] overflow-hidden bg-gray-100 rounded-2xl">
+          <img
+            :src="activeImage"
+            :alt="product.title"
+            class="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+
+      <!-- Thumbnails en desktop -->
+      <div
+        v-if="product.images.length > 1"
+        class="hidden lg:flex gap-2 mt-3 flex-wrap"
+      >
+        <button
+          v-for="(img, index) in product.images"
+          :key="index"
+          @click="activeImage = img"
+          type="button"
+          class="w-16 h-20 rounded-lg overflow-hidden border-2 transition-all flex-shrink-0"
+          :class="activeImageIndex === index ? 'border-primary ring-2 ring-primary/20' : 'border-transparent opacity-70 hover:opacity-100'"
+        >
+          <img :src="img" :alt="`${product.title} - imagen ${index + 1}`" class="w-full h-full object-cover" />
+        </button>
+      </div>
+
+      <!-- Dots en móvil -->
+      <div
+        v-if="product.images.length > 1"
+        class="flex lg:hidden justify-center gap-2 mb-4"
+      >
+        <button
+          v-for="(img, index) in product.images"
+          :key="index"
+          @click="activeImage = img"
+          class="w-1.5 h-1.5 rounded-full transition-all"
+          :class="activeImageIndex === index ? 'bg-black' : 'bg-black/30'"
         />
       </div>
     </div>
 
-    <!-- Dots de paginación -->
-    <div
-      v-if="product.images.length > 1"
-      class="flex justify-center gap-2 mb-4"
-    >
-      <button
-        v-for="(img, index) in product.images"
-        :key="index"
-        @click="activeImage = img"
-        class="w-1.5 h-1.5 rounded-full transition-all"
-        :class="activeImageIndex === index ? 'bg-black' : 'bg-black/30'"
-      />
-    </div>
-
-    <!-- Nombre del producto + corazón -->
-    <div class="flex flex-col items-center gap-2 mb-6">
-      <div class="flex items-center justify-center gap-2">
-        <h1 class="text-[15px] text-black font-serif">{{ product.title }}</h1>
-        <button
-          @click="handleToggleFavorite"
-          :disabled="isFavoriteLoading"
-          class="flex-shrink-0"
-        >
-          <svg
-            v-if="isFavoriteLoading"
-            class="w-4 h-4 animate-spin text-black/50"
-            fill="none"
-            viewBox="0 0 24 24"
+    <!-- Columna derecha: contenido -->
+    <div class="flex-1 lg:min-w-0">
+      <!-- Título + favorito + viewers -->
+      <div class="flex flex-col items-center gap-2 mb-6 lg:items-start lg:mb-8">
+        <div class="flex items-center justify-center gap-2 lg:justify-start w-full">
+          <h1 class="text-[15px] lg:text-2xl xl:text-3xl text-black font-serif font-bold text-center lg:text-left">
+            {{ product.title }}
+          </h1>
+          <button
+            @click="handleToggleFavorite"
+            :disabled="isFavoriteLoading"
+            class="flex-shrink-0 p-1 rounded-full hover:bg-black/5 transition-colors"
           >
-            <circle
-              class="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              stroke-width="4"
-            ></circle>
-            <path
-              class="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
-          </svg>
-          <svg
-            v-else
-            class="w-4 h-4 transition-transform duration-300"
-            :class="favoriteJustToggled ? 'animate-heart-pop' : ''"
-            :fill="isProductFavorite ? 'currentColor' : 'none'"
-            :stroke="isProductFavorite ? 'none' : 'currentColor'"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-            />
-          </svg>
-        </button>
-      </div>
-      <p v-if="viewerCount > 0" class="text-xs text-black/50">
-        {{ viewerCount }}
-        {{
-          viewerCount === 1
-            ? "persona está interesada en este articulo"
-            : "personas están interesadas en este articulo"
-        }}
-      </p>
-    </div>
-
-    <!-- Sección DETALLE -->
-    <div class="px-2">
-      <p class="text-[15px] text-black/50 mb-1">DETALLE</p>
-      <div class="border-t border-black/20 mb-3"></div>
-
-      <p v-if="product.category" class="text-xs text-black/50 mb-1">
-        {{ product.category }}
-      </p>
-
-      <div class="flex flex-col gap-1 mb-4">
-        <div class="flex gap-2">
-          <span class="text-xs text-black/50">Precio:</span>
-          <span class="text-xs text-black">{{
-            formatPrice(product.price)
-          }}</span>
-          <span
-            v-if="product.originalPrice && discountPercentage > 0"
-            class="text-xs text-black/40 line-through"
-            >{{ formatPrice(product.originalPrice) }}</span
-          >
+            <svg
+              v-if="isFavoriteLoading"
+              class="w-4 h-4 lg:w-5 lg:h-5 animate-spin text-black/50"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            <svg
+              v-else
+              class="w-4 h-4 lg:w-5 lg:h-5 transition-transform duration-300"
+              :class="favoriteJustToggled ? 'animate-heart-pop' : ''"
+              :fill="isProductFavorite ? 'currentColor' : 'none'"
+              :stroke="isProductFavorite ? 'none' : 'currentColor'"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              />
+            </svg>
+          </button>
         </div>
-        <div v-if="product.size" class="flex gap-2">
-          <span class="text-xs text-black/50">Talla:</span>
-          <span class="text-xs text-black">{{ product.size }}</span>
-        </div>
-        <div v-if="product.brand" class="flex gap-2">
-          <span class="text-xs text-black/50">Marca:</span>
-          <span class="text-xs text-black">{{ product.brand }}</span>
-        </div>
-        <div v-if="product.color" class="flex gap-2">
-          <span class="text-xs text-black/50">Color:</span>
-          <span class="text-xs text-black">{{ product.color }}</span>
-        </div>
-      </div>
-
-      <!-- Sección CONDICION -->
-      <p class="text-[15px] text-black/50 mb-1">CONDICION</p>
-      <div class="border-t border-black/20 mb-3"></div>
-
-      <div class="flex flex-col gap-1 mb-4">
-        <div v-if="conditionLabel" class="flex gap-2">
-          <span class="text-xs text-black/50">Estado:</span>
-          <span class="text-xs text-black">{{ conditionLabel }}</span>
-        </div>
-        <div v-if="product.description">
-          <span class="text-xs text-black/50">Descripcion:</span>
-          <p class="text-xs text-black mt-1 leading-relaxed">
-            {{ product.description }}
+        <!-- Precio destacado en desktop -->
+        <div class="lg:w-full lg:mb-4">
+          <p class="text-lg lg:text-2xl font-bold text-primary">
+            {{ formatPrice(product.price) }}
+            <span
+              v-if="product.originalPrice && discountPercentage > 0"
+              class="text-base lg:text-lg text-black/40 line-through font-normal ml-2"
+            >{{ formatPrice(product.originalPrice) }}</span>
           </p>
         </div>
+        <p v-if="viewerCount > 0" class="text-xs text-black/50 lg:text-sm">
+          {{ viewerCount }}
+          {{
+            viewerCount === 1
+              ? "persona está interesada en este artículo"
+              : "personas están interesadas en este artículo"
+          }}
+        </p>
       </div>
 
-      <!-- Sección VENDIDO POR -->
-      <div v-if="product.sellerId" class="mb-4">
-        <p class="text-[15px] text-black/50 mb-1">VENDIDO POR</p>
+      <!-- Sección DETALLE -->
+      <div class="px-2 lg:px-0">
+        <p class="text-[15px] lg:text-base text-black/50 mb-1 font-medium">DETALLE</p>
         <div class="border-t border-black/20 mb-3"></div>
-        <div class="flex items-start gap-4">
-          <a
-            :href="`/sellers/${product.sellerId}`"
-            class="flex-shrink-0 hover:opacity-90 transition-opacity"
-          >
-            <div
-              class="w-20 h-20 rounded-[15px] overflow-hidden bg-gray-100 flex items-center justify-center"
+
+        <p v-if="product.category" class="text-xs lg:text-sm text-black/50 mb-1">
+          {{ product.category }}
+        </p>
+
+        <div class="flex flex-col gap-1 mb-4 lg:gap-2">
+          <div class="flex gap-2 lg:hidden">
+            <span class="text-xs text-black/50">Precio:</span>
+            <span class="text-xs text-black">{{ formatPrice(product.price) }}</span>
+            <span
+              v-if="product.originalPrice && discountPercentage > 0"
+              class="text-xs text-black/40 line-through"
+            >{{ formatPrice(product.originalPrice) }}</span>
+          </div>
+          <div v-if="product.size" class="flex gap-2">
+            <span class="text-xs lg:text-sm text-black/50">Talla:</span>
+            <span class="text-xs lg:text-sm text-black">{{ product.size }}</span>
+          </div>
+          <div v-if="product.brand" class="flex gap-2">
+            <span class="text-xs lg:text-sm text-black/50">Marca:</span>
+            <span class="text-xs lg:text-sm text-black">{{ product.brand }}</span>
+          </div>
+          <div v-if="product.color" class="flex gap-2">
+            <span class="text-xs lg:text-sm text-black/50">Color:</span>
+            <span class="text-xs lg:text-sm text-black">{{ product.color }}</span>
+          </div>
+        </div>
+
+        <!-- Sección CONDICION -->
+        <p class="text-[15px] lg:text-base text-black/50 mb-1 font-medium">CONDICIÓN</p>
+        <div class="border-t border-black/20 mb-3"></div>
+
+        <div class="flex flex-col gap-1 mb-4 lg:gap-2">
+          <div v-if="conditionLabel" class="flex gap-2">
+            <span class="text-xs lg:text-sm text-black/50">Estado:</span>
+            <span class="text-xs lg:text-sm text-black">{{ conditionLabel }}</span>
+          </div>
+          <div v-if="product.description">
+            <span class="text-xs lg:text-sm text-black/50">Descripción:</span>
+            <p class="text-xs lg:text-sm text-black mt-1 leading-relaxed">
+              {{ product.description }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Sección VENDIDO POR -->
+        <div v-if="product.sellerId" class="mb-4 lg:mb-6">
+          <p class="text-[15px] lg:text-base text-black/50 mb-1 font-medium">VENDIDO POR</p>
+          <div class="border-t border-black/20 mb-3"></div>
+          <div class="flex items-start gap-4 lg:gap-5">
+            <a
+              :href="`/sellers/${product.sellerId}`"
+              class="flex-shrink-0 hover:opacity-90 transition-opacity"
             >
+              <div
+                class="w-20 h-20 lg:w-24 lg:h-24 rounded-[15px] overflow-hidden bg-gray-100 flex items-center justify-center"
+              >
               <img
                 v-if="seller?.photoURL"
                 :src="seller.photoURL"
@@ -318,7 +348,7 @@ const activeImageIndex = computed(() => {
               :href="`/sellers/${product.sellerId}`"
               class="block hover:opacity-90 transition-opacity"
             >
-              <p class="text-[15px] font-bold text-black">
+              <p class="text-[15px] lg:text-lg font-bold text-black">
                 {{
                   seller?.displayName ||
                   seller?.name ||
@@ -328,7 +358,7 @@ const activeImageIndex = computed(() => {
               </p>
               <p
                 v-if="seller?.biography"
-                class="text-[15px] text-black font-normal leading-snug mt-1"
+                class="text-[15px] lg:text-base text-black font-normal leading-snug mt-1"
               >
                 {{ seller.biography }}
               </p>
@@ -338,7 +368,7 @@ const activeImageIndex = computed(() => {
               :href="`https://instagram.com/${seller.instagram.replace(/^@/, '')}`"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-[15px] text-black font-normal mt-1 block hover:underline"
+              class="text-[15px] lg:text-base text-black font-normal mt-1 block hover:underline"
             >
               Instagram:
               {{
@@ -349,7 +379,7 @@ const activeImageIndex = computed(() => {
             </a>
             <a
               :href="`/sellers/${product.sellerId}`"
-              class="text-xs text-black/50 mt-2 block hover:underline"
+              class="text-xs lg:text-sm text-black/50 mt-2 block hover:underline"
             >
               Ver perfil del vendedor
             </a>
@@ -378,7 +408,7 @@ const activeImageIndex = computed(() => {
       <!-- Aviso: en checkout de otro (bloqueado) -->
       <div
         v-if="inCheckoutByOthersProduct"
-        class="my-3 p-3 bg-red-50 border border-red-200 rounded-xl text-red-800 text-xs"
+        class="my-3 p-3 lg:p-4 bg-red-50 border border-red-200 rounded-xl text-red-800 text-xs lg:text-sm"
       >
         Alguien está por comprar este producto. No podrás agregarlo hasta que
         finalice o expire su reserva.
@@ -387,17 +417,17 @@ const activeImageIndex = computed(() => {
       <!-- Aviso: en bolsa de otro (urgencia) -->
       <div
         v-else-if="inCartByOthersProduct"
-        class="my-3 p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs"
+        class="my-3 p-3 lg:p-4 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs lg:text-sm"
       >
         Este artículo está en la bolsa de otro comprador.
       </div>
 
       <!-- Botones de acción -->
-      <div class="flex flex-col gap-3 mt-2">
+      <div class="flex flex-col gap-3 mt-2 lg:mt-6 lg:max-w-sm">
         <a
           v-if="isInMyCart && !isBlocked"
           href="/cart"
-          class="w-full bg-primary text-white py-3 rounded-[15px] font-bold text-[15px] hover:opacity-90 transition-all active:scale-[0.98] text-center block"
+          class="w-full bg-primary text-white py-3 lg:py-4 rounded-[15px] font-bold text-[15px] lg:text-base hover:opacity-90 transition-all active:scale-[0.98] text-center block"
         >
           Ya está en tu bolsa — Ver carrito
         </a>
@@ -405,7 +435,7 @@ const activeImageIndex = computed(() => {
           v-else
           @click="handleAddToCart"
           :disabled="isBlocked"
-          class="w-full bg-primary text-white py-3 rounded-[15px] font-bold text-[15px] hover:opacity-90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+          class="w-full bg-primary text-white py-3 lg:py-4 rounded-[15px] font-bold text-[15px] lg:text-base hover:opacity-90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {{
             isAdded
@@ -420,7 +450,7 @@ const activeImageIndex = computed(() => {
           @click="handleToggleFavorite"
           :disabled="isFavoriteLoading"
           :class="[
-            'w-full py-3 rounded-[15px] font-bold text-[15px] transition-all active:scale-[0.98] flex items-center justify-center gap-2 bg-white border-2',
+            'w-full py-3 lg:py-4 rounded-[15px] font-bold text-[15px] lg:text-base transition-all active:scale-[0.98] flex items-center justify-center gap-2 bg-white border-2',
             isProductFavorite
               ? 'border-primary text-primary'
               : 'border-black/20 text-black',
@@ -461,6 +491,7 @@ const activeImageIndex = computed(() => {
             }}
           </span>
         </button>
+      </div>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, computed } from "vue";
+import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import { useAuth } from "../../application/stores/authStore";
 import { useFavorites } from "../../application/stores/favoritesStore";
 import { FirestoreProductRepository } from "../../infrastructure/repositories/FirestoreProductRepository";
@@ -7,12 +7,7 @@ import type { Product } from "../../domain/entities/Product";
 import ProductCard from "./ProductCard.vue";
 
 const { user, initAuth, loading: authLoading } = useAuth();
-const {
-  favoriteIds,
-  loadFavorites,
-  initialized,
-  loading: favoritesLoading,
-} = useFavorites();
+const { favoriteIds, loadFavorites, loading: favoritesLoading } = useFavorites();
 
 const productRepo = new FirestoreProductRepository();
 
@@ -24,55 +19,52 @@ const isLoading = computed(() => {
   return authLoading.value || favoritesLoading.value || isLoadingProducts.value;
 });
 
+// Productos mostrados: solo los que siguen en favoritos (actualización inmediata al quitar)
+const displayedProducts = computed(() => {
+  const ids = new Set(favoriteIds.value);
+  return products.value.filter((p) => ids.has(p.id));
+});
+
+let loadProductsAbort = false;
+
 async function loadFavoriteProducts() {
   if (favoriteIds.value.length === 0) {
     products.value = [];
     return;
   }
 
+  if (isLoadingProducts.value) return;
   isLoadingProducts.value = true;
   error.value = null;
+  loadProductsAbort = false;
+  const idsToLoad = [...favoriteIds.value];
 
   try {
-    const productPromises = favoriteIds.value.map((id) =>
-      productRepo.getById(id),
-    );
+    const productPromises = idsToLoad.map((id) => productRepo.getById(id));
     const results = await Promise.all(productPromises);
+    if (loadProductsAbort) return;
     products.value = results.filter((p): p is Product => p !== null);
   } catch (e) {
+    if (loadProductsAbort) return;
     console.error("Error loading favorite products:", e);
     error.value = "Error al cargar los productos favoritos";
   } finally {
-    isLoadingProducts.value = false;
+    if (!loadProductsAbort) isLoadingProducts.value = false;
   }
 }
 
 onMounted(async () => {
   await initAuth();
-  await loadFavorites(user.value?.uid ?? undefined);
+  if (!user.value) return;
+  await loadFavorites(user.value.uid);
   await loadFavoriteProducts();
 });
 
-// Watch for user changes (auth carga después del mount)
-watch(
-  () => user.value,
-  async (newUser) => {
-    if (newUser) {
-      await loadFavorites(newUser.uid);
-      await loadFavoriteProducts();
-    }
-  },
-);
+onBeforeUnmount(() => {
+  loadProductsAbort = true;
+});
 
-// Reload products when favorites change
-watch(
-  () => favoriteIds.value.length,
-  async (newLength, oldLength) => {
-    if (initialized.value && newLength !== oldLength) {
-      await loadFavoriteProducts();
-    }
-  },
-);
+// Al quitar de favoritos, displayedProducts (computed) filtra al instante; no recargamos la lista
 </script>
 
 <template>
@@ -114,7 +106,7 @@ watch(
   </div>
 
   <!-- Empty State -->
-  <div v-else-if="products.length === 0" class="text-center py-16">
+  <div v-else-if="displayedProducts.length === 0" class="text-center py-16">
     <div
       class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6"
     >
@@ -134,7 +126,7 @@ watch(
     </div>
     <h3 class="text-lg font-bold text-gray-900 mb-2">No tienes favoritos</h3>
     <p class="text-gray-500 text-sm mb-6 max-w-xs mx-auto">
-      Guarda productos que te gusten para verlos aqui mas tarde
+      Guarda productos que te gusten para verlos aquí más tarde
     </p>
     <a
       href="/"
@@ -158,9 +150,9 @@ watch(
   </div>
 
   <!-- Products Grid -->
-  <div v-else class="grid grid-cols-2 gap-x-6 gap-y-10">
+  <div v-else class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
     <ProductCard
-      v-for="product in products"
+      v-for="product in displayedProducts"
       :key="product.id"
       :product="product"
     />

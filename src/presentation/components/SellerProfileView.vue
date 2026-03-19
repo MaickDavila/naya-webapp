@@ -120,12 +120,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-6">
+  <div class="flex flex-col gap-6 lg:gap-8">
     <!-- Header del Perfil -->
-    <div class="flex items-start gap-4">
+    <div class="flex items-start gap-4 lg:gap-6 p-4 lg:p-6 rounded-2xl bg-white border border-black/5 shadow-sm">
       <!-- Avatar cuadrado -->
       <div
-        class="w-24 h-24 rounded-[15px] bg-gray-100 flex items-center justify-center text-white text-3xl font-black flex-shrink-0 overflow-hidden"
+        class="w-24 h-24 lg:w-32 lg:h-32 rounded-[15px] lg:rounded-2xl bg-gray-100 flex items-center justify-center text-white text-3xl lg:text-4xl font-black flex-shrink-0 overflow-hidden"
       >
         <img
           v-if="seller.photoURL"
@@ -142,13 +142,13 @@ onMounted(async () => {
       </div>
 
       <div class="flex-1 min-w-0">
-        <p class="text-[15px] text-black">
+        <p class="text-[15px] lg:text-base text-black/70">
           @{{ seller.displayName?.replace(/\s+/g, "").toLowerCase() }}
         </p>
-        <p class="text-[15px] font-bold text-black">
+        <h1 class="text-[15px] lg:text-2xl font-bold text-black mt-0.5">
           {{ seller.displayName }}
-        </p>
-        <p class="text-[15px] text-black leading-snug mt-1">
+        </h1>
+        <p class="text-[15px] lg:text-base text-black leading-snug mt-1 lg:mt-2">
           {{
             seller.biography ||
             "Este vendedor aún no ha añadido una biografía."
@@ -159,7 +159,7 @@ onMounted(async () => {
           :href="`https://instagram.com/${seller.instagram.replace(/^@/, '')}`"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-[15px] text-black font-normal mt-1 block hover:underline"
+          class="text-[15px] lg:text-base text-black font-normal mt-1 lg:mt-2 block hover:underline"
         >
           Instagram:
           {{ seller.instagram.startsWith("@") ? seller.instagram : `@${seller.instagram}` }}
@@ -169,16 +169,16 @@ onMounted(async () => {
 
     <!-- Tabs FOR SALE | REVIEWS -->
     <div class="flex flex-col">
-      <div class="flex gap-6 border-b border-black/20">
+      <div class="flex gap-6 lg:gap-8 border-b border-black/20">
         <button
           v-for="tab in tabs"
           :key="tab.key"
           type="button"
           :class="[
-            'pb-3 text-[15px] font-bold transition-colors',
+            'pb-3 lg:pb-4 text-[15px] lg:text-base font-bold transition-colors',
             activeTab === tab.key
               ? 'text-black border-b-2 border-black'
-              : 'text-black/50',
+              : 'text-black/50 hover:text-black/70',
           ]"
           @click="activeTab = tab.key"
         >
@@ -187,19 +187,19 @@ onMounted(async () => {
       </div>
 
       <!-- Contenido FOR SALE -->
-      <div v-show="activeTab === 'for_sale'" class="pt-4">
+      <div v-show="activeTab === 'for_sale'" class="pt-4 lg:pt-6">
         <div
           v-if="products.length === 0"
-          class="text-center py-12"
+          class="text-center py-12 lg:py-16"
         >
-          <p class="text-gray-400 font-medium">
+          <p class="text-gray-400 font-medium text-base lg:text-lg">
             Este vendedor no tiene productos activos actualmente.
           </p>
         </div>
 
         <div
           v-else
-          class="grid grid-cols-3 gap-2"
+          class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
         >
           <ProductCard
             v-for="product in products"
@@ -210,14 +210,14 @@ onMounted(async () => {
       </div>
 
       <!-- Contenido REVIEWS -->
-      <div v-show="activeTab === 'reviews'" class="pt-4">
+      <div v-show="activeTab === 'reviews'" class="pt-4 lg:pt-6">
         <!-- Formulario de reseña (solo usuarios logueados que no sean el vendedor) -->
         <div
           v-if="canAddReview"
-          class="mb-6 p-4 rounded-2xl bg-gray-50 border border-black/5"
+          class="mb-6 lg:mb-8 p-4 lg:p-6 rounded-2xl bg-gray-50 border border-black/5 lg:max-w-2xl"
         >
-          <p class="text-sm font-bold text-black mb-3">Dejar reseña</p>
-          <div class="flex flex-col gap-3">
+          <p class="text-sm lg:text-base font-bold text-black mb-3">Dejar reseña</p>
+          <div class="flex flex-col gap-3 lg:gap-4">
             <div class="flex items-center gap-1">
               <button
                 v-for="i in 5"
@@ -229,7 +229,7 @@ onMounted(async () => {
                 @mouseleave="reviewForm.hoverRating = 0"
               >
                 <svg
-                  class="w-12 h-12"
+                  class="w-12 h-12 lg:w-10 lg:h-10"
                   :class="
                     i <= displayRating
                       ? 'text-amber-400'
@@ -248,12 +248,12 @@ onMounted(async () => {
               v-model="reviewForm.comment"
               rows="3"
               placeholder="Escribe tu reseña..."
-              class="w-full rounded-xl border border-black/10 px-4 py-3 text-[15px] focus:border-primary/20 focus:ring-0 focus:outline-none resize-none"
+              class="w-full rounded-xl border border-black/10 px-4 py-3 text-[15px] lg:text-base focus:border-primary/20 focus:ring-0 focus:outline-none resize-none"
             />
             <button
               type="button"
               :disabled="submittingReview || reviewForm.rating < 1"
-              class="self-start px-6 py-2.5 bg-primary text-white font-bold rounded-xl hover:bg-primary-dark transition-colors disabled:opacity-50"
+              class="self-start px-6 py-2.5 lg:py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-dark transition-colors disabled:opacity-50 text-[15px] lg:text-base"
               @click="submitReview"
             >
               {{ submittingReview ? "Enviando..." : "Enviar reseña" }}
@@ -264,9 +264,9 @@ onMounted(async () => {
         <!-- Mensaje si no está logueado (solo en tab reviews) -->
         <div
           v-else-if="!user"
-          class="mb-6 p-4 rounded-2xl bg-gray-50 border border-black/5"
+          class="mb-6 lg:mb-8 p-4 lg:p-5 rounded-2xl bg-gray-50 border border-black/5 lg:max-w-2xl"
         >
-          <p class="text-sm text-black/70">
+          <p class="text-sm lg:text-base text-black/70">
             <a href="/login" class="font-bold text-primary hover:underline">Inicia sesión</a>
             para dejar una reseña a este vendedor.
           </p>
@@ -274,32 +274,32 @@ onMounted(async () => {
 
         <div
           v-if="loadingReviews"
-          class="text-center py-8"
+          class="text-center py-8 lg:py-12"
         >
           <div class="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin mx-auto"></div>
         </div>
 
         <div
           v-else-if="reviewsList.length === 0"
-          class="text-center py-12"
+          class="text-center py-12 lg:py-16"
         >
-          <p class="text-gray-400 font-medium">
+          <p class="text-gray-400 font-medium text-base lg:text-lg">
             Este vendedor aún no tiene reseñas.
           </p>
         </div>
 
         <div
           v-else
-          class="flex flex-col gap-6"
+          class="flex flex-col gap-6 lg:gap-8 lg:max-w-3xl"
         >
           <article
             v-for="review in reviewsList"
             :key="review.id"
-            class="flex gap-4"
+            class="flex gap-4 lg:gap-5 p-4 lg:p-5 rounded-2xl bg-white border border-black/5"
           >
             <!-- Avatar del revisor -->
             <div
-              class="w-12 h-12 rounded-full flex-shrink-0 overflow-hidden bg-gray-100 flex items-center justify-center relative"
+              class="w-12 h-12 lg:w-14 lg:h-14 rounded-full flex-shrink-0 overflow-hidden bg-gray-100 flex items-center justify-center relative"
             >
               <img
                 v-if="showReviewPhoto(review)"
@@ -310,14 +310,14 @@ onMounted(async () => {
               />
               <span
                 v-show="!showReviewPhoto(review)"
-                class="w-full h-full bg-primary flex items-center justify-center text-white font-bold text-sm absolute inset-0"
+                class="w-full h-full bg-primary flex items-center justify-center text-white font-bold text-sm lg:text-base absolute inset-0"
               >
                 {{ review.reviewerName?.charAt(0).toUpperCase() || "?" }}
               </span>
             </div>
 
             <div class="flex-1 min-w-0">
-              <p class="text-[15px] font-bold text-black">
+              <p class="text-[15px] lg:text-base font-bold text-black">
                 {{ review.reviewerName }}
               </p>
               <div class="flex items-center gap-2 mt-1 flex-wrap">
@@ -325,7 +325,7 @@ onMounted(async () => {
                   <svg
                     v-for="(filled, i) in renderStars(review.rating)"
                     :key="i"
-                    class="w-4 h-4"
+                    class="w-4 h-4 lg:w-5 lg:h-5"
                     :class="filled ? 'text-amber-400' : 'text-gray-200'"
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -335,13 +335,13 @@ onMounted(async () => {
                     />
                   </svg>
                 </div>
-                <span class="text-[13px] text-black/50">
+                <span class="text-[13px] lg:text-sm text-black/50">
                   {{ formatDateLong(review.createdAt) }}
                 </span>
               </div>
               <p
                 v-if="review.comment"
-                class="text-[15px] text-black mt-2 leading-snug"
+                class="text-[15px] lg:text-base text-black mt-2 leading-snug"
               >
                 {{ review.comment }}
               </p>

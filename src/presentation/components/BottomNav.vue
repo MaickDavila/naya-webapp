@@ -35,7 +35,7 @@ const openSellModal = () => {
   <!-- Toast notifications -->
   <ToastContainer />
 
-  <nav class="fixed bottom-0 left-0 right-0 bg-[#dad1c8] border-t border-black/5 pb-safe z-50">
+  <nav class="fixed bottom-0 left-0 right-0 bg-[#dad1c8] border-t border-black/5 pb-safe z-50 lg:hidden">
     <div class="max-w-md mx-auto flex items-center justify-around h-[60px] px-4">
       <!-- INICIO -->
       <button

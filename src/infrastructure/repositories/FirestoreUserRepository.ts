@@ -3,7 +3,7 @@ import type { User } from "../../domain/entities/User";
 import { db } from "../../lib/firebase";
 import { COLLECTIONS } from "../../domain/constants/collections";
 import { UserMapper } from "../mappers/UserMapper";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export class FirestoreUserRepository implements UserRepository {
   private collectionName = COLLECTIONS.USERS;
@@ -29,7 +29,7 @@ export class FirestoreUserRepository implements UserRepository {
   async update(id: string, user: Partial<User>): Promise<void> {
     const docRef = doc(db, this.collectionName, id);
     const data = UserMapper.toPersistence(user);
-    await updateDoc(docRef, data);
+    await setDoc(docRef, data, { merge: true });
   }
 
   async getOrCreate(id: string, userData: Omit<User, 'id'>): Promise<User> {

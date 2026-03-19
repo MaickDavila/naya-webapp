@@ -13,10 +13,10 @@ const routeKey = category.slug || category.name;
 <template>
   <a
     :href="`/categories/${encodeURIComponent(routeKey)}`"
-    class="flex items-center gap-3 px-4 py-3 bg-white rounded-2xl border border-black/5 shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5"
+    class="flex items-center gap-3 px-4 py-3 lg:px-5 lg:py-4 bg-white rounded-2xl border border-black/5 shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5"
   >
     <!-- Imagen -->
-    <div class="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
+    <div class="w-12 h-12 lg:w-14 lg:h-14 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
       <img
         v-if="category.image"
         :src="category.image"
@@ -27,7 +27,7 @@ const routeKey = category.slug || category.name;
         v-else
         class="w-full h-full flex items-center justify-center text-gray-400"
       >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-6 h-6 lg:w-7 lg:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -39,13 +39,13 @@ const routeKey = category.slug || category.name;
     </div>
 
     <!-- Nombre -->
-    <span class="font-bold text-gray-800 text-sm">
+    <span class="font-bold text-gray-800 text-sm lg:text-base">
       {{ category.name }}
     </span>
 
     <!-- Flecha -->
     <svg
-      class="w-4 h-4 text-gray-400 ml-auto"
+      class="w-4 h-4 lg:w-5 lg:h-5 text-gray-400 ml-auto"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
