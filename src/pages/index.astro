@@ -62,11 +62,7 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
       <!-- Panel: Perfiles (vendedoras) -->
       <div id="panel-perfiles">
         {sellers.length === 0 ? (
-          <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
-            {Array.from({ length: 12 }).map(() => (
-              <div class="w-full aspect-square bg-gray-200 rounded-xl animate-pulse" />
-            ))}
-          </div>
+          <p class="text-center text-gray-400 py-12">No hay vendedoras disponibles aún.</p>
         ) : (
           <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
             {sellers.map((seller) => {
@@ -105,11 +101,7 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
       <!-- Panel: Categorías -->
       <div id="panel-categorias" class="hidden">
         {categories.length === 0 ? (
-          <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
-            {Array.from({ length: 12 }).map(() => (
-              <div class="w-full rounded-xl animate-pulse bg-gray-200" style="aspect-ratio: 2/3;" />
-            ))}
-          </div>
+          <p class="text-center text-gray-400 py-12">No hay categorías disponibles aún.</p>
         ) : (
           <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
             {categories.map((cat) => {
@@ -161,12 +153,12 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
       }
     </style>
 
-    <script>
-      function switchTab(tab: string) {
-        const perfiles = document.getElementById('panel-perfiles') as HTMLElement;
-        const categorias = document.getElementById('panel-categorias') as HTMLElement;
-        const btnPerfiles = document.getElementById('tab-perfiles') as HTMLElement;
-        const btnCategorias = document.getElementById('tab-categorias') as HTMLElement;
+    <script is:inline>
+      function switchTab(tab) {
+        const perfiles = document.getElementById('panel-perfiles');
+        const categorias = document.getElementById('panel-categorias');
+        const btnPerfiles = document.getElementById('tab-perfiles');
+        const btnCategorias = document.getElementById('tab-categorias');
 
         if (tab === 'perfiles') {
           perfiles.classList.remove('hidden');
