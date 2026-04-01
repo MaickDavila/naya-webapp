@@ -72,6 +72,13 @@ const handleToggleFavorite = async (event: Event) => {
           class="w-full h-full object-cover"
         />
 
+        <!-- Precio -->
+        <div class="absolute bottom-2 left-2">
+          <span class="bg-white/90 backdrop-blur-sm text-primary font-bold text-sm lg:text-base px-2 py-0.5 rounded">
+            {{ formatPrice(product.price) }}
+          </span>
+        </div>
+
         <!-- Boton de favorito -->
         <button
           @click="handleToggleFavorite"
@@ -125,10 +132,9 @@ const handleToggleFavorite = async (event: Event) => {
         </button>
       </div>
 
-      <!-- Titulo y precio -->
+      <!-- Titulo -->
       <div class="mt-2 px-0.5 lg:mt-3">
         <h3 class="text-sm lg:text-base font-medium text-gray-900 truncate">{{ product.title }}</h3>
-        <p class="text-sm lg:text-base font-bold text-primary mt-0.5">{{ formatPrice(product.price) }}</p>
       </div>
     </a>
   </div>
