@@ -19,7 +19,9 @@ export class UserMapper {
       favoriteProductIds: data.favoriteProductIds || [],
       shippingAddresses: this.mapShippingAddresses(data.shippingAddresses),
       isSeller: data.isSeller === true,
-      sellerOrder: typeof data.sellerOrder === 'number' ? data.sellerOrder : 9999,
+      sellerOrder: data.isSeller === true
+        ? (typeof data.sellerOrder === 'number' ? data.sellerOrder : 9999)
+        : data.sellerOrder,
     };
   }
 
