@@ -3,7 +3,7 @@ import type { User } from "../../domain/entities/User";
 import { db } from "../../lib/firebase";
 import { COLLECTIONS } from "../../domain/constants/collections";
 import { UserMapper } from "../mappers/UserMapper";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, collection, query, where, orderBy, getDocs } from "firebase/firestore";
 
 export class FirestoreUserRepository implements UserRepository {
   private collectionName = COLLECTIONS.USERS;
@@ -34,7 +34,7 @@ export class FirestoreUserRepository implements UserRepository {
 
   async getOrCreate(id: string, userData: Omit<User, 'id'>): Promise<User> {
     const existingUser = await this.getById(id);
-    
+
     if (existingUser) {
       return existingUser;
     }
@@ -47,5 +47,16 @@ export class FirestoreUserRepository implements UserRepository {
 
     await this.create(newUser);
     return newUser;
+  }
+
+  async getSellers(): Promise<User[]> {
+    const ref = collection(db, this.collectionName);
+    const q = query(
+      ref,
+      where("isSeller", "==", true),
+      orderBy("sellerOrder", "asc")
+    );
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map((d) => UserMapper.toDomain(d.id, d.data()));
   }
 }

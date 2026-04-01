@@ -14,4 +14,6 @@ export interface User {
   displayName?: string;
   favoriteProductIds?: string[];
   shippingAddresses?: UserShippingAddress[];
+  isSeller?: boolean;
+  sellerOrder?: number;
 }

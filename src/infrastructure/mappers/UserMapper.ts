@@ -18,6 +18,8 @@ export class UserMapper {
       displayName: data.displayName,
       favoriteProductIds: data.favoriteProductIds || [],
       shippingAddresses: this.mapShippingAddresses(data.shippingAddresses),
+      isSeller: data.isSeller === true,
+      sellerOrder: typeof data.sellerOrder === 'number' ? data.sellerOrder : 9999,
     };
   }
 
@@ -61,6 +63,8 @@ export class UserMapper {
         this.shippingAddressToPersistence(addr)
       );
     }
+    if (user.isSeller !== undefined) data.isSeller = user.isSeller;
+    if (user.sellerOrder !== undefined) data.sellerOrder = user.sellerOrder;
 
     return data;
   }

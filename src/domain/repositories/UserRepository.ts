@@ -5,4 +5,5 @@ export interface UserRepository {
   create(user: User): Promise<void>;
   update(id: string, user: Partial<User>): Promise<void>;
   getOrCreate(id: string, userData: Omit<User, 'id'>): Promise<User>;
+  getSellers(): Promise<User[]>;
 }
