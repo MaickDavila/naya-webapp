@@ -34,6 +34,9 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Jomhuria&display=swap" rel="stylesheet" />
     <title>{marketplaceName} - Marketplace</title>
   </head>
   <body class="bg-[#FDFCFB] min-h-screen pb-24 lg:pb-8">
@@ -87,8 +90,8 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
                       </span>
                     </div>
                   )}
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                  <span class="absolute bottom-1.5 left-2 right-1 text-white text-[10px] sm:text-xs font-bold leading-tight uppercase tracking-wide line-clamp-2">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
+                  <span class="absolute bottom-2 right-2 text-white text-right uppercase leading-none" style="font-family: 'Jomhuria', serif; font-size: 1.875rem;">
                     {name}
                   </span>
                 </a>
@@ -124,8 +127,8 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
                       <span class="text-gray-400 text-xs">Sin imagen</span>
                     </div>
                   )}
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                  <span class="absolute bottom-1.5 left-2 right-1 text-white text-[10px] sm:text-xs font-bold leading-tight uppercase tracking-wide line-clamp-2">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
+                  <span class="absolute bottom-2 right-2 text-white text-right uppercase leading-none" style="font-family: 'Jomhuria', serif; font-size: 1.875rem;">
                     {cat.name}
                   </span>
                 </a>
