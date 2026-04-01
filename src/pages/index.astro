@@ -71,7 +71,7 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
               return (
                 <a
                   href={href}
-                  class="relative block w-full aspect-square overflow-hidden rounded-xl shadow-sm active:scale-[0.97] transition-transform"
+                  class="relative block w-full aspect-square overflow-hidden rounded-2xl shadow-sm active:scale-[0.97] transition-transform"
                   aria-label={`Ver perfil de ${name}`}
                 >
                   {seller.photoURL ? (
@@ -109,7 +109,7 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
               return (
                 <a
                   href={`/categories/${encodeURIComponent(routeKey)}`}
-                  class="relative block w-full overflow-hidden rounded-xl shadow-sm active:scale-[0.97] transition-transform"
+                  class="relative block w-full overflow-hidden rounded-2xl shadow-sm active:scale-[0.97] transition-transform"
                   style="aspect-ratio: 2/3;"
                   aria-label={`Ver ${cat.name}`}
                 >
