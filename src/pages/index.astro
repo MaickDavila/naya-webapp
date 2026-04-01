@@ -1,103 +1,186 @@
 ---
 import { FirestoreCategoryRepository } from '../infrastructure/repositories/FirestoreCategoryRepository';
+import { FirestoreUserRepository } from '../infrastructure/repositories/FirestoreUserRepository';
 import { GetCategories } from '../application/use-cases/GetCategories';
+import { GetSellers } from '../application/use-cases/GetSellers';
 import type { Category } from '../domain/entities/Category';
+import type { User } from '../domain/entities/User';
 import BottomNav from '../presentation/components/BottomNav.vue';
 import Header from '../presentation/components/Header.astro';
 import '../styles/global.css';
 
 const categoryRepo = new FirestoreCategoryRepository();
+const userRepo = new FirestoreUserRepository();
 const getCategories = new GetCategories(categoryRepo);
+const getSellers = new GetSellers(userRepo);
 
 let categories: Category[] = [];
-let error = null;
+let sellers: User[] = [];
 
 try {
-  categories = await getCategories.execute();
+  [categories, sellers] = await Promise.all([
+    getCategories.execute(),
+    getSellers.execute(),
+  ]);
 } catch (e) {
-  console.error("Error fetching categories:", e);
-  error = "No se pudieron cargar las categorías.";
+  console.error("Error fetching home data:", e);
 }
 
-const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Naya';
+const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
 ---
 
 <html lang="es">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<title>{marketplaceName} - Marketplace</title>
-	</head>
-	<body class="bg-[#FDFCFB] min-h-screen pb-24 lg:pb-8">
-		<Header leftAction="search" rightAction="cart" />
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>{marketplaceName} - Marketplace</title>
+  </head>
+  <body class="bg-[#FDFCFB] min-h-screen pb-24 lg:pb-8">
+    <Header leftAction="search" rightAction="cart" />
 
-		<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-			<!-- Título de sección: más visible en desktop -->
-			<div class="mb-6 lg:mb-10">
-				<h1 class="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-[var(--color-text-primary)] tracking-tight">
-					Explorar por categoría
-				</h1>
-				<p class="mt-1 text-sm text-[var(--color-text-secondary)] lg:text-base">
-					Encuentra lo que buscas en {marketplaceName}
-				</p>
-			</div>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
 
-			{error ? (
-				<div class="bg-error/5 border border-error/20 p-4 rounded-2xl mb-8">
-					<p class="text-error text-center font-bold">{error}</p>
-				</div>
-			) : categories.length === 0 ? (
-				<!-- Skeleton Loading: 8 categorías placeholder -->
-				<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-					{Array.from({ length: 8 }).map(() => (
-						<div class="flex flex-col">
-							<div class="flex flex-col bg-white rounded-[15px] shadow-[0_10px_22px_rgba(0,0,0,0.14)] border border-black/5 overflow-hidden animate-pulse">
-								<div class="w-full bg-gray-200 aspect-square"></div>
-							</div>
-							<div class="mt-3 flex justify-center">
-								<div class="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-							</div>
-						</div>
-					))}
-				</div>
-			) : (
-				<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-					{categories.map((cat) => {
-						const routeKey = cat.slug || cat.name;
-						return (
-							<div class="flex flex-col">
-								<a
-									href={`/categories/${encodeURIComponent(routeKey)}`}
-									class="flex flex-col bg-white rounded-[15px] shadow-[0_10px_22px_rgba(0,0,0,0.14)] border border-black/5 overflow-hidden transition-all duration-200 active:scale-[0.98] hover:-translate-y-1 hover:shadow-[0_14px_28px_rgba(0,0,0,0.18)]"
-									aria-label={`Ver ${cat.name}`}
-								>
-									{cat.image ? (
-										<div class="w-full overflow-hidden bg-gray-100">
-											<img
-												src={cat.image}
-												alt={cat.name}
-												class="w-full aspect-square object-cover"
-											/>
-										</div>
-									) : (
-										<div class="w-full bg-gray-100 flex items-center justify-center aspect-square">
-											<span class="text-gray-400 text-sm">Sin imagen</span>
-										</div>
-									)}
-								</a>
-								<h2 class="text-base lg:text-lg font-bold text-gray-900 tracking-tight text-center mt-3">
-									{cat.name}
-								</h2>
-							</div>
-						);
-					})}
-				</div>
-			)}
-		</main>
+      <!-- Tabs -->
+      <div class="flex gap-2 mb-6">
+        <button
+          id="tab-perfiles"
+          class="tab-btn tab-active px-5 py-2 rounded-full text-sm font-bold tracking-wide transition-all"
+          onclick="switchTab('perfiles')"
+        >
+          PERFILES
+        </button>
+        <button
+          id="tab-categorias"
+          class="tab-btn px-5 py-2 rounded-full text-sm font-bold tracking-wide transition-all"
+          onclick="switchTab('categorias')"
+        >
+          CATEGORÍAS
+        </button>
+      </div>
 
-		<!-- Navegación Inferior -->
-		<BottomNav client:only="vue" />
+      <!-- Panel: Perfiles (vendedoras) -->
+      <div id="panel-perfiles">
+        {sellers.length === 0 ? (
+          <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
+            {Array.from({ length: 12 }).map(() => (
+              <div class="w-full aspect-square bg-gray-200 rounded-xl animate-pulse" />
+            ))}
+          </div>
+        ) : (
+          <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
+            {sellers.map((seller) => {
+              const name = seller.displayName || seller.name || '';
+              const href = `/sellers/${seller.id}`;
+              return (
+                <a
+                  href={href}
+                  class="relative block w-full aspect-square overflow-hidden rounded-xl shadow-sm active:scale-[0.97] transition-transform"
+                  aria-label={`Ver perfil de ${name}`}
+                >
+                  {seller.photoURL ? (
+                    <img
+                      src={seller.photoURL}
+                      alt={name}
+                      class="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                      <span class="text-gray-400 text-2xl font-bold">
+                        {name.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                  )}
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <span class="absolute bottom-1.5 left-2 right-1 text-white text-[10px] sm:text-xs font-bold leading-tight uppercase tracking-wide line-clamp-2">
+                    {name}
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+        )}
+      </div>
 
-	</body>
+      <!-- Panel: Categorías -->
+      <div id="panel-categorias" class="hidden">
+        {categories.length === 0 ? (
+          <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
+            {Array.from({ length: 12 }).map(() => (
+              <div class="w-full rounded-xl animate-pulse bg-gray-200" style="aspect-ratio: 2/3;" />
+            ))}
+          </div>
+        ) : (
+          <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
+            {categories.map((cat) => {
+              const routeKey = cat.slug || cat.name;
+              return (
+                <a
+                  href={`/categories/${encodeURIComponent(routeKey)}`}
+                  class="relative block w-full overflow-hidden rounded-xl shadow-sm active:scale-[0.97] transition-transform"
+                  style="aspect-ratio: 2/3;"
+                  aria-label={`Ver ${cat.name}`}
+                >
+                  {cat.image ? (
+                    <img
+                      src={cat.image}
+                      alt={cat.name}
+                      class="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                      <span class="text-gray-400 text-xs">Sin imagen</span>
+                    </div>
+                  )}
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <span class="absolute bottom-1.5 left-2 right-1 text-white text-[10px] sm:text-xs font-bold leading-tight uppercase tracking-wide line-clamp-2">
+                    {cat.name}
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+    </main>
+
+    <BottomNav client:only="vue" />
+
+    <style>
+      .tab-btn {
+        background: transparent;
+        border: 2px solid #d1cdc7;
+        color: #6b6b6b;
+        cursor: pointer;
+      }
+      .tab-btn.tab-active {
+        background: #1a1a1a;
+        border-color: #1a1a1a;
+        color: #ffffff;
+      }
+    </style>
+
+    <script>
+      function switchTab(tab: string) {
+        const perfiles = document.getElementById('panel-perfiles') as HTMLElement;
+        const categorias = document.getElementById('panel-categorias') as HTMLElement;
+        const btnPerfiles = document.getElementById('tab-perfiles') as HTMLElement;
+        const btnCategorias = document.getElementById('tab-categorias') as HTMLElement;
+
+        if (tab === 'perfiles') {
+          perfiles.classList.remove('hidden');
+          categorias.classList.add('hidden');
+          btnPerfiles.classList.add('tab-active');
+          btnCategorias.classList.remove('tab-active');
+        } else {
+          perfiles.classList.add('hidden');
+          categorias.classList.remove('hidden');
+          btnCategorias.classList.add('tab-active');
+          btnPerfiles.classList.remove('tab-active');
+        }
+      }
+    </script>
+
+  </body>
 </html>
