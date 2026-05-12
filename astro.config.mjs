@@ -1,11 +1,11 @@
 import { defineConfig } from "astro/config";
 import vue from "@astrojs/vue";
 import tailwind from "@astrojs/tailwind";
-import vercel from "@astrojs/vercel";
+import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
   output: "server",
-  adapter: vercel(),
+  adapter: cloudflare(),
   integrations: [vue(), tailwind()],
 });
