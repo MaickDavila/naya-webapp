@@ -1,10 +1,21 @@
 ---
 import { FirestoreProductRepository } from "../../infrastructure/repositories/FirestoreProductRepository";
-import { GetProductById } from "../../application/use-cases/GetProductById";
 import ProductDetailView from "../../presentation/components/ProductDetailView.vue";
 import BottomNav from "../../presentation/components/BottomNav.vue";
 import Header from "../../presentation/components/Header.astro";
 import "../../styles/global.css";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const productRepo = new FirestoreProductRepository();
+  const products = await productRepo.getApproved();
+
+  return products.map((product) => ({
+    params: { id: product.id },
+    props: { product },
+  }));
+}
 
 const { id } = Astro.params;
 
@@ -12,16 +23,7 @@ if (!id) {
   return Astro.redirect("/404");
 }
 
-const productRepo = new FirestoreProductRepository();
-const getProductById = new GetProductById(productRepo);
-
-let product = null;
-
-try {
-  product = await getProductById.execute(id);
-} catch (e) {
-  console.error("Error fetching product:", e);
-}
+const product = Astro.props.product;
 
 if (!product) {
   return Astro.redirect("/404");

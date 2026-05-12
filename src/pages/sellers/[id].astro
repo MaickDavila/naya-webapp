@@ -2,11 +2,22 @@
 import { FirestoreUserRepository } from "../../infrastructure/repositories/FirestoreUserRepository";
 import { FirestoreProductRepository } from "../../infrastructure/repositories/FirestoreProductRepository";
 import { FirestoreReviewRepository } from "../../infrastructure/repositories/FirestoreReviewRepository";
-import { GetUserById } from "../../application/use-cases/GetUserById";
 import SellerProfileView from "../../presentation/components/SellerProfileView.vue";
 import BottomNav from "../../presentation/components/BottomNav.vue";
 import Header from "../../presentation/components/Header.astro";
 import "../../styles/global.css";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const userRepo = new FirestoreUserRepository();
+  const sellers = await userRepo.getSellers();
+
+  return sellers.map((seller) => ({
+    params: { id: seller.id },
+    props: { seller },
+  }));
+}
 
 const { id } = Astro.params;
 
@@ -14,12 +25,10 @@ if (!id) {
   return Astro.redirect("/404");
 }
 
-const userRepo = new FirestoreUserRepository();
 const productRepo = new FirestoreProductRepository();
 const reviewRepo = new FirestoreReviewRepository();
 
-const getUserById = new GetUserById(userRepo);
-const seller = await getUserById.execute(id);
+const seller = Astro.props.seller;
 
 if (!seller) {
   return Astro.redirect("/404");
