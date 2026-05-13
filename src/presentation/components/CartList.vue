@@ -116,7 +116,7 @@ const canCheckout = computed(
 </script>
 
 <template>
-  <div class="flex flex-col gap-6 lg:gap-8 max-w-4xl mx-auto lg:mx-0">
+  <div class="flex w-full max-w-md flex-col gap-6 mx-auto lg:max-w-4xl lg:gap-8 lg:mx-0">
     <!-- Estado de Carga / Vacío -->
     <div
       v-if="!isLoaded || items.length === 0"
@@ -159,9 +159,9 @@ const canCheckout = computed(
     </div>
 
     <!-- Contenido del carrito: en desktop dos columnas (lista + resumen fijo) -->
-    <div v-else class="lg:flex lg:gap-8 lg:items-start">
+    <div v-else class="w-full lg:flex lg:gap-8 lg:items-start">
       <!-- Columna izquierda: lista -->
-      <div class="flex flex-col gap-5 lg:flex-1 lg:min-w-0">
+      <div class="flex w-full flex-col gap-5 lg:flex-1 lg:min-w-0">
         <!-- Título con conteo -->
         <h2 class="text-[15px] lg:text-xl font-semibold text-black">
           Bolsa ({{ totalProductCount }}
@@ -314,14 +314,14 @@ const canCheckout = computed(
       </div>
 
       <!-- Columna derecha (desktop): resumen fijo -->
-      <div class="lg:w-80 lg:flex-shrink-0 lg:sticky lg:top-24">
-        <div class="border-t border-black/15 pt-5 lg:pt-0 lg:rounded-2xl lg:overflow-hidden lg:shadow-[0_4px_20px_rgba(0,0,0,0.08)] lg:border lg:border-black/[0.06]">
+      <div class="mt-5 w-full lg:mt-0 lg:w-80 lg:flex-shrink-0 lg:sticky lg:top-24">
+        <div class="rounded-[15px] border border-black/[0.06] bg-white px-4 py-4 shadow-sm lg:px-0 lg:py-0 lg:rounded-2xl lg:overflow-hidden lg:shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
           <!-- Encabezado del resumen (solo desktop) -->
           <div class="hidden lg:block bg-[#eeeae6] px-5 py-4">
             <p class="text-sm font-semibold uppercase tracking-wider text-black/70">Resumen</p>
           </div>
 
-          <div class="lg:bg-white lg:px-5 lg:py-5 lg:space-y-5">
+          <div class="space-y-4 lg:bg-white lg:px-5 lg:py-5 lg:space-y-5">
             <!-- Total a pagar -->
             <div class="flex items-baseline justify-between gap-4 lg:flex-col lg:items-stretch lg:gap-1">
               <span class="text-[15px] text-black/70 lg:text-sm">Total a pagar</span>
@@ -331,13 +331,13 @@ const canCheckout = computed(
             <!-- Avisos -->
             <p
               v-if="hasBlockedItems && hasAvailableItems"
-              class="text-xs lg:text-sm text-amber-700 bg-amber-50 lg:rounded-xl lg:px-4 lg:py-3"
+              class="rounded-xl px-4 py-3 text-xs lg:text-sm text-amber-700 bg-amber-50"
             >
               Algunos productos no están disponibles. Solo pagarás por los que sí lo están.
             </p>
             <p
               v-else-if="hasBlockedItems && !hasAvailableItems"
-              class="text-xs lg:text-sm text-red-700 bg-red-50 lg:rounded-xl lg:px-4 lg:py-3"
+              class="rounded-xl px-4 py-3 text-xs lg:text-sm text-red-700 bg-red-50"
             >
               Todos tus productos están siendo comprados por otros. Espera unos minutos.
             </p>

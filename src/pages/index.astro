@@ -50,14 +50,14 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
       <div class="flex gap-2 mb-6 items-center justify-center">
         <button
           id="tab-perfiles"
-          class="tab-btn tab-active px-5 py-2 rounded-full text-sm font-bold tracking-wide transition-all"
+          class="tab-btn tab-active px-7 py-1.5 rounded-full transition-all"
           onclick="switchTab('perfiles')"
         >
           PERFILES
         </button>
         <button
           id="tab-categorias"
-          class="tab-btn px-5 py-2 rounded-full text-sm font-bold tracking-wide transition-all"
+          class="tab-btn px-7 py-1.5 rounded-full transition-all"
           onclick="switchTab('categorias')"
         >
           CATEGORÍAS
@@ -146,14 +146,19 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
 
     <style>
       .tab-btn {
-        background: transparent;
-        border: 2px solid #d1cdc7;
-        color: #6b6b6b;
+        background: #d9d2c8;
+        border: 0;
+        color: #ffffff;
         cursor: pointer;
+        font-family: 'Jomhuria', serif;
+        font-size: 1.75rem;
+        line-height: 0.9;
+        min-width: 8.5rem;
+        text-align: center;
+        text-transform: uppercase;
       }
       .tab-btn.tab-active {
-        background: #932D3D;
-        border-color: #932D3D;
+        background: #9a3043;
         color: #ffffff;
       }
     </style>
