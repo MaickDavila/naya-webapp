@@ -229,17 +229,17 @@ onMounted(async () => {
     />
 
     <!-- Loading State -->
-    <div v-if="isLoading" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-      <div v-for="n in 8" :key="n" class="animate-pulse">
-        <div class="aspect-[4/5] bg-gray-200 rounded-2xl mb-3"></div>
-        <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-        <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+    <div v-if="isLoading" class="grid grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-8">
+      <div v-for="n in 9" :key="n" class="animate-pulse">
+        <div class="aspect-[4/5] bg-gray-200 rounded-xl lg:rounded-2xl mb-2 lg:mb-3"></div>
+        <div class="h-3 bg-gray-200 rounded w-3/4 mb-1.5"></div>
+        <div class="h-2.5 bg-gray-200 rounded w-1/2"></div>
       </div>
     </div>
 
     <!-- Resultados: Productos -->
     <div v-else-if="activeTab === 'products'">
-      <div v-if="products.length > 0" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+      <div v-if="products.length > 0" class="grid grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-8">
         <ProductCard v-for="product in products" :key="product.id" :product="product" />
       </div>
       <div v-else class="text-center py-12 lg:py-16">

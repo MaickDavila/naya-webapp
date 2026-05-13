@@ -69,11 +69,11 @@ onBeforeUnmount(() => {
 
 <template>
   <!-- Loading State -->
-  <div v-if="isLoading" class="grid grid-cols-2 gap-6">
-    <div v-for="n in 4" :key="n" class="animate-pulse">
-      <div class="aspect-[4/3] bg-gray-200 rounded-2xl mb-3"></div>
-      <div class="h-4 bg-gray-200 rounded w-3/4 mb-2 mx-auto"></div>
-      <div class="h-3 bg-gray-200 rounded w-1/2 mx-auto"></div>
+  <div v-if="isLoading" class="grid grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-8">
+    <div v-for="n in 9" :key="n" class="animate-pulse">
+      <div class="aspect-[4/5] bg-gray-200 rounded-xl lg:rounded-2xl mb-2 lg:mb-3"></div>
+      <div class="h-3 bg-gray-200 rounded w-3/4 mb-1.5"></div>
+      <div class="h-2.5 bg-gray-200 rounded w-1/2"></div>
     </div>
   </div>
 
@@ -150,7 +150,7 @@ onBeforeUnmount(() => {
   </div>
 
   <!-- Products Grid -->
-  <div v-else class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+  <div v-else class="grid grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-8">
     <ProductCard
       v-for="product in displayedProducts"
       :key="product.id"
