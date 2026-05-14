@@ -222,11 +222,18 @@ const canCheckout = computed(
                 class="w-[62px] h-[62px] lg:w-20 lg:h-20 rounded-sm lg:rounded-lg overflow-hidden flex-shrink-0 bg-gray-100"
               >
                 <img
+                  v-if="item.images && item.images[0]"
                   :src="item.images[0]"
                   :alt="item.title"
                   class="w-full h-full object-cover"
                   :class="{ grayscale: inCheckoutByOthers.has(item.id) }"
                 />
+                <div
+                  v-else
+                  class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400 text-xs"
+                >
+                  Sin imagen
+                </div>
               </div>
 
               <!-- Info del producto -->

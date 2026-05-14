@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useFirestore, useCollection } from 'vuefire';
 import { collection, query, where, orderBy } from 'firebase/firestore';
 import { useAuth } from '../../application/stores/authStore';
@@ -7,6 +7,9 @@ import { ProductMapper } from '../../infrastructure/mappers/ProductMapper';
 import { COLLECTIONS } from '../../domain/constants/collections';
 import ProfileHeader from './ProfileHeader.vue';
 import ProductCard from './ProductCard.vue';
+import SellModal from './SellModal.vue';
+
+const sellModalOpen = ref(false);
 
 const { user, initAuth } = useAuth();
 const db = useFirestore();
@@ -58,12 +61,13 @@ onMounted(() => {
       </div>
       <h3 class="text-xl font-bold text-gray-900 mb-2">Tu armario esta vacio</h3>
       <p class="text-gray-500 text-sm mb-6">Sube una prenda y dale una segunda vida.</p>
-      <a
-        href="/sell"
+      <button
+        type="button"
+        @click="sellModalOpen = true"
         class="inline-block bg-primary text-white px-6 py-3 rounded-2xl font-bold text-sm hover:bg-primary-dark transition-all"
       >
         Vender algo
-      </a>
+      </button>
     </div>
 
     <div v-else class="grid grid-cols-3 gap-2">
@@ -73,5 +77,7 @@ onMounted(() => {
         :product="product"
       />
     </div>
+
+    <SellModal :open="sellModalOpen" @close="sellModalOpen = false" />
   </div>
 </template>

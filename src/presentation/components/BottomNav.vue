@@ -29,7 +29,7 @@ const navigate = (href: string, id: string) => {
   <!-- Toast notifications -->
   <ToastContainer />
 
-  <nav class="fixed bottom-0 left-0 right-0 bg-primary border-t border-white/10 pb-safe z-50 lg:hidden">
+  <nav class="bottom-nav fixed bottom-0 left-0 right-0 border-t border-white/10 pb-safe z-50 lg:hidden">
     <div class="max-w-md mx-auto grid grid-cols-4 h-[64px] px-3">
       <!-- INICIO -->
       <button
@@ -87,6 +87,15 @@ const navigate = (href: string, id: string) => {
 </template>
 
 <style scoped>
+.bottom-nav {
+  background-color: var(--color-primary);
+  /* Forzar compositing layer para evitar que mobile Safari pierda
+     el bg al hacer rubber-band / scroll con la URL bar colapsando. */
+  transform: translateZ(0);
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom);
 }

@@ -20,6 +20,14 @@ const props = withDefaults(defineProps<Props>(), {
   reviews: () => [],
 });
 
+const sellerDisplayName = computed(
+  () => props.seller.displayName || props.seller.name || "Vendedor"
+);
+
+const productsWithSellerName = computed(() =>
+  props.products.map((p) => ({ ...p, sellerName: sellerDisplayName.value }))
+);
+
 const { user, initAuth } = useAuth();
 const userRepo = new FirestoreUserRepository();
 const reviewRepo = new FirestoreReviewRepository();
@@ -202,7 +210,7 @@ onMounted(async () => {
           class="grid grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-8"
         >
           <ProductCard
-            v-for="product in products"
+            v-for="product in productsWithSellerName"
             :key="product.id"
             :product="product"
           />

@@ -50,14 +50,14 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
       <div class="flex gap-2 mb-6 items-center justify-center">
         <button
           id="tab-perfiles"
-          class="tab-btn tab-active px-7 py-1.5 rounded-full transition-all"
+          class="tab-btn tab-active px-7 rounded-full transition-all"
           onclick="switchTab('perfiles')"
         >
           PERFILES
         </button>
         <button
           id="tab-categorias"
-          class="tab-btn px-7 py-1.5 rounded-full transition-all"
+          class="tab-btn px-7 rounded-full transition-all"
           onclick="switchTab('categorias')"
         >
           CATEGORÍAS
@@ -94,7 +94,7 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
                     </div>
                   )}
                   <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
-                  <span class="absolute bottom-2 right-2 text-white text-right uppercase leading-none" style="font-family: 'Jomhuria', serif; font-size: 1.875rem;">
+                  <span class="absolute bottom-2 right-2 text-white text-right uppercase" style="font-family: 'Jomhuria', serif; font-size: 1.875rem; line-height: 0.72;">
                     {name}
                   </span>
                 </a>
@@ -151,10 +151,16 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
         border: 0;
         color: #ffffff;
         cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         font-family: 'Jomhuria', serif;
         font-size: 1.75rem;
-        line-height: 0.9;
+        line-height: 1;
+        height: 2.5rem;
         min-width: 8.5rem;
+        padding-top: 0.55rem; /* compensa el alto baseline de Jomhuria */
+        padding-bottom: 0.1rem;
         text-align: center;
         text-transform: uppercase;
       }

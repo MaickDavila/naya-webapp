@@ -34,7 +34,8 @@ if (!seller) {
   return Astro.redirect("/404");
 }
 
-const sellerProducts = await productRepo.getBySellerId(id);
+const allSellerProducts = await productRepo.getBySellerId(id);
+const sellerProducts = allSellerProducts.filter((p) => p.status === "approved");
 const sellerReviews = await reviewRepo.getByReviewedUserId(id);
 const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || "Naya";
 ---

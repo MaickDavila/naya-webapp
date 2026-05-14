@@ -24,12 +24,20 @@ function parseStoredCart(raw: string | null): CartItem[] {
   if (!raw) return [];
   try {
     const parsed = JSON.parse(raw) as Record<string, unknown>[];
-    return parsed.map((item: Record<string, unknown>) => ({
-      ...item,
-      createdAt: item.createdAt ? new Date(item.createdAt as string) : new Date(),
-      updatedAt: item.updatedAt ? new Date(item.updatedAt as string) : new Date(),
-      quantity: (item.quantity as number) ?? 1,
-    })) as CartItem[];
+    return parsed
+      .filter((item) => item && typeof item === "object" && item.id)
+      .map((item: Record<string, unknown>) => ({
+        ...item,
+        images: Array.isArray(item.images) ? (item.images as string[]) : [],
+        tags: Array.isArray(item.tags) ? (item.tags as string[]) : [],
+        title: (item.title as string) ?? "",
+        sellerName: (item.sellerName as string) ?? "Vendedor",
+        sellerId: (item.sellerId as string) ?? "",
+        price: (item.price as number) ?? 0,
+        createdAt: item.createdAt ? new Date(item.createdAt as string) : new Date(),
+        updatedAt: item.updatedAt ? new Date(item.updatedAt as string) : new Date(),
+        quantity: (item.quantity as number) ?? 1,
+      })) as CartItem[];
   } catch {
     return [];
   }
