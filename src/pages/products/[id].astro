@@ -1,28 +1,14 @@
 ---
-import { FirestoreProductRepository } from "../../infrastructure/repositories/FirestoreProductRepository";
-import ProductDetailView from "../../presentation/components/ProductDetailView.vue";
+import ProductDetailLoader from "../../presentation/components/ProductDetailLoader.vue";
 import BottomNav from "../../presentation/components/BottomNav.vue";
 import Header from "../../presentation/components/Header.astro";
 import "../../styles/global.css";
 
 export const prerender = false;
 
-Astro.response.headers.set(
-  "Cache-Control",
-  "public, s-maxage=30, stale-while-revalidate=60"
-);
-
 const { id } = Astro.params;
 
 if (!id) {
-  return Astro.redirect("/404");
-}
-
-const productRepo = new FirestoreProductRepository();
-
-const product = await productRepo.getById(id);
-
-if (!product) {
   return Astro.redirect("/404");
 }
 
@@ -34,16 +20,15 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || "Naya";
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{product.title} - {marketplaceName}</title>
+    <title>Producto - {marketplaceName}</title>
   </head>
   <body class="bg-[#FDFCFB] min-h-screen pb-24 lg:pb-8">
     <Header leftAction="back" rightAction="cart" />
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-      <ProductDetailView client:load product={product} />
+      <ProductDetailLoader client:load id={id} />
     </main>
 
-    <!-- Navegación Inferior -->
     <BottomNav client:only="vue" />
   </body>
 </html>
