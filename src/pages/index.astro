@@ -1,32 +1,10 @@
 ---
-import { FirestoreCategoryRepository } from '../infrastructure/repositories/FirestoreCategoryRepository';
-import { FirestoreUserRepository } from '../infrastructure/repositories/FirestoreUserRepository';
-import { GetCategories } from '../application/use-cases/GetCategories';
-import { GetSellers } from '../application/use-cases/GetSellers';
-import type { Category } from '../domain/entities/Category';
-import type { User } from '../domain/entities/User';
 import BottomNav from '../presentation/components/BottomNav.vue';
+import HomeBrowse from '../presentation/components/HomeBrowse.vue';
 import Header from '../presentation/components/Header.astro';
 import '../styles/global.css';
 
 export const prerender = true;
-
-const categoryRepo = new FirestoreCategoryRepository();
-const userRepo = new FirestoreUserRepository();
-const getCategories = new GetCategories(categoryRepo);
-const getSellers = new GetSellers(userRepo);
-
-let categories: Category[] = [];
-let sellers: User[] = [];
-
-try {
-  [categories, sellers] = await Promise.all([
-    getCategories.execute(),
-    getSellers.execute(),
-  ]);
-} catch (e) {
-  console.error("Error fetching home data:", e);
-}
 
 const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
 ---
@@ -45,151 +23,9 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Nayah';
     <Header leftAction="search" rightAction="cart" />
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-
-      <!-- Tabs -->
-      <div class="flex gap-2 mb-6 items-center justify-center">
-        <button
-          id="tab-perfiles"
-          class="tab-btn tab-active px-7 rounded-full transition-all"
-          onclick="switchTab('perfiles')"
-        >
-          PERFILES
-        </button>
-        <button
-          id="tab-categorias"
-          class="tab-btn px-7 rounded-full transition-all"
-          onclick="switchTab('categorias')"
-        >
-          CATEGORÍAS
-        </button>
-      </div>
-
-      <!-- Panel: Perfiles (vendedoras) -->
-      <div id="panel-perfiles">
-        {sellers.length === 0 ? (
-          <p class="text-center text-gray-400 py-12">No hay vendedoras disponibles aún.</p>
-        ) : (
-          <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
-            {sellers.map((seller) => {
-              const name = seller.displayName || seller.name || '';
-              const href = `/sellers/${seller.id}`;
-              return (
-                <a
-                  href={href}
-                  class="relative block w-full overflow-hidden rounded-2xl shadow-sm active:scale-[0.97] transition-transform"
-                  style="aspect-ratio: 2/3;"
-                  aria-label={`Ver perfil de ${name}`}
-                >
-                  {seller.photoURL ? (
-                    <img
-                      src={seller.photoURL}
-                      alt={name}
-                      class="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div class="w-full h-full bg-gray-200 flex items-center justify-center">
-                      <span class="text-gray-400 text-2xl font-bold">
-                        {name.charAt(0).toUpperCase()}
-                      </span>
-                    </div>
-                  )}
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
-                  <span class="absolute bottom-2 right-2 text-white text-right uppercase" style="font-family: 'Jomhuria', serif; font-size: 1.875rem; line-height: 0.72;">
-                    {name}
-                  </span>
-                </a>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      <!-- Panel: Categorías -->
-      <div id="panel-categorias" class="hidden">
-        {categories.length === 0 ? (
-          <p class="text-center text-gray-400 py-12">No hay categorías disponibles aún.</p>
-        ) : (
-          <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
-            {categories.map((cat) => {
-              const routeKey = cat.slug || cat.name;
-              return (
-                <a
-                  href={`/categories/${encodeURIComponent(routeKey)}`}
-                  class="relative block w-full overflow-hidden rounded-2xl shadow-sm active:scale-[0.97] transition-transform"
-                  style="aspect-ratio: 2/3;"
-                  aria-label={`Ver ${cat.name}`}
-                >
-                  {cat.image ? (
-                    <img
-                      src={cat.image}
-                      alt={cat.name}
-                      class="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div class="w-full h-full bg-gray-200 flex items-center justify-center">
-                      <span class="text-gray-400 text-xs">Sin imagen</span>
-                    </div>
-                  )}
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent" />
-                  <span class="absolute bottom-2 right-2 text-white text-right uppercase leading-none" style="font-family: 'Jomhuria', serif; font-size: 1.875rem;">
-                    {cat.name}
-                  </span>
-                </a>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
+      <HomeBrowse client:only="vue" />
     </main>
 
     <BottomNav client:only="vue" />
-
-    <style>
-      .tab-btn {
-        background: #d9d2c8;
-        border: 0;
-        color: #ffffff;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Jomhuria', serif;
-        font-size: 1.75rem;
-        line-height: 1;
-        height: 2.5rem;
-        min-width: 8.5rem;
-        padding-top: 0.55rem; /* compensa el alto baseline de Jomhuria */
-        padding-bottom: 0.1rem;
-        text-align: center;
-        text-transform: uppercase;
-      }
-      .tab-btn.tab-active {
-        background: #9a3043;
-        color: #ffffff;
-      }
-    </style>
-
-    <script is:inline>
-      function switchTab(tab) {
-        const perfiles = document.getElementById('panel-perfiles');
-        const categorias = document.getElementById('panel-categorias');
-        const btnPerfiles = document.getElementById('tab-perfiles');
-        const btnCategorias = document.getElementById('tab-categorias');
-
-        if (tab === 'perfiles') {
-          perfiles.classList.remove('hidden');
-          categorias.classList.add('hidden');
-          btnPerfiles.classList.add('tab-active');
-          btnCategorias.classList.remove('tab-active');
-        } else {
-          perfiles.classList.add('hidden');
-          categorias.classList.remove('hidden');
-          btnCategorias.classList.add('tab-active');
-          btnPerfiles.classList.remove('tab-active');
-        }
-      }
-    </script>
-
   </body>
 </html>

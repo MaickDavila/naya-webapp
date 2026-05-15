@@ -1,23 +1,10 @@
 ---
-import { FirestoreUserRepository } from "../../infrastructure/repositories/FirestoreUserRepository";
-import { FirestoreProductRepository } from "../../infrastructure/repositories/FirestoreProductRepository";
-import { FirestoreReviewRepository } from "../../infrastructure/repositories/FirestoreReviewRepository";
-import SellerProfileView from "../../presentation/components/SellerProfileView.vue";
+import SellerProfileLoader from "../../presentation/components/SellerProfileLoader.vue";
 import BottomNav from "../../presentation/components/BottomNav.vue";
 import Header from "../../presentation/components/Header.astro";
 import "../../styles/global.css";
 
-export const prerender = true;
-
-export async function getStaticPaths() {
-  const userRepo = new FirestoreUserRepository();
-  const sellers = await userRepo.getSellers();
-
-  return sellers.map((seller) => ({
-    params: { id: seller.id },
-    props: { seller },
-  }));
-}
+export const prerender = false;
 
 const { id } = Astro.params;
 
@@ -25,18 +12,6 @@ if (!id) {
   return Astro.redirect("/404");
 }
 
-const productRepo = new FirestoreProductRepository();
-const reviewRepo = new FirestoreReviewRepository();
-
-const seller = Astro.props.seller;
-
-if (!seller) {
-  return Astro.redirect("/404");
-}
-
-const allSellerProducts = await productRepo.getBySellerId(id);
-const sellerProducts = allSellerProducts.filter((p) => p.status === "approved");
-const sellerReviews = await reviewRepo.getByReviewedUserId(id);
 const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || "Naya";
 ---
 
@@ -45,21 +20,15 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || "Naya";
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Perfil de {seller.name} - {marketplaceName}</title>
+    <title>Perfil - {marketplaceName}</title>
   </head>
   <body class="bg-[#FDFCFB] min-h-screen pb-24 lg:pb-8">
     <Header leftAction="back" rightAction="cart" />
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-      <SellerProfileView
-        client:load
-        seller={seller}
-        products={sellerProducts}
-        reviews={sellerReviews}
-      />
+      <SellerProfileLoader client:only="vue" id={id} />
     </main>
 
-    <!-- Navegación Inferior -->
     <BottomNav client:only="vue" />
   </body>
 </html>
