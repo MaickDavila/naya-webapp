@@ -9,29 +9,29 @@ import { FirestoreProductRepository } from '../../infrastructure/repositories/Fi
 import type { Category } from '../../domain/entities/Category';
 import type { Product } from '../../domain/entities/Product';
 
-export const prerender = true;
+export const prerender = false;
 
-export async function getStaticPaths() {
-  const categoryRepo = new FirestoreCategoryRepository();
-  const categories = await categoryRepo.getActive();
-
-  return categories
-    .filter((category) => category.slug || category.name)
-    .map((category) => ({
-      params: { slug: category.slug || category.name },
-      props: { category },
-    }));
-}
+Astro.response.headers.set(
+  'Cache-Control',
+  'public, s-maxage=30, stale-while-revalidate=60'
+);
 
 const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || 'Naya';
 
+const { slug } = Astro.params;
+
+const categoryRepo = new FirestoreCategoryRepository();
 const productRepo = new FirestoreProductRepository();
 
-let category: Category | null = Astro.props.category;
+let category: Category | null = null;
 let products: Product[] = [];
 let error: string | null = null;
 
 try {
+  const decoded = decodeURIComponent(slug ?? '');
+  const categories = await categoryRepo.getActive();
+  category = categories.find((c) => (c.slug || c.name) === decoded) ?? null;
+
   if (!category) {
     Astro.response.status = 404;
   } else {

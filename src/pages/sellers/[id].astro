@@ -7,17 +7,12 @@ import BottomNav from "../../presentation/components/BottomNav.vue";
 import Header from "../../presentation/components/Header.astro";
 import "../../styles/global.css";
 
-export const prerender = true;
+export const prerender = false;
 
-export async function getStaticPaths() {
-  const userRepo = new FirestoreUserRepository();
-  const sellers = await userRepo.getSellers();
-
-  return sellers.map((seller) => ({
-    params: { id: seller.id },
-    props: { seller },
-  }));
-}
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, s-maxage=30, stale-while-revalidate=60"
+);
 
 const { id } = Astro.params;
 
@@ -25,10 +20,11 @@ if (!id) {
   return Astro.redirect("/404");
 }
 
+const userRepo = new FirestoreUserRepository();
 const productRepo = new FirestoreProductRepository();
 const reviewRepo = new FirestoreReviewRepository();
 
-const seller = Astro.props.seller;
+const seller = await userRepo.getById(id);
 
 if (!seller) {
   return Astro.redirect("/404");
