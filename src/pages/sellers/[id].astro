@@ -26,7 +26,7 @@ const marketplaceName = import.meta.env.PUBLIC_MARKETPLACE_NAME || "Naya";
     <Header leftAction="back" rightAction="cart" />
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-      <SellerProfileLoader client:load id={id} />
+      <SellerProfileLoader client:only="vue" id={id} />
     </main>
 
     <BottomNav client:only="vue" />
