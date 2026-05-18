@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import { FirestoreProductRepository } from "../../infrastructure/repositories/FirestoreProductRepository";
 import { FirestoreCategoryRepository } from "../../infrastructure/repositories/FirestoreCategoryRepository";
 import { FirestoreUserRepository } from "../../infrastructure/repositories/FirestoreUserRepository";
+import { GetSellers } from "../../application/use-cases/GetSellers";
 import type { Product } from "../../domain/entities/Product";
 import type { Category } from "../../domain/entities/Category";
+import type { User } from "../../domain/entities/User";
 import ProductCard from "./ProductCard.vue";
 import SearchFilters from "./search/SearchFilters.vue";
 import SellerCard from "./search/SellerCard.vue";
@@ -30,12 +32,23 @@ const hasSearched = ref(false);
 // Resultados
 const products = ref<Product[]>([]);
 const categories = ref<Category[]>([]);
-const sellers = ref<Seller[]>([]);
+
+// Vendedoras activas (isSeller==true) — independientes de los productos/búsqueda.
+const activeSellers = ref<User[]>([]);
+const sellers = computed<Seller[]>(() =>
+  activeSellers.value.map((u) => ({
+    id: u.id,
+    name: u.displayName || u.name,
+    photoURL: u.photoURL,
+    productsCount: products.value.filter((p) => p.sellerId === u.id).length,
+  }))
+);
 
 // Repositorios
 const productRepo = new FirestoreProductRepository();
 const categoryRepo = new FirestoreCategoryRepository();
 const userRepo = new FirestoreUserRepository();
+const getSellers = new GetSellers(userRepo);
 
 // Tabs config
 const tabs = [
@@ -67,33 +80,6 @@ async function executeSearch(query?: string) {
 
     products.value = await productRepo.search(filters);
 
-    // Extraer vendedores unicos de los productos
-    const sellerMap = new Map<string, Seller>();
-    products.value.forEach((p) => {
-      if (!sellerMap.has(p.sellerId)) {
-        sellerMap.set(p.sellerId, {
-          id: p.sellerId,
-          name: p.sellerName,
-          productsCount: 1,
-        });
-      } else {
-        const existing = sellerMap.get(p.sellerId)!;
-        existing.productsCount++;
-      }
-    });
-    // Obtener fotos de vendedores desde users
-    const sellerIds = Array.from(sellerMap.keys());
-    await Promise.all(
-      sellerIds.map(async (id) => {
-        const user = await userRepo.getById(id);
-        const seller = sellerMap.get(id);
-        if (seller && user?.photoURL) {
-          seller.photoURL = user.photoURL;
-        }
-      })
-    );
-    sellers.value = Array.from(sellerMap.values());
-
     // Filtrar categorias si hay query
     if (query) {
       const searchTerm = query.toLowerCase();
@@ -114,36 +100,14 @@ function handleFilterChange() {
 
 onMounted(async () => {
   try {
-    categories.value = await categoryRepo.getActive();
-    // Cargar productos iniciales (todos aprobados)
-    products.value = await productRepo.getApproved(50);
-
-    // Extraer vendedores de productos iniciales
-    const sellerMap = new Map<string, Seller>();
-    products.value.forEach((p) => {
-      if (!sellerMap.has(p.sellerId)) {
-        sellerMap.set(p.sellerId, {
-          id: p.sellerId,
-          name: p.sellerName,
-          productsCount: 1,
-        });
-      } else {
-        const existing = sellerMap.get(p.sellerId)!;
-        existing.productsCount++;
-      }
-    });
-    // Obtener fotos de vendedores desde users
-    const sellerIds = Array.from(sellerMap.keys());
-    await Promise.all(
-      sellerIds.map(async (id) => {
-        const user = await userRepo.getById(id);
-        const seller = sellerMap.get(id);
-        if (seller && user?.photoURL) {
-          seller.photoURL = user.photoURL;
-        }
-      })
-    );
-    sellers.value = Array.from(sellerMap.values());
+    const [cats, approved, activeSellersList] = await Promise.all([
+      categoryRepo.getActive(),
+      productRepo.getApproved(50),
+      getSellers.execute(),
+    ]);
+    categories.value = cats;
+    products.value = approved;
+    activeSellers.value = activeSellersList;
   } catch (error) {
     console.error("Error cargando datos iniciales:", error);
   }
