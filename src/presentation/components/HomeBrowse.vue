@@ -198,7 +198,7 @@ function categoryRouteKey(cat: Category): string {
   font-family: "Jomhuria", serif;
   font-size: 1.75rem;
   line-height: 1;
-  height: 2.5rem;
+  height: 2rem;
   min-width: 8.5rem;
   padding-top: 0.55rem;
   padding-bottom: 0.1rem;
