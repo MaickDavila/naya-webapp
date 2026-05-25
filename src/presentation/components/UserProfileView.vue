@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { useFirestore, useCollection } from 'vuefire';
-import { collection, query, where, orderBy } from 'firebase/firestore';
+import { computed, onMounted, ref, watch } from 'vue';
+import { useFirestore, useCollection, useDocument } from 'vuefire';
+import { collection, doc, query, where, orderBy } from 'firebase/firestore';
 import { useAuth } from '../../application/stores/authStore';
 import { ProductMapper } from '../../infrastructure/mappers/ProductMapper';
 import { COLLECTIONS } from '../../domain/constants/collections';
@@ -14,8 +14,16 @@ const sellModalOpen = ref(false);
 const { user, initAuth } = useAuth();
 const db = useFirestore();
 
+const userDocRef = computed(() =>
+  user.value ? doc(db, COLLECTIONS.USERS, user.value.uid) : null
+);
+
+const { data: userProfile, pending: loadingProfile } = useDocument(userDocRef);
+
+const isSeller = computed(() => userProfile.value?.isSeller === true);
+
 const productsQuery = computed(() =>
-  user.value
+  user.value && isSeller.value
     ? query(
         collection(db, COLLECTIONS.PRODUCTS),
         where('sellerId', '==', user.value.uid),
@@ -38,10 +46,20 @@ const products = computed(() => {
 onMounted(() => {
   initAuth();
 });
+
+watch(
+  [userProfile, loadingProfile],
+  ([profile, loading]) => {
+    if (!loading && profile && profile.isSeller !== true) {
+      window.location.replace('/my-purchases');
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
-  <div v-if="user" class="flex flex-col gap-8">
+  <div v-if="user && isSeller" class="flex flex-col gap-8">
     <ProfileHeader active-tab="for-sale" />
 
     <!-- Content: FOR SALE - Grid de productos -->

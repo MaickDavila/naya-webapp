@@ -83,6 +83,10 @@ const tabs = [
   { id: 'addresses' as ProfileTab, label: 'MIS DIRECCIONES', href: '/addresses' },
 ];
 
+const visibleTabs = computed(() =>
+  tabs.filter((tab) => tab.id !== 'for-sale' || userProfile.value?.isSeller === true)
+);
+
 </script>
 
 <template>
@@ -205,7 +209,7 @@ const tabs = [
     <div class="mt-6 px-6 border-b border-black/20">
       <nav class="flex gap-8 -mb-px">
         <a
-          v-for="tab in tabs"
+          v-for="tab in visibleTabs"
           :key="tab.id"
           :href="tab.href"
           :class="[
