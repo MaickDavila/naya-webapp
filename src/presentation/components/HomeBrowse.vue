@@ -118,7 +118,7 @@ function categoryRouteKey(cat: Category): string {
             />
             <span
               class="absolute bottom-2 right-2 text-white text-right uppercase"
-              style="font-family: 'Jomhuria', serif; font-size: 1.875rem; line-height: 0.72;"
+              style="font-family: 'Jomhuria', serif; font-size: 1.875rem; line-height: 0.52;"
             >
               <span
                 v-for="line in nameLines(sellerName(seller))"
@@ -169,7 +169,7 @@ function categoryRouteKey(cat: Category): string {
             />
             <span
               class="absolute bottom-2 right-2 text-white text-right uppercase leading-none"
-              style="font-family: 'Jomhuria', serif; font-size: 1.875rem;"
+              style="font-family: 'Jomhuria', serif; font-size: 1.875rem; line-height: 0.52;"
             >
               <span
                 v-for="line in nameLines(cat.name)"
