@@ -36,6 +36,10 @@ function sellerName(seller: User): string {
   return seller.displayName || seller.name || "";
 }
 
+function nameLines(name: string): string[] {
+  return name.trim().split(/\s+/).filter(Boolean);
+}
+
 function categoryRouteKey(cat: Category): string {
   return encodeURIComponent(cat.slug || cat.name);
 }
@@ -116,7 +120,13 @@ function categoryRouteKey(cat: Category): string {
               class="absolute bottom-2 right-2 text-white text-right uppercase"
               style="font-family: 'Jomhuria', serif; font-size: 1.875rem; line-height: 0.72;"
             >
-              {{ sellerName(seller) }}
+              <span
+                v-for="line in nameLines(sellerName(seller))"
+                :key="line"
+                class="block"
+              >
+                {{ line }}
+              </span>
             </span>
           </a>
         </div>
@@ -161,7 +171,13 @@ function categoryRouteKey(cat: Category): string {
               class="absolute bottom-2 right-2 text-white text-right uppercase leading-none"
               style="font-family: 'Jomhuria', serif; font-size: 1.875rem;"
             >
-              {{ cat.name }}
+              <span
+                v-for="line in nameLines(cat.name)"
+                :key="line"
+                class="block"
+              >
+                {{ line }}
+              </span>
             </span>
           </a>
         </div>
